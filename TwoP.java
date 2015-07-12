@@ -17,7 +17,7 @@ public class TwoP {
    public static int gameHeight = 480;
    public static Player firstPlayer = new Player(60, 350, 20);
    public static Player secondPlayer = new Player(gameWidth - 60, 350, 20);
-   public static double gravity;
+   public static double gravity = 0.5;
 
    public static void main(String[] args) {
       JFrame frame = new JFrame("TwoP");
@@ -33,6 +33,7 @@ public class TwoP {
       Graphics myBuffer;
       Timer timer;
       Font bigA;
+
       public GamePanel() {
          setFocusable(true);
          firstPlayer.getControls().setUpKey(KeyEvent.VK_W);
@@ -50,6 +51,7 @@ public class TwoP {
          timer = new Timer(30, new UpdateListener());
          timer.start();
       }
+
       public void update() {
          firstPlayer.update();
          secondPlayer.update();
@@ -71,8 +73,8 @@ public class TwoP {
          pen.drawString("P to Pause", 100, 250);
       }
       public void drawPlayers(Graphics pen) {
-         firstPlayer.draw(pen);
-         secondPlayer.draw(pen);
+         firstPlayer.drawSelfAndBall(pen);
+         secondPlayer.drawSelfAndBall(pen);
       }
       public void drawGUI(Graphics pen) {
          pen.setColor(new Color(0, 0, 0));
@@ -104,18 +106,47 @@ public class TwoP {
       private double myX;
       private double myY;
       private double myRadius;
+      private Color myColor = Color.black;
+      private Color myOutline = Color.black;
+
       public Circle(double x, double y, double radius) {
          myX = x;
          myY = y;
          myRadius = radius;
       }
+
       public boolean isColliding(Circle c) {
          double aSquared = Math.pow(myX - c.getX(), 2);
          double bSquared = Math.pow(myY - c.getY(), 2);
          double distance = Math.pow(aSquared + bSquared, 0.5);
          return (myRadius + c.getRadius() >= distance);
       }
-      public double getRadius() { return myRadius; }
+      public void draw(Graphics pen) {
+         int centerX = (int) (myX - myRadius);
+         int centerY = (int) (myY - myRadius);
+         int diameter = (int) (myRadius * 2);
+         pen.setColor(myColor);
+         pen.fillOval(centerX, centerY,
+                    diameter, diameter);
+         pen.setColor(myOutline);
+         pen.drawOval(centerX, centerY,
+                    diameter, diameter);
+      }
+      public Color getColor() {
+         return myColor;
+      }
+      public void setColor(Color color) {
+         myColor = color;
+      }
+      public Color getOutline() {
+         return myOutline;
+      }
+      public void setOutline(Color outline) {
+         myOutline = outline;
+      }
+      public double getRadius() {
+         return myRadius;
+      }
       public double getX() {
          return myX;
       }
@@ -134,10 +165,13 @@ public class TwoP {
       private Controls myControls = new Controls(this);
       private double myVelocityX;
       private double myVelocityY;
-      private Color myColor;
+      private double mySpeed = 3;
       private Ball myBall;
-      private double myBallHeight = 80;
+      private double myBallHeight = 130;
       private int myJumps = 2;
+      private int maxJumps = 2;
+      private int myJumpHeight = 10;
+
       public Player(double x, double y, double radius) {
          super(x, y, radius);
          setRandomColor();
@@ -145,9 +179,21 @@ public class TwoP {
       }
 
       public void update() {
-         myVelocityY -= .5;
+         updateVelocity();
+         updatePosition();
+         keepInBounds();
+         updateJumpAbility();
+         if (myBall != null)
+            myBall.update();
+      }
+      public void updateVelocity() {
+         myVelocityY -= gravity;
+      }
+      public void updatePosition() {
          setY(getY() - myVelocityY);
          setX(getX() + myVelocityX);
+      }
+      public void keepInBounds() {
          if (getY() + getRadius() > gameHeight) {
             myVelocityY = 0;
             setY(gameHeight - getRadius());
@@ -164,102 +210,83 @@ public class TwoP {
             myVelocityX = 0;
             setX(getRadius());
          }
+      }
+      public void updateJumpAbility() {
          if (getY() + getRadius() == gameHeight)
             myJumps = 0;
-         else if (getX() + getRadius() == gameWidth)
-            myJumps = 0;
-         else if (getX() - getRadius() == 0)
-            myJumps = 0;
-         if (myBall != null)
-            myBall.update();
       }
-      public void draw(Graphics pen) {
-         int centerX = (int) (getX() - getRadius());
-         int centerY = (int) (getY() - getRadius());
-         int diameter = (int) (getRadius() * 2);
-         pen.setColor(myColor);
-         pen.fillOval(centerX, centerY,
-                    diameter, diameter);
-         pen.setColor(Color.black);
-         pen.drawOval(centerX, centerY,
-                    diameter, diameter);
+      public void drawSelfAndBall(Graphics pen) {
+         draw(pen);
          if (myBall != null)
             myBall.draw(pen);
       }
-
       public void up() {
-         if (myJumps < 2) {
-            myVelocityY += 10;         
+         if (myJumps < maxJumps) {
+            myVelocityY += myJumpHeight;
             myJumps++;
          }
       }
       public void releaseUp() {
-         
       }
       public void down() {
-         
       }
       public void releaseDown() {
-      
       }
       public void left() {
-         myVelocityX -= 3;
+         myVelocityX -= mySpeed;
       }
       public void releaseLeft() {
-      
       }
       public void right() {
-         myVelocityX += 3;
+         myVelocityX += mySpeed;
       }
       public void releaseRight() {
-      
       }
       public void firstAction() {
          myBall = new Ball(this);
       }
       public void secondAction() {
-      
       }
-
       public Controls getControls() {
          return myControls;
       }
       public void setRandomColor() {
          Random rand = new Random();
-         int r = 127 + rand.nextInt(128);
-         int g = 127 + rand.nextInt(128);
-         int b = 127 + rand.nextInt(128);
-         myColor = new Color(r, g, b);
-      }
-      public Color getColor() {
-         return myColor;
+         int r = 75 + rand.nextInt(180);
+         int g = 75 + rand.nextInt(180);
+         int b = 75 + rand.nextInt(180);
+         setColor(new Color(r, g, b));
       }
       public double getBallHeight() {
          return myBallHeight; 
+      }
+      public Ball getBall() {
+         return myBall;
       }
    }
 
    public static class Ball extends Circle {
       public int LEFT = -1;
-      public int RIGHT = -1;
+      public int RIGHT = 1;
       public Color myColor = Color.gray;
       public Color myOutline = Color.black;
+
       public Ball (Player p) {
-         super(p.getX(), p.getBallHeight(), 40);
+         super(p.getX(), p.getY() - p.getBallHeight(), 15);
       }
-      public void update() {}
-      public void draw(Graphics pen) {
-         int centerX = (int) (getX() - getRadius());
-         int centerY = (int) (getY() - getRadius());
-         int diameter = (int) (getRadius() * 2);
-         pen.setColor(myColor);
-         pen.fillOval(centerX, centerY,
-                    diameter, diameter);
-         pen.setColor(myOutline);
-         pen.drawOval(centerX, centerY,
-                    diameter, diameter);
+
+      public void update() {
+         rotate(5);
       }
-      public void rotate(double degrees) {}
+      public void rotate(double angle) {
+         angle = Math.toRadians(angle);
+         while(Math.abs(angle)>2*Math.PI){
+            angle -= Math.abs(angle)/angle * 2*Math.PI;
+         }
+         double tempX = getX();
+         setX(getX() * Math.cos(angle) - getY() * Math.sin(angle));
+         setY(getY() * Math.cos(angle) + tempX * Math.sin(angle));
+      }
       public void setColor(Color color) {
          myColor = color;
       }
@@ -296,7 +323,6 @@ public class TwoP {
          else if (event.getKeyCode() == mySecondActionKey)
             myPlayer.secondAction();
       }
-
       public void keyUp(KeyEvent event) {
          if (event.getKeyCode() == myUpKey)
             myPlayer.releaseUp();
