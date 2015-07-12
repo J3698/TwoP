@@ -18,6 +18,8 @@ public class TwoP {
    public static Player firstPlayer = new Player(60, 350, 20);
    public static Player secondPlayer = new Player(gameWidth - 60, 350, 20);
    public static double gravity = 0.5;
+   public static String gameMode = "play";
+   public static double pauseOpacity = 0;
 
    public static void main(String[] args) {
       JFrame frame = new JFrame("TwoP");
@@ -53,8 +55,14 @@ public class TwoP {
       }
 
       public void update() {
-         firstPlayer.update();
-         secondPlayer.update();
+         if (gameMode == "play") {
+            firstPlayer.update();
+            secondPlayer.update();
+         } else if (gameMode == "pause") {
+            if (pauseOpacity < 100) {
+               pauseOpacity += 20;
+            }
+         }
       }
       public void paintComponent(Graphics pen) {
          pen.clearRect(0, 0, getWidth(), getHeight());
@@ -62,6 +70,10 @@ public class TwoP {
          drawBackground(myBuffer);
          drawPlayers(myBuffer);
          drawGUI(myBuffer);
+         if (gameMode == "pause") {
+            myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));
+            myBuffer.fillRect(0, 0, gameWidth, gameHeight);
+         }
          pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
       }
       public void drawBackground(Graphics pen) {
@@ -94,6 +106,8 @@ public class TwoP {
          public void keyPressed(KeyEvent event) {
             firstPlayer.getControls().keyDown(event);
             secondPlayer.getControls().keyDown(event);
+            if (event.getKeyCode() == KeyEvent.VK_P)
+               gameMode = "pause";
          }
          public void keyReleased(KeyEvent event) {
             firstPlayer.getControls().keyUp(event);
