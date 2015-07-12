@@ -1,16 +1,16 @@
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.Graphics;
 import javax.swing.Timer;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.util.Random;
-import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class TwoP {
    public static int gameWidth = 640;
@@ -109,7 +109,12 @@ public class TwoP {
          myY = y;
          myRadius = radius;
       }
-      public boolean isColliding() { return false; }
+      public boolean isColliding(Circle c) {
+         double aSquared = Math.pow(myX - c.getX(), 2);
+         double bSquared = Math.pow(myY - c.getY(), 2);
+         double distance = Math.pow(aSquared + bSquared, 0.5);
+         return (myRadius + c.getRadius() >= distance);
+      }
       public double getRadius() { return myRadius; }
       public double getX() {
          return myX;
@@ -130,12 +135,15 @@ public class TwoP {
       private double myVelocityX;
       private double myVelocityY;
       private Color myColor;
+      private Ball myBall;
       private double myBallHeight = 80;
+      private int myJumps = 2;
       public Player(double x, double y, double radius) {
          super(x, y, radius);
          setRandomColor();
          myVelocityY = 10;
       }
+
       public void update() {
          myVelocityY -= .5;
          setY(getY() - myVelocityY);
@@ -144,6 +152,26 @@ public class TwoP {
             myVelocityY = 0;
             setY(gameHeight - getRadius());
          }
+         if (getY() - getRadius() < 0) {
+            myVelocityY = 0;
+            setY(getRadius());
+         }
+         if (getX() + getRadius() > gameWidth) {
+            myVelocityX = 0;
+            setX(gameWidth - getRadius());
+         }
+         if (getX() - getRadius() < 0) {
+            myVelocityX = 0;
+            setX(getRadius());
+         }
+         if (getY() + getRadius() == gameHeight)
+            myJumps = 0;
+         else if (getX() + getRadius() == gameWidth)
+            myJumps = 0;
+         else if (getX() - getRadius() == 0)
+            myJumps = 0;
+         if (myBall != null)
+            myBall.update();
       }
       public void draw(Graphics pen) {
          int centerX = (int) (getX() - getRadius());
@@ -155,10 +183,15 @@ public class TwoP {
          pen.setColor(Color.black);
          pen.drawOval(centerX, centerY,
                     diameter, diameter);
+         if (myBall != null)
+            myBall.draw(pen);
       }
 
       public void up() {
-         myVelocityY += 10;
+         if (myJumps < 2) {
+            myVelocityY += 10;         
+            myJumps++;
+         }
       }
       public void releaseUp() {
          
@@ -182,7 +215,7 @@ public class TwoP {
       
       }
       public void firstAction() {
-      
+         myBall = new Ball(this);
       }
       public void secondAction() {
       
@@ -209,12 +242,30 @@ public class TwoP {
    public static class Ball extends Circle {
       public int LEFT = -1;
       public int RIGHT = -1;
+      public Color myColor = Color.gray;
+      public Color myOutline = Color.black;
       public Ball (Player p) {
          super(p.getX(), p.getBallHeight(), 40);
       }
       public void update() {}
-      public void draw(Graphics pen) {}
+      public void draw(Graphics pen) {
+         int centerX = (int) (getX() - getRadius());
+         int centerY = (int) (getY() - getRadius());
+         int diameter = (int) (getRadius() * 2);
+         pen.setColor(myColor);
+         pen.fillOval(centerX, centerY,
+                    diameter, diameter);
+         pen.setColor(myOutline);
+         pen.drawOval(centerX, centerY,
+                    diameter, diameter);
+      }
       public void rotate(double degrees) {}
+      public void setColor(Color color) {
+         myColor = color;
+      }
+      public void setOutline(Color outline) {
+         myOutline = outline;
+      }
    }
 
 
@@ -224,9 +275,8 @@ public class TwoP {
       private int myDownKey = KeyEvent.VK_DOWN;
       private int myLeftKey = KeyEvent.VK_LEFT;
       private int myRightKey = KeyEvent.VK_RIGHT;
-      private int myFirstActionKey = KeyEvent.VK_COMMA;
-      private int mySecondActionKey = KeyEvent.VK_PERIOD;
-      private int myThirdActionKey = KeyEvent.VK_SLASH;
+      private int myFirstActionKey = KeyEvent.VK_PERIOD;
+      private int mySecondActionKey = KeyEvent.VK_SLASH;
 
       public Controls(Player player) {
          myPlayer = player;
