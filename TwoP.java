@@ -67,15 +67,22 @@ public class TwoP {
       public void paintComponent(Graphics pen) {
          pen.clearRect(0, 0, getWidth(), getHeight());
          myBuffer.clearRect(0, 0, gameWidth, gameHeight);
-         drawBackground(myBuffer);
-         drawPlayers(myBuffer);
-         drawGUI(myBuffer);
+         drawGame(myBuffer);
          if (gameMode == "pause") {
-            myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));
-            myBuffer.fillRect(0, 0, gameWidth, gameHeight);
+            drawPaused(myBuffer);
          }
          pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
       }
+      public void drawGame(Graphics pen) {
+         drawBackground(myBuffer);
+         drawPlayers(myBuffer);
+         drawGUI(myBuffer);
+      }
+      public void drawPaused(Graphics pen) {
+         myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));
+         myBuffer.fillRect(0, 0, gameWidth, gameHeight);
+      }
+      
       public void drawBackground(Graphics pen) {
          pen.setColor(firstPlayer.getColor());
          pen.fillRect(0, 0, gameWidth / 2, gameHeight);
@@ -385,5 +392,4 @@ public class TwoP {
          return mySecondActionKey;
       }
    }
-   
 }
