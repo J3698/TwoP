@@ -67,8 +67,14 @@ public class TwoP {
       public void paintComponent(Graphics pen) {
          pen.clearRect(0, 0, getWidth(), getHeight());
          myBuffer.clearRect(0, 0, gameWidth, gameHeight);
+
          drawGame(myBuffer);
-         if (gameMode == "pause") {
+         if (gameMode == "play") {
+            
+            drawGame(myBuffer);
+         }
+         else if (gameMode == "pause") {
+            drawGame(myBuffer);
             drawPaused(myBuffer);
          }
          pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
