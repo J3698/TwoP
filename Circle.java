@@ -8,7 +8,7 @@ public class Circle {
    private Color myColor = Color.black;
    private Color myOutline = Color.black;
 
-   public Circle(double x, double y, double radius) {
+   public Circle(double radius, double x, double y) {
       myX = x;
       myY = y;
       myRadius = radius;

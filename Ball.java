@@ -5,9 +5,9 @@ public class Ball extends Circle {
    public int RIGHT = 1;
    public Color myColor = Color.gray;
    public Color myOutline = Color.black;
-
+   
    public Ball (Player p) {
-      super(p.getX(), p.getY() - p.getBallHeight(), 15);
+      super(15, p.getX(), p.getY() - p.getBallHeight());
    }
 
    public void update() {

@@ -15,9 +15,6 @@ import java.util.Random;
 public class TwoP {
    public static int gameWidth = 640;
    public static int gameHeight = 480;
-//   public static double gravity = 0.5;
-//   public static String gameMode = "play";
-//   public static double pauseOpacity = 0;
    
    public static void main(String[] args) {
       JFrame frame = new JFrame("TwoP");

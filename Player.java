@@ -1,6 +1,10 @@
 import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.util.Random;
 
 public class Player extends Circle {
+   private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private double myVelocityX;
    private double myVelocityY;
@@ -10,9 +14,18 @@ public class Player extends Circle {
    private int myJumps = 2;
    private int maxJumps = 2;
    private int myJumpHeight = 10;
+   int myGroundX;
+   int myGroundY;
+   int myCeilingX;
+   int myCeilingY;
 
-   public Player(double x, double y, double radius) {
-      super(x, y, radius);
+   public Player(double radius, double x, double y, int groundX,
+                       int groundY, int ceilingX, int ceilingY) {
+      super(radius, x, y);
+      myGroundX = groundX;
+      myGroundY =  groundY;
+      myCeilingX = ceilingX;
+      myCeilingY = ceilingY;
       setRandomColor();
       myVelocityY = 10;
    }
@@ -22,36 +35,38 @@ public class Player extends Circle {
       updatePosition();
       keepInBounds();
       updateJumpAbility();
+
+
       if (myBall != null)
          myBall.update();
    }
    public void updateVelocity() {
-      myVelocityY -= gravity;
+      myVelocityY += gravity;
    }
    public void updatePosition() {
       setY(getY() - myVelocityY);
       setX(getX() + myVelocityX);
    }
    public void keepInBounds() {
-      if (getY() + getRadius() > gameHeight) {
+      if (getY() + getRadius() > myGroundY) {
          myVelocityY = 0;
-         setY(gameHeight - getRadius());
+         setY(myGroundY - getRadius());
       }
-      if (getY() - getRadius() < 0) {
+      if (getY() - getRadius() < myCeilingY) {
          myVelocityY = 0;
-         setY(getRadius());
+         setY(myCeilingY + getRadius());
       }
-      if (getX() + getRadius() > gameWidth) {
+      if (getX() + getRadius() > myCeilingX) {
          myVelocityX = 0;
-         setX(gameWidth - getRadius());
+         setX(myCeilingX - getRadius());
       }
-      if (getX() - getRadius() < 0) {
+      if (getX() - getRadius() < myGroundX) {
          myVelocityX = 0;
-         setX(getRadius());
+         setX(getRadius() + myGroundX);
       }
    }
    public void updateJumpAbility() {
-      if (getY() + getRadius() == gameHeight)
+      if (getY() + getRadius() == myGroundY)
          myJumps = 0;
    }
    public void drawSelfAndBall(Graphics pen) {
@@ -91,9 +106,9 @@ public class Player extends Circle {
    }
    public void setRandomColor() {
       Random rand = new Random();
-      int r = 75 + rand.nextInt(180);
-      int g = 75 + rand.nextInt(180);
-      int b = 75 + rand.nextInt(180);
+      int r = 120 + rand.nextInt(135);
+      int g = 120 + rand.nextInt(135);
+      int b = 120 + rand.nextInt(135);
       setColor(new Color(r, g, b));
    }
    public double getBallHeight() {
