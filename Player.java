@@ -13,16 +13,18 @@ public class Player extends Circle {
    private double myMaxSpeed = 6;
    private Ball myBall;
    private double myBallHeight = 130;
-   private int myJumps = 2;
-   private int maxJumps = 2;
-   private int myJumpHeight = 10;
+   private boolean myIsJumpReleased = true;
+   private int myJumps = 3;
+   private int maxJumps = 3;
+   private int myJumpHeight = 7;
+   private double myInertia = 0.95;
    int myGroundX;
    int myGroundY;
    int myCeilingX;
    int myCeilingY;
 
    public Player(double radius, double x, double y, int groundX,
-                       int groundY, int ceilingX, int ceilingY) {
+                        int groundY, int ceilingX, int ceilingY) {
       super(radius, x, y);
       myGroundX = groundX;
       myGroundY =  groundY;
@@ -45,9 +47,10 @@ public class Player extends Circle {
    //Can't update speed in keylistener, only update whether
    //acceleration is occuring, otherwise there will be a
    //delay.
+   //Note: May fix later, may have nice effect
    public void updateVelocity() {
       myVelocityX += mySpeed;
-      myVelocityX *= 0.95;
+      myVelocityX *= myInertia;
       myVelocityY += gravity;
    }
    public void updatePosition() {
@@ -82,12 +85,14 @@ public class Player extends Circle {
          myBall.draw(pen);
    }
    public void up() {
-      if (myJumps < maxJumps) {
+      if (myJumps < maxJumps && myIsJumpReleased) {
          myVelocityY += myJumpHeight;
          myJumps++;
+         myIsJumpReleased = false;
       }
    }
    public void releaseUp() {
+      myIsJumpReleased = true;
    }
    public void down() {
    }
