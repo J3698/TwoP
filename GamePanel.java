@@ -28,7 +28,6 @@ public class GamePanel extends JPanel {
       preparePanelImage();
       startGameValues();
       addThreadInputs();
-      
    }
    public void preparePanelImage() {
       myImage = new BufferedImage(myGameWidth,myGameHeight,
@@ -40,6 +39,7 @@ public class GamePanel extends JPanel {
                     myGameHeight, myGameWidth, 0);
       secondPlayer = new Player(20, myGameWidth - 60,
                      350, 0, myGameHeight,myGameWidth, 0);
+      firstPlayer.getControls().setFirstControls();
       secondPlayer.getControls().setSecondControls();
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);
    }
@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
       timer = new Timer(30, new UpdateListener());
       timer.start();      
    }
-   public void update() {
+   public void update() {    //Make mode classes that hold game, paused, etc?
       if (gameMode == "play") {
          firstPlayer.update();
          secondPlayer.update();
@@ -89,8 +89,8 @@ public class GamePanel extends JPanel {
       pen.drawString("P to Pause", 100, 250);
    }
    public void drawPlayers(Graphics pen) {
-      firstPlayer.drawSelfAndBall(pen);
-      secondPlayer.drawSelfAndBall(pen);
+      firstPlayer.drawSelfAndWeapon(pen);
+      secondPlayer.drawSelfAndWeapon(pen);
    }
    public void drawGUI(Graphics pen) {
       pen.setColor(new Color(0, 0, 0));
