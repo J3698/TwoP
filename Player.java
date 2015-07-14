@@ -7,8 +7,10 @@ public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private double myVelocityX;
+   private double myAcceleration = .5;
    private double myVelocityY;
-   private double mySpeed = 3;
+   private double mySpeed = 0;
+   private double myMaxSpeed = mySpeed * 2;
    private Ball myBall;
    private double myBallHeight = 130;
    private int myJumps = 2;
@@ -41,6 +43,7 @@ public class Player extends Circle {
          myBall.update();
    }
    public void updateVelocity() {
+      myVelocityX += mySpeed;
       myVelocityY += gravity;
    }
    public void updatePosition() {
@@ -87,14 +90,24 @@ public class Player extends Circle {
    public void releaseDown() {
    }
    public void left() {
-      myVelocityX -= mySpeed;
+      mySpeed -= myAcceleration;
+      if (Math.abs(myVelocityX) > myMaxSpeed) {
+         myVelocityX = -myMaxSpeed;
+      }
    }
    public void releaseLeft() {
+      if (mySpeed < 0)
+         mySpeed = 0;
    }
    public void right() {
-      myVelocityX += mySpeed;
+      mySpeed += myAcceleration;
+      if (Math.abs(myVelocityX) > myMaxSpeed) {
+         myVelocityX = myMaxSpeed;
+      }
    }
    public void releaseRight() {
+      if (mySpeed > 0)
+         mySpeed = 0;
    }
    public void firstAction() {
       myBall = new Ball(this);

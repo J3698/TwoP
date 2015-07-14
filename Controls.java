@@ -38,13 +38,22 @@ public class Controls {
          myPlayer.releaseRight();
       }
 
+   public void setFirstControls() {
+      setUpKey(KeyEvent.VK_W);
+      setDownKey(KeyEvent.VK_S);
+      setLeftKey(KeyEvent.VK_A);
+      setRightKey(KeyEvent.VK_D);
+      setFirstActionKey(KeyEvent.VK_1);
+      setSecondActionKey(KeyEvent.VK_2);
+   }
+
    public void setSecondControls() {
-      setUpKey(KeyEevent.VK_UP);
-      setDownKey(KEY_EVENT.VK_DOWN);
-      setLeftKey(KEY_EVENT.VK_LEFT);
-      setRightKey(KEY_EVENT.VK_RIGHT);
-      setFirstActionKey(KEY_EVENT.VK_PERIOD);
-      setSecondActionKey(KEY_EVENT.VK_SLASH);
+      setUpKey(KeyEvent.VK_UP);
+      setDownKey(KeyEvent.VK_DOWN);
+      setLeftKey(KeyEvent.VK_LEFT);
+      setRightKey(KeyEvent.VK_RIGHT);
+      setFirstActionKey(KeyEvent.VK_PERIOD);
+      setSecondActionKey(KeyEvent.VK_SLASH);
    }
 
    public void setUpKey(int upKey) {

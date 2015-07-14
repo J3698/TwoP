@@ -40,6 +40,7 @@ public class GamePanel extends JPanel {
                     myGameHeight, myGameWidth, 0);
       secondPlayer = new Player(20, myGameWidth - 60,
                      350, 0, myGameHeight,myGameWidth, 0);
+      secondPlayer.getControls().setSecondControls();
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);
    }
    public void addThreadInputs() {
