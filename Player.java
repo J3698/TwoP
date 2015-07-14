@@ -7,10 +7,10 @@ public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private double myVelocityX;
-   private double myAcceleration = .5;
+   private double myAcceleration = 1;
    private double myVelocityY;
    private double mySpeed = 0;
-   private double myMaxSpeed = mySpeed * 2;
+   private double myMaxSpeed = 6;
    private Ball myBall;
    private double myBallHeight = 130;
    private int myJumps = 2;
@@ -42,8 +42,12 @@ public class Player extends Circle {
       if (myBall != null)
          myBall.update();
    }
+   //Can't update speed in keylistener, only update whether
+   //acceleration is occuring, otherwise there will be a
+   //delay.
    public void updateVelocity() {
       myVelocityX += mySpeed;
+      myVelocityX *= 0.95;
       myVelocityY += gravity;
    }
    public void updatePosition() {
@@ -91,8 +95,8 @@ public class Player extends Circle {
    }
    public void left() {
       mySpeed -= myAcceleration;
-      if (Math.abs(myVelocityX) > myMaxSpeed) {
-         myVelocityX = -myMaxSpeed;
+      if (Math.abs(mySpeed) > myMaxSpeed) {
+         mySpeed = -myMaxSpeed;
       }
    }
    public void releaseLeft() {
@@ -101,8 +105,8 @@ public class Player extends Circle {
    }
    public void right() {
       mySpeed += myAcceleration;
-      if (Math.abs(myVelocityX) > myMaxSpeed) {
-         myVelocityX = myMaxSpeed;
+      if (Math.abs(mySpeed) > myMaxSpeed) {
+         mySpeed = myMaxSpeed;
       }
    }
    public void releaseRight() {
