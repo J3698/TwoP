@@ -17,7 +17,6 @@ public class GamePanel extends JPanel {
    Player firstPlayer;
    Player secondPlayer;
    String gameMode = "play";
-   int pauseOpacity = 0;
    Font playAndResumeFont;
    Timer timer;
 
@@ -51,7 +50,9 @@ public class GamePanel extends JPanel {
    public void update() {    //Make mode classes that hold game, paused, etc?
       if (gameMode == "play") {
          firstPlayer.update();
+         firstPlayer.takeDamage(secondPlayer.getGun().getBullets());
          secondPlayer.update();
+         secondPlayer.takeDamage(firstPlayer.getGun().getBullets());
       } else if (gameMode == "pause") {
          if (pauseOpacity < 100)
             pauseOpacity += 20;
@@ -69,37 +70,7 @@ public class GamePanel extends JPanel {
       }
       pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
-   public void drawGame(Graphics pen) {
-      drawBackground(myBuffer);
-      drawPlayers(myBuffer);
-      drawGUI(myBuffer);
-   }
-   public void drawPaused(Graphics pen) {
-      myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));
-      myBuffer.fillRect(0, 0, myGameWidth, myGameHeight);
-   }
 
-   public void drawBackground(Graphics pen) {
-      pen.setColor(firstPlayer.getColor());
-      pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
-      pen.setColor(secondPlayer.getColor());
-      pen.fillRect(myGameWidth / 2, 0, myGameWidth / 2, myGameHeight);
-      pen.setColor(new Color(0, 0, 0, 50));
-      pen.setFont(playAndResumeFont);
-      pen.drawString("P to Pause", 100, 250);
-   }
-   public void drawPlayers(Graphics pen) {
-      firstPlayer.drawSelfAndGun(pen);
-      secondPlayer.drawSelfAndGun(pen);
-   }
-   public void drawGUI(Graphics pen) {
-      pen.setColor(new Color(0, 0, 0));
-      pen.fillRect(myGameWidth / 2 - 15, 5, 30, 40);
-      pen.setColor(firstPlayer.getColor());
-      pen.fillRect(myGameWidth / 2 + 15, 10, 100, 30);
-      pen.setColor(secondPlayer.getColor());
-      pen.fillRect(myGameWidth / 2 - 15 - 100, 10, 100, 30);
-   }
    public class UpdateListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          update();
@@ -117,5 +88,60 @@ public class GamePanel extends JPanel {
          firstPlayer.getControls().keyUp(event);
          secondPlayer.getControls().keyUp(event);
       }
+   }
+
+   public interface GameState {
+      void draw(Graphics pen);
+      void update();
+      void keyListen(KeyEvent event);
+   }
+
+   public class Play implements GameState {
+      public void draw(Graphics pen) {
+         drawBackground(myBuffer);  //drawGame();
+         drawPlayers(myBuffer);
+         drawGUI(myBuffer);
+      }
+      public void update() {
+         
+      }
+      public void keyListen(KeyEvent event) {
+      }
+      public void drawBackground(Graphics pen) {
+         pen.setColor(firstPlayer.getColor());
+         pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
+         pen.setColor(secondPlayer.getColor());
+         pen.fillRect(myGameWidth / 2, 0, myGameWidth / 2, myGameHeight);
+         pen.setColor(new Color(0, 0, 0, 50));
+         pen.setFont(playAndResumeFont);
+         pen.drawString("P to Pause", 100, 250);
+         pen.drawString(""+firstPlayer.getHealth(), 100,100);
+         pen.drawString(""+secondPlayer.getHealth(), 300, 300);
+      }
+      public void drawGUI(Graphics pen) {
+         pen.setColor(new Color(0, 0, 0));
+         pen.fillRect(myGameWidth / 2 - 15, 5, 30, 40);
+         pen.setColor(firstPlayer.getColor());
+         pen.fillRect(myGameWidth / 2 + 15, 10, 100, 30);
+         pen.setColor(secondPlayer.getColor());
+         pen.fillRect(myGameWidth / 2 - 15 - 100, 10, 100, 30);
+      }
+   }
+
+   public class Pause implements GameState {
+      private int pauseOpacity = 0;
+      public void draw(Graphics pen) {
+         myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));  //drawPaused();
+         myBuffer.fillRect(0, 0, myGameWidth, myGameHeight);
+      }
+      public void update() {
+      }
+      public void keyListen(KeyEvent event) {
+      }
+   }
+
+   public void drawPlayers(Graphics pen) {
+      firstPlayer.drawSelfAndGun(pen);
+      secondPlayer.drawSelfAndGun(pen);
    }
 }
