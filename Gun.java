@@ -89,6 +89,9 @@ public class Gun {
       myOldPlayerX = myPlayer.getX();
       myOldPlayerY = myPlayer.getY() - myPlayer.getRadius();
    }
+   public ArrayList<Bullet> getBullets() {
+      return myBullets;
+   }
    public void setIsSpinning(boolean isSpinning) {
       myIsSpinning = isSpinning;
    }
@@ -106,43 +109,21 @@ public class Gun {
    }
 
 
-   public class Bullet {
-      private double myX;
-      private double myY;
+   public class Bullet extends Circle {
       private double myRadius = 3;
       private double myVelocityX;
       private double myVelocityY;
 
       public Bullet(double x, double y, double velocityX,
                                         double velocityY) {
-         myX = x;
-         myY = y;
+         super(3, x, y);
          myVelocityX = velocityX;
          myVelocityY = velocityY;
       }
 
       public void update() {
-         myX += myVelocityX;
-         myY += myVelocityY;
-      }
-
-      public void draw(Graphics pen) {
-         int centerX = (int) (myX - myRadius);
-         int centerY = (int) (myY - myRadius);
-         int diameter = (int) (myRadius * 2);
-         pen.setColor(Color.black);
-         pen.fillOval(centerX, centerY,
-                   diameter, diameter);
-      }
-
-      public double getX() {
-         return myX;
-      }
-      public double getY() {
-         return myY;
-      }
-      public double getRadius() {
-         return myRadius;
+         setX(getX() + myVelocityX);
+         setY(getY() + myVelocityY);
       }
    }
 }
