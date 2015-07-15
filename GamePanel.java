@@ -39,13 +39,13 @@ public class GamePanel extends JPanel {
                     myGameHeight, myGameWidth, 0);
       secondPlayer = new Player(20, myGameWidth - 60,
                      350, 0, myGameHeight,myGameWidth, 0);
-      firstPlayer.getControls().setFirstControls();
       secondPlayer.getControls().setSecondControls();
+      secondPlayer.getGun().setSpinDirection(Gun.LEFT);
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);
    }
    public void addThreadInputs() {
       addKeyListener(new KeyListener());
-      timer = new Timer(30, new UpdateListener());
+      timer = new Timer(20, new UpdateListener());
       timer.start();      
    }
    public void update() {    //Make mode classes that hold game, paused, etc?
@@ -89,8 +89,8 @@ public class GamePanel extends JPanel {
       pen.drawString("P to Pause", 100, 250);
    }
    public void drawPlayers(Graphics pen) {
-      firstPlayer.drawSelfAndWeapon(pen);
-      secondPlayer.drawSelfAndWeapon(pen);
+      firstPlayer.drawSelfAndGun(pen);
+      secondPlayer.drawSelfAndGun(pen);
    }
    public void drawGUI(Graphics pen) {
       pen.setColor(new Color(0, 0, 0));
