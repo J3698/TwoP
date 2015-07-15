@@ -36,6 +36,10 @@ public class Controls {
          myPlayer.releaseLeft();
       else if (event.getKeyCode() == myRightKey)
          myPlayer.releaseRight();
+      else if (event.getKeyCode() == myFirstActionKey)
+         myPlayer.releaseFirstAction();
+      else if (event.getKeyCode() == mySecondActionKey)
+         myPlayer.releaseSecondAction();
       }
 
    public void setFirstControls() {
