@@ -11,9 +11,11 @@ public class Player extends Circle {
    private double myVelocityY;
    private double mySpeed = 0;
    private double myMaxSpeed = 6;
-   private Ball myBall;
+   private Gun myGun = new Gun(this);
    private double myBallHeight = 130;
    private boolean myIsJumpReleased = true;
+   private boolean myIsFlipReleased = true;
+   private boolean myIsSpinToggleReleased = true;
    private int myJumps = 3;
    private int maxJumps = 3;
    private int myJumpHeight = 7;
@@ -39,10 +41,7 @@ public class Player extends Circle {
       updatePosition();
       keepInBounds();
       updateJumpAbility();
-
-
-      if (myBall != null)
-         myBall.update();
+      myGun.update();
    }
    //Can't update speed in keylistener, only update whether
    //acceleration is occuring, otherwise there will be a
@@ -79,10 +78,9 @@ public class Player extends Circle {
       if (getY() + getRadius() == myGroundY)
          myJumps = 0;
    }
-   public void drawSelfAndBall(Graphics pen) {
+   public void drawSelfAndGun(Graphics pen) {
       draw(pen);
-      if (myBall != null)
-         myBall.draw(pen);
+      myGun.draw(pen);
    }
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
@@ -95,8 +93,13 @@ public class Player extends Circle {
       myIsJumpReleased = true;
    }
    public void down() {
+      if (myIsFlipReleased) {
+         myGun.flipSpinDirection();
+         myIsFlipReleased = false;
+      }
    }
    public void releaseDown() {
+      myIsFlipReleased = true;
    }
    public void left() {
       mySpeed -= myAcceleration;
@@ -119,9 +122,17 @@ public class Player extends Circle {
          mySpeed = 0;
    }
    public void firstAction() {
-      myBall = new Ball(this);
+   }
+   public void releaseFirstAction() {
    }
    public void secondAction() {
+      if (myIsSpinToggleReleased) {
+         myGun.flipIsSpinning();
+         myIsSpinToggleReleased = false;
+      }
+   }
+   public void releaseSecondAction() {
+      myIsSpinToggleReleased = true;
    }
    public Controls getControls() {
       return myControls;
@@ -136,7 +147,7 @@ public class Player extends Circle {
    public double getBallHeight() {
       return myBallHeight; 
    }
-   public Ball getBall() {
-      return myBall;
+   public Gun getGun() {
+      return myGun;
    }
 }
