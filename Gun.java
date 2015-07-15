@@ -24,8 +24,8 @@ public class Gun {
    private void shoot() {
       double x = (myXPoints[0] + myXPoints[2]) / 2;
       double y = (myYPoints[0] + myYPoints[1]) / 2;
-      double velocityX = myXPoints[0] - myXPoints[2];
-      double velocityY = (myYPoints[1] - myYPoints[2]) * mySpinDirection;
+      double velocityX = (myXPoints[3] - myXPoints[0]) * mySpinDirection;
+      double velocityY = (myYPoints[3] - myYPoints[0]) * mySpinDirection;
       myBullets.add(new Bullet(x, y, velocityX, velocityY));
    }
 
