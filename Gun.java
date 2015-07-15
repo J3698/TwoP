@@ -13,22 +13,30 @@ public class Gun {
    private double mySpeed = 10;
    private double[] myXPoints = new double[4];
    private double[] myYPoints = new double[4];
-//   private ArrayList<Bullet> myBullets = new ArrayList<Bullet>();
-//   private boolean myIsShooting = false;
+   private ArrayList<Bullet> myBullets = new ArrayList<Bullet>();
+   private boolean myIsShooting = false;
 
    public Gun (Player p) {
       myPlayer = p;
       initializePoints();
    }
 
-//   private void shoot() {}
+   private void shoot() {
+      double x = (myXPoints[0] + myXPoints[2]) / 2;
+      double y = (myYPoints[0] + myYPoints[1]) / 2;
+      double velocityX = myXPoints[0] - myXPoints[2];
+      double velocityY = (myYPoints[1] - myYPoints[2]) * mySpinDirection;
+      myBullets.add(new Bullet(x, y, velocityX, velocityY));
+   }
 
    public void update() {
       fixPosition();
       if (myIsSpinning)
          rotatePoints(mySpinDirection * mySpeed);
-//      for (Bullet b: myBullets)
-//         b.update();
+      for (Bullet b: myBullets)
+         b.update();
+      if (myIsShooting)
+         shoot();
    }
    public void draw(Graphics pen) {
       int[] tempXPoints = new int[4];
@@ -39,8 +47,8 @@ public class Gun {
          tempYPoints[i] = (int)myYPoints[i];
       pen.setColor(Color.black);
       pen.fillPolygon(tempXPoints, tempYPoints, 4);
-//      for (Bullet b: myBullets)
-//         b.draw(pen);
+      for (Bullet b: myBullets)
+         b.draw(pen);
    }
    public void rotatePoints(double angle) {
       angle = Math.toRadians(angle);
@@ -93,7 +101,7 @@ public class Gun {
    public void flipSpinDirection() {
       mySpinDirection *= -1;
    }
-/*   public void setShooting(boolean isShooting) {
+   public void setShooting(boolean isShooting) {
       myIsShooting = isShooting;
    }
 
@@ -101,7 +109,7 @@ public class Gun {
    public class Bullet {
       private double myX;
       private double myY;
-      private double myRadius = 2;
+      private double myRadius = 3;
       private double myVelocityX;
       private double myVelocityY;
 
@@ -137,5 +145,4 @@ public class Gun {
          return myRadius;
       }
    }
-*/
 }
