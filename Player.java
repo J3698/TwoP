@@ -122,8 +122,10 @@ public class Player extends Circle {
          mySpeed = 0;
    }
    public void firstAction() {
+      myGun.setShooting(true);
    }
    public void releaseFirstAction() {
+      myGun.setShooting(false);
    }
    public void secondAction() {
       if (myIsSpinToggleReleased) {
