@@ -2,10 +2,12 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
+   private int myHealth = 200;
    private double myVelocityX;
    private double myAcceleration = 1;
    private double myVelocityY;
@@ -77,6 +79,17 @@ public class Player extends Circle {
    public void updateJumpAbility() {
       if (getY() + getRadius() == myGroundY)
          myJumps = 0;
+   }
+   public void takeDamage(ArrayList<Gun.Bullet> a) {
+      ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
+      for (Gun.Bullet b: a) {
+         if (isColliding(b)) {
+            myHealth -= 3;
+            toDelete.add(b);
+         }
+      }
+      for (Gun.Bullet b: toDelete)
+         a.remove(b);
    }
    public void drawSelfAndGun(Graphics pen) {
       draw(pen);
@@ -151,5 +164,8 @@ public class Player extends Circle {
    }
    public Gun getGun() {
       return myGun;
+   }
+   public int getHealth() {
+      return myHealth;
    }
 }
