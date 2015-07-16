@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class GamePanel extends JPanel {
+   GameState myPlay = new Play();
+   GameState myPause = new Pause();
    BufferedImage myImage;
    Graphics myBuffer;
    int myGameWidth;
@@ -47,27 +49,15 @@ public class GamePanel extends JPanel {
       timer = new Timer(20, new UpdateListener());
       timer.start();      
    }
-   public void update() {    //Make mode classes that hold game, paused, etc?
-      if (gameMode == "play") {
-         firstPlayer.update();
-         firstPlayer.takeDamage(secondPlayer.getGun().getBullets());
-         secondPlayer.update();
-         secondPlayer.takeDamage(firstPlayer.getGun().getBullets());
-      } else if (gameMode == "pause") {
-         if (pauseOpacity < 100)
-            pauseOpacity += 20;
-      }
+   public void update() {
+      myPlay.checkUpdateTrigger(gameMode);
+      myPause.checkUpdateTrigger(gameMode);
    }
    public void paintComponent(Graphics pen) {
       pen.clearRect(0, 0, getWidth(), getHeight());
       myBuffer.clearRect(0, 0, myGameWidth, myGameHeight);
-      if (gameMode == "play") {
-         drawGame(myBuffer);
-      }
-      else if (gameMode == "pause") {
-         drawGame(myBuffer);
-         drawPaused(myBuffer);
-      }
+      myPlay.checkDrawTrigger(gameMode, myBuffer);
+      myPause.checkDrawTrigger(gameMode, myBuffer);
       pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
 
@@ -94,16 +84,23 @@ public class GamePanel extends JPanel {
       void draw(Graphics pen);
       void update();
       void keyListen(KeyEvent event);
+      void checkDrawTrigger(String gameMode, Graphics pen);
+      void checkUpdateTrigger(String gameMode);
+      void checkChangeModeTrigger(String gameMode);
    }
 
    public class Play implements GameState {
+      private String myGameMode = "play";
       public void draw(Graphics pen) {
          drawBackground(myBuffer);  //drawGame();
          drawPlayers(myBuffer);
          drawGUI(myBuffer);
       }
       public void update() {
-         
+         firstPlayer.update();
+         firstPlayer.takeDamage(secondPlayer.getGun().getBullets());
+         secondPlayer.update();
+         secondPlayer.takeDamage(firstPlayer.getGun().getBullets());
       }
       public void keyListen(KeyEvent event) {
       }
@@ -126,17 +123,41 @@ public class GamePanel extends JPanel {
          pen.setColor(secondPlayer.getColor());
          pen.fillRect(myGameWidth / 2 - 15 - 100, 10, 100, 30);
       }
+      public void checkDrawTrigger(String gameMode, Graphics pen) {
+         if (myGameMode == gameMode)
+            draw(pen);
+      }
+      public void checkUpdateTrigger(String gameMode) {
+         if (myGameMode == gameMode)
+            update();
+      }
+      public void checkChangeModeTrigger(String gameMode) {
+      }
    }
 
    public class Pause implements GameState {
-      private int pauseOpacity = 0;
+      private String myGameMode = "pause";
+      private int myPauseOpacity = 0;
       public void draw(Graphics pen) {
-         myBuffer.setColor(new Color(0, 0, 0, (int) pauseOpacity));  //drawPaused();
+         myPlay.draw(pen);
+         myBuffer.setColor(new Color(0, 0, 0, (int) myPauseOpacity));
          myBuffer.fillRect(0, 0, myGameWidth, myGameHeight);
       }
       public void update() {
+         if (myPauseOpacity < 100)
+            myPauseOpacity += 20;
       }
       public void keyListen(KeyEvent event) {
+      }
+      public void checkDrawTrigger(String gameMode, Graphics pen) {
+         if (myGameMode == gameMode)
+            draw(pen);
+      }
+      public void checkUpdateTrigger(String gameMode) {
+         if (myGameMode == gameMode)
+            update();
+      }
+      public void checkChangeModeTrigger(String gameMode) {
       }
    }
 
