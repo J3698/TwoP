@@ -20,6 +20,7 @@ public class GamePanel extends JPanel {
    Player secondPlayer;
    String gameMode = "play";
    Font playAndResumeFont;
+   Font scoreFont;
    Timer timer;
 
    public GamePanel(int gameWidth, int gameHeight) {
@@ -91,6 +92,7 @@ public class GamePanel extends JPanel {
 
    public class Play implements GameState {
       private String myGameMode = "play";
+      private int myTextOpacity = 50;
       public void draw(Graphics pen) {
          drawBackground(myBuffer);  //drawGame();
          drawPlayers(myBuffer);
@@ -109,19 +111,26 @@ public class GamePanel extends JPanel {
          pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
          pen.setColor(secondPlayer.getColor());
          pen.fillRect(myGameWidth / 2, 0, myGameWidth / 2, myGameHeight);
-         pen.setColor(new Color(0, 0, 0, 50));
+         pen.setColor(new Color(0, 0, 0, myTextOpacity));
          pen.setFont(playAndResumeFont);
          pen.drawString("P to Pause", 100, 250);
          pen.drawString(""+firstPlayer.getHealth(), 100,100);
          pen.drawString(""+secondPlayer.getHealth(), 300, 300);
       }
+      public void drawPlayers(Graphics pen) {
+         firstPlayer.drawSelfAndGun(pen);
+         secondPlayer.drawSelfAndGun(pen);
+      }
       public void drawGUI(Graphics pen) {
-         pen.setColor(new Color(0, 0, 0));
-         pen.fillRect(myGameWidth / 2 - 15, 5, 30, 40);
-         pen.setColor(firstPlayer.getColor());
-         pen.fillRect(myGameWidth / 2 + 15, 10, 100, 30);
-         pen.setColor(secondPlayer.getColor());
-         pen.fillRect(myGameWidth / 2 - 15 - 100, 10, 100, 30);
+         int firstLength = firstPlayer.getHealth();
+         int firstStartPoint = myGameWidth / 2 - firstLength;
+         int secondLength = secondPlayer.getHealth();
+         Color firstColor = secondPlayer.getColor();
+         Color secondColor = firstPlayer.getColor();
+         pen.setColor(firstColor);
+         pen.fillRect(firstStartPoint, 10, firstLength, 30);
+         pen.setColor(secondColor);
+         pen.fillRect(myGameWidth / 2, 10, secondLength, 30);
       }
       public void checkDrawTrigger(String gameMode, Graphics pen) {
          if (myGameMode == gameMode)
@@ -133,19 +142,31 @@ public class GamePanel extends JPanel {
       }
       public void checkChangeModeTrigger(String gameMode) {
       }
+      public void setTextOpacity(int opacity) {
+         myTextOpacity = opacity;
+      }
+      public int getTextOpacity() {
+         return myTextOpacity;
+      }
    }
 
    public class Pause implements GameState {
       private String myGameMode = "pause";
-      private int myPauseOpacity = 0;
+      private int myVeilOpacity = 0;
+      private int myTextOpacity = 0;
       public void draw(Graphics pen) {
          myPlay.draw(pen);
-         myBuffer.setColor(new Color(0, 0, 0, (int) myPauseOpacity));
-         myBuffer.fillRect(0, 0, myGameWidth, myGameHeight);
+         pen.setColor(new Color(0, 0, 0, myVeilOpacity));
+         pen.fillRect(0, 0, myGameWidth, myGameHeight);
+         pen.setColor(new Color(255, 255, 255, myTextOpacity));
+         pen.drawString("R to Resume", 50, 250);
       }
       public void update() {
-         if (myPauseOpacity < 100)
-            myPauseOpacity += 20;
+         if (myVeilOpacity < 100)
+            myVeilOpacity += 20;
+         if (myTextOpacity < 200)
+            myTextOpacity += 40;
+//         myPlay.setTextOpacity(myPlay.getTextOpacity() / 2);
       }
       public void keyListen(KeyEvent event) {
       }
@@ -160,9 +181,32 @@ public class GamePanel extends JPanel {
       public void checkChangeModeTrigger(String gameMode) {
       }
    }
-
-   public void drawPlayers(Graphics pen) {
-      firstPlayer.drawSelfAndGun(pen);
-      secondPlayer.drawSelfAndGun(pen);
+   
+   public class GameOver implements GameState {
+      private int myVeilOpacity = 0;
+      private int myStringOpacity = 0;
+      private String myGameMode = "gameover";
+      public void draw(Graphics pen) {
+         myPlay.draw(pen);
+         pen.setColor(new Color(0, 0, 0, myVeilOpacity));
+         pen.fillRect(0, 0, myGameWidth, myGameHeight);
+         pen.setColor(new Color(255, 255, 255, myStringOpacity));
+      }
+      public void update() {
+         myVeilOpacity++;
+         myStringOpacity++;
+      }
+      public void keyListen(KeyEvent event) {
+      
+      }
+      public void checkDrawTrigger(String gameMode, Graphics pen) {
+      
+      }
+      public void checkUpdateTrigger(String gameMode) {
+      
+      }
+      public void checkChangeModeTrigger(String gameMode) {
+      
+      }
    }
 }
