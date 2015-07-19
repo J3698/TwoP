@@ -41,7 +41,6 @@ public class Controls {
       else if (event.getKeyCode() == mySecondActionKey)
          myPlayer.releaseSecondAction();
       }
-
    public void setFirstControls() {
       setUpKey(KeyEvent.VK_W);
       setDownKey(KeyEvent.VK_S);
@@ -50,7 +49,6 @@ public class Controls {
       setFirstActionKey(KeyEvent.VK_1);
       setSecondActionKey(KeyEvent.VK_2);
    }
-
    public void setSecondControls() {
       setUpKey(KeyEvent.VK_UP);
       setDownKey(KeyEvent.VK_DOWN);
@@ -59,7 +57,6 @@ public class Controls {
       setFirstActionKey(KeyEvent.VK_PERIOD);
       setSecondActionKey(KeyEvent.VK_SLASH);
    }
-
    public void setUpKey(int upKey) {
       myUpKey = upKey;
    }
