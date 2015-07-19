@@ -17,6 +17,8 @@ public class Player extends Circle {
    private double myBallHeight = 130;
    private boolean myIsJumpReleased = true;
    private boolean myIsFlipReleased = true;
+   private boolean myIsLeftPressed = false;
+   private boolean myIsRightPressed = false;
    private boolean myIsSpinToggleReleased = true;
    private int myJumps = 3;
    private int maxJumps = 3;
@@ -84,7 +86,7 @@ public class Player extends Circle {
       ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
       for (Gun.Bullet b: a) {
          if (isColliding(b)) {
-            myHealth -= 3;
+            myHealth -= 1;
             toDelete.add(b);
          }
       }
@@ -115,22 +117,26 @@ public class Player extends Circle {
       myIsFlipReleased = true;
    }
    public void left() {
+      myIsLeftPressed = true;
       mySpeed -= myAcceleration;
       if (Math.abs(mySpeed) > myMaxSpeed) {
          mySpeed = -myMaxSpeed;
       }
    }
    public void releaseLeft() {
+      myIsLeftPressed = false;
       if (mySpeed < 0)
          mySpeed = 0;
    }
    public void right() {
+      myIsRightPressed = true;
       mySpeed += myAcceleration;
       if (Math.abs(mySpeed) > myMaxSpeed) {
          mySpeed = myMaxSpeed;
       }
    }
    public void releaseRight() {
+      myIsRightPressed = false;
       if (mySpeed > 0)
          mySpeed = 0;
    }
@@ -154,9 +160,9 @@ public class Player extends Circle {
    }
    public void setRandomColor() {
       Random rand = new Random();
-      int r = 120 + rand.nextInt(135);
-      int g = 120 + rand.nextInt(135);
-      int b = 120 + rand.nextInt(135);
+      int r = 50 + rand.nextInt(205);
+      int g = 50 + rand.nextInt(205);
+      int b = 50 + rand.nextInt(205);
       setColor(new Color(r, g, b));
    }
    public double getBallHeight() {
@@ -164,6 +170,18 @@ public class Player extends Circle {
    }
    public Gun getGun() {
       return myGun;
+   }
+   public int getGroundX() {
+      return myGroundX;
+   }
+   public int getGroundY() {
+      return myGroundY;
+   }
+   public int getCeilingX() {
+      return myCeilingX;
+   }
+   public int getCeilingY() {
+      return myCeilingY;
    }
    public int getHealth() {
       return myHealth;
