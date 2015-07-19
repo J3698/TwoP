@@ -10,7 +10,7 @@ public class Gun {
    private Player myPlayer;
    private double myOldPlayerX;
    private double myOldPlayerY;
-   private double mySpeed = 10;
+   private double mySpeed = 7;
    private double[] myXPoints = new double[4];
    private double[] myYPoints = new double[4];
    private ArrayList<Bullet> myBullets = new ArrayList<Bullet>();
@@ -37,6 +37,7 @@ public class Gun {
          b.update();
       if (myIsShooting)
          shoot();
+      garbageCollectBullets();
    }
    public void draw(Graphics pen) {
       int[] tempXPoints = new int[4];
@@ -49,6 +50,19 @@ public class Gun {
       pen.fillPolygon(tempXPoints, tempYPoints, 4);
       for (Bullet b: myBullets)
          b.draw(pen);
+   }
+   public void garbageCollectBullets() {
+      ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
+      for (Bullet b: myBullets) {
+         boolean outLeft = (myPlayer.getGroundX() > b.getX());
+         boolean outBottom = (myPlayer.getGroundY() < b.getY());
+         boolean outRight = (myPlayer.getCeilingX() < b.getX());
+         boolean outTop = (myPlayer.getCeilingY() > b.getY());
+         if (outLeft || outBottom || outRight || outTop)
+            toTrash.add(b);
+      }
+      for (Bullet b: toTrash)
+         myBullets.remove(b);
    }
    public void rotatePoints(double angle) {
       angle = Math.toRadians(angle);
@@ -108,7 +122,6 @@ public class Gun {
       myIsShooting = isShooting;
    }
 
-
    public class Bullet extends Circle {
       private double myRadius = 3;
       private double myVelocityX;
@@ -120,7 +133,7 @@ public class Gun {
          myVelocityX = velocityX;
          myVelocityY = velocityY;
       }
-
+      
       public void update() {
          setX(getX() + myVelocityX);
          setY(getY() + myVelocityY);
