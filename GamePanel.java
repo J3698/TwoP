@@ -207,13 +207,16 @@ public class GamePanel extends JPanel {
       private int myTextLocation = 300;
        private String myGameMode = "gameOver";
       public void draw(Graphics pen) {
-         myPlay.draw(pen);
+         if (myVeilOpacity != 255)
+            myPlay.draw(pen);
          pen.setColor(new Color(255, 255, 255, myVeilOpacity));
          pen.fillRect(0, 0, myGameWidth, myGameHeight);
          pen.setColor(new Color(0, 0, 0, myStringOpacity));
          pen.drawString("Game Over", 100, myTextLocation);
       }
       public void update() {
+         if (myVeilOpacity != 255)
+            myPlay.update();
          if (myVeilOpacity <= 252)
             myVeilOpacity += 3;
          else if (myVeilOpacity <= 250 || myStringOpacity <= 252) {
