@@ -10,15 +10,16 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class GamePanel extends JPanel {
-   GameState myPlay = new Play();
-   GameState myPause = new Pause();
+   Play myPlay = new Play();
+   Pause myPause = new Pause();
+   GameOver myGameOver = new GameOver();
    BufferedImage myImage;
    Graphics myBuffer;
    int myGameWidth;
    int myGameHeight;
    Player firstPlayer;
    Player secondPlayer;
-   String gameMode = "play";
+   String gameMode = "gameover"; //Why doesn't this work?
    Font playAndResumeFont;
    Font scoreFont;
    Timer timer;
@@ -38,27 +39,30 @@ public class GamePanel extends JPanel {
    }
    public void startGameValues() {
       firstPlayer = new Player(20, 60, 350, 0,
-                    myGameHeight, myGameWidth, 0);
+                myGameHeight, myGameWidth, 0);
       secondPlayer = new Player(20, myGameWidth - 60,
-                     350, 0, myGameHeight,myGameWidth, 0);
+                350, 0, myGameHeight,myGameWidth, 0);
       secondPlayer.getControls().setSecondControls();
       secondPlayer.getGun().setSpinDirection(Gun.LEFT);
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);
+      scoreFont = new Font("Ariel", 0, 14);
    }
    public void addThreadInputs() {
       addKeyListener(new KeyListener());
       timer = new Timer(20, new UpdateListener());
-      timer.start();      
+      timer.start();
    }
    public void update() {
       myPlay.checkUpdateTrigger(gameMode);
       myPause.checkUpdateTrigger(gameMode);
+      myGameOver.checkUpdateTrigger(gameMode);
    }
    public void paintComponent(Graphics pen) {
       pen.clearRect(0, 0, getWidth(), getHeight());
       myBuffer.clearRect(0, 0, myGameWidth, myGameHeight);
       myPlay.checkDrawTrigger(gameMode, myBuffer);
       myPause.checkDrawTrigger(gameMode, myBuffer);
+      myGameOver.checkDrawTrigger(gameMode, myBuffer);
       pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
 
@@ -70,10 +74,9 @@ public class GamePanel extends JPanel {
    }
    public class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
-         firstPlayer.getControls().keyDown(event);
-         secondPlayer.getControls().keyDown(event);
-         if (event.getKeyCode() == KeyEvent.VK_P)
-            gameMode = "pause";
+         myPlay.checkKeyListenTrigger(event);
+         myPause.checkKeyListenTrigger(event);
+         myGameOver.checkKeyListenTrigger(event);
       }
       public void keyReleased(KeyEvent event) {
          firstPlayer.getControls().keyUp(event);
@@ -82,12 +85,13 @@ public class GamePanel extends JPanel {
    }
 
    public interface GameState {
-      void draw(Graphics pen);
-      void update();
-      void keyListen(KeyEvent event);
       void checkDrawTrigger(String gameMode, Graphics pen);
+      void draw(Graphics pen);
       void checkUpdateTrigger(String gameMode);
-      void checkChangeModeTrigger(String gameMode);
+      void update();
+      void checkKeyListenTrigger(KeyEvent event);
+      void keyListen(KeyEvent event);
+      void checkChangeModeTrigger(String gameMode);  // needed??
    }
 
    public class Play implements GameState {
@@ -103,30 +107,38 @@ public class GamePanel extends JPanel {
          firstPlayer.takeDamage(secondPlayer.getGun().getBullets());
          secondPlayer.update();
          secondPlayer.takeDamage(firstPlayer.getGun().getBullets());
+         if (firstPlayer.getHealth() <= 0 || secondPlayer.getHealth() <= 0)
+            gameMode = "gameOver";
+      }
+      public void checkKeyListenTrigger(KeyEvent event) {
+         if (myGameMode == gameMode)
+            keyListen(event);
       }
       public void keyListen(KeyEvent event) {
+         firstPlayer.getControls().keyDown(event);
+         secondPlayer.getControls().keyDown(event);
+         if (event.getKeyCode() == KeyEvent.VK_P)
+            gameMode = "pause";
       }
       public void drawBackground(Graphics pen) {
-         pen.setColor(firstPlayer.getColor());
-         pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
          pen.setColor(secondPlayer.getColor());
+         pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
+         pen.setColor(firstPlayer.getColor());
          pen.fillRect(myGameWidth / 2, 0, myGameWidth / 2, myGameHeight);
          pen.setColor(new Color(0, 0, 0, myTextOpacity));
          pen.setFont(playAndResumeFont);
          pen.drawString("P to Pause", 100, 250);
-         pen.drawString(""+firstPlayer.getHealth(), 100,100);
-         pen.drawString(""+secondPlayer.getHealth(), 300, 300);
       }
       public void drawPlayers(Graphics pen) {
-         firstPlayer.drawSelfAndGun(pen);
-         secondPlayer.drawSelfAndGun(pen);
+         firstPlayer.drawSelfAndWeapon(pen);
+         secondPlayer.drawSelfAndWeapon(pen);
       }
       public void drawGUI(Graphics pen) {
          int firstLength = firstPlayer.getHealth();
          int firstStartPoint = myGameWidth / 2 - firstLength;
          int secondLength = secondPlayer.getHealth();
-         Color firstColor = secondPlayer.getColor();
-         Color secondColor = firstPlayer.getColor();
+         Color firstColor = firstPlayer.getColor();
+         Color secondColor = secondPlayer.getColor();
          pen.setColor(firstColor);
          pen.fillRect(firstStartPoint, 10, firstLength, 30);
          pen.setColor(secondColor);
@@ -142,11 +154,9 @@ public class GamePanel extends JPanel {
       }
       public void checkChangeModeTrigger(String gameMode) {
       }
-      public void setTextOpacity(int opacity) {
-         myTextOpacity = opacity;
+      public void fadeOutTextOpacity() {
       }
-      public int getTextOpacity() {
-         return myTextOpacity;
+      public void fadeInTextOpacity() {
       }
    }
 
@@ -164,11 +174,16 @@ public class GamePanel extends JPanel {
       public void update() {
          if (myVeilOpacity < 100)
             myVeilOpacity += 20;
-         if (myTextOpacity < 200)
-            myTextOpacity += 40;
-//         myPlay.setTextOpacity(myPlay.getTextOpacity() / 2);
+         fadeInTextOpacity();
+         myPlay.fadeOutTextOpacity();
+      }
+      public void checkKeyListenTrigger(KeyEvent event) {
+         if (myGameMode == gameMode)
+            keyListen(event);
       }
       public void keyListen(KeyEvent event) {
+         if (event.getKeyCode() == KeyEvent.VK_R)
+            gameMode = "play";
       }
       public void checkDrawTrigger(String gameMode, Graphics pen) {
          if (myGameMode == gameMode)
@@ -180,30 +195,46 @@ public class GamePanel extends JPanel {
       }
       public void checkChangeModeTrigger(String gameMode) {
       }
+      public void fadeOutTextOpacity() {
+      }
+      public void fadeInTextOpacity() {
+      }
    }
    
    public class GameOver implements GameState {
       private int myVeilOpacity = 0;
       private int myStringOpacity = 0;
-      private String myGameMode = "gameover";
+      private int myTextLocation = 300;
+       private String myGameMode = "gameOver";
       public void draw(Graphics pen) {
          myPlay.draw(pen);
-         pen.setColor(new Color(0, 0, 0, myVeilOpacity));
+         pen.setColor(new Color(255, 255, 255, myVeilOpacity));
          pen.fillRect(0, 0, myGameWidth, myGameHeight);
-         pen.setColor(new Color(255, 255, 255, myStringOpacity));
+         pen.setColor(new Color(0, 0, 0, myStringOpacity));
+         pen.drawString("Game Over", 100, myTextLocation);
       }
       public void update() {
-         myVeilOpacity++;
-         myStringOpacity++;
+         if (myVeilOpacity <= 252)
+            myVeilOpacity += 3;
+         else if (myVeilOpacity <= 250 || myStringOpacity <= 252) {
+            myStringOpacity += 3;
+            if (myTextLocation >= 250)
+               myTextLocation -= 1;
+         }
+      }
+      public void checkKeyListenTrigger(KeyEvent event) {
+         if (myGameMode == gameMode)
+            keyListen(event);
       }
       public void keyListen(KeyEvent event) {
-      
       }
       public void checkDrawTrigger(String gameMode, Graphics pen) {
-      
+         if (myGameMode == gameMode)
+            draw(pen);
       }
       public void checkUpdateTrigger(String gameMode) {
-      
+         if (myGameMode == gameMode)
+            update();
       }
       public void checkChangeModeTrigger(String gameMode) {
       
