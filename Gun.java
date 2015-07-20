@@ -40,6 +40,8 @@ public class Gun {
       garbageCollectBullets();
    }
    public void draw(Graphics pen) {
+      for (Bullet b: myBullets)
+         b.draw(pen);
       int[] tempXPoints = new int[4];
       int[] tempYPoints = new int[4];
       for (int i = 0; i < 4; i++)
@@ -47,9 +49,9 @@ public class Gun {
       for (int i = 0; i < 4; i++)
          tempYPoints[i] = (int)myYPoints[i];
       pen.setColor(Color.black);
+      pen.drawPolygon(tempXPoints, tempYPoints, 4);
+      pen.setColor(myPlayer.getColor());
       pen.fillPolygon(tempXPoints, tempYPoints, 4);
-      for (Bullet b: myBullets)
-         b.draw(pen);
    }
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
