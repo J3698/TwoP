@@ -19,7 +19,7 @@ public class GamePanel extends JPanel {
    int myGameHeight;
    Player firstPlayer;
    Player secondPlayer;
-   String gameMode = "gameover"; //Why doesn't this work?
+   String gameMode = "play"; //Why doesn't this work if its "gameover"?
    Font playAndResumeFont;
    Font scoreFont;
    Timer timer;
