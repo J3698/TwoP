@@ -71,10 +71,12 @@ public class Player extends Circle {
       }
       if (getX() + getRadius() > myCeilingX) {
          myVelocityX = 0;
+         mySpeed = 0;
          setX(myCeilingX - getRadius());
       }
       if (getX() - getRadius() < myGroundX) {
          myVelocityX = 0;
+         mySpeed = 0;
          setX(getRadius() + myGroundX);
       }
    }
@@ -93,9 +95,9 @@ public class Player extends Circle {
       for (Gun.Bullet b: toDelete)
          a.remove(b);
    }
-   public void drawSelfAndGun(Graphics pen) {
-      draw(pen);
+   public void drawSelfAndWeapon(Graphics pen) {
       myGun.draw(pen);
+      draw(pen);
    }
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
@@ -160,9 +162,9 @@ public class Player extends Circle {
    }
    public void setRandomColor() {
       Random rand = new Random();
-      int r = 50 + rand.nextInt(205);
-      int g = 50 + rand.nextInt(205);
-      int b = 50 + rand.nextInt(205);
+      int r = rand.nextInt(255);
+      int g = rand.nextInt(255);
+      int b = rand.nextInt(255);
       setColor(new Color(r, g, b));
    }
    public double getBallHeight() {
