@@ -38,10 +38,10 @@ public class GamePanel extends JPanel {
       myBuffer = myImage.getGraphics();
    }
    public void startGameValues() {
-      firstPlayer = new Player(20, 60, 350, 0,
-                myGameHeight, myGameWidth, 0);
-      secondPlayer = new Player(20, myGameWidth - 60,
-                350, 0, myGameHeight,myGameWidth, 0);
+      firstPlayer = new Player(new Vector2(60, 350), 20, 0,
+                             myGameHeight, myGameWidth, 0);
+      secondPlayer = new Player(new Vector2(myGameWidth - 60, 350)
+                            , 20, 0, myGameHeight,myGameWidth, 0);
       secondPlayer.getControls().setSecondControls();
       secondPlayer.getGun().setSpinDirection(Gun.LEFT);
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);

@@ -4,13 +4,12 @@ import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class Player extends Circle {
+public class Player extends Circle implements Boundable {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private int myHealth = 200;
-   private double myVelocityX;
+   private Vector2 myVelocity;
    private double myAcceleration = 1;
-   private double myVelocityY;
    private double mySpeed = 0;
    private double myMaxSpeed = 6;
    private Gun myGun = new Gun(this);
@@ -29,15 +28,15 @@ public class Player extends Circle {
    int myCeilingX;
    int myCeilingY;
 
-   public Player(double radius, double x, double y, int groundX,
-                        int groundY, int ceilingX, int ceilingY) {
-      super(radius, x, y);
+   public Player(Vector2 center, double radius, int groundX,
+                  int groundY, int ceilingX, int ceilingY) {
+      super(center, radius);
       myGroundX = groundX;
       myGroundY =  groundY;
       myCeilingX = ceilingX;
       myCeilingY = ceilingY;
       setRandomColor();
-      myVelocityY = 10;
+      myVelocity = new Vector2(0, 10);
    }
 
    public void update() {
@@ -52,36 +51,36 @@ public class Player extends Circle {
    //delay.
    //Note: May fix later, may have nice effect
    public void updateVelocity() {
-      myVelocityX += mySpeed;
-      myVelocityX *= myInertia;
-      myVelocityY += gravity;
+      myVelocity.addX(mySpeed);
+      myVelocity.multiplyX(myInertia);
+      myVelocity.addY(gravity);
    }
    public void updatePosition() {
-      setY(getY() - myVelocityY);
-      setX(getX() + myVelocityX);
+      getCenter().addX(myVelocity.getX());
+      getCenter().subtractY(myVelocity.getY());
    }
    public void keepInBounds() {
-      if (getY() + getRadius() > myGroundY) {
-         myVelocityY = 0;
-         setY(myGroundY - getRadius());
+      if (getCenter().getY() + getRadius() > myGroundY) {
+         myVelocity.setY(0);
+         getCenter().setY(myGroundY - getRadius());
       }
-      if (getY() - getRadius() < myCeilingY) {
-         myVelocityY = 0;
-         setY(myCeilingY + getRadius());
+      if (getCenter().getY() - getRadius() < myCeilingY) {
+         myVelocity.setY(0);
+         getCenter().setY(myCeilingY + getRadius());
       }
-      if (getX() + getRadius() > myCeilingX) {
-         myVelocityX = 0;
+      if (getCenter().getX() + getRadius() > myCeilingX) {
+         myVelocity.setX(0);
          mySpeed = 0;
-         setX(myCeilingX - getRadius());
+         getCenter().setX(myCeilingX - getRadius());
       }
-      if (getX() - getRadius() < myGroundX) {
-         myVelocityX = 0;
+      if (getCenter().getX() - getRadius() < myGroundX) {
+         myVelocity.setX(0);
          mySpeed = 0;
-         setX(getRadius() + myGroundX);
+         getCenter().setX(getRadius() + myGroundX);
       }
    }
    public void updateJumpAbility() {
-      if (getY() + getRadius() == myGroundY)
+      if (getCenter().getY() + getRadius() == myGroundY)
          myJumps = 0;
    }
    public void takeDamage(ArrayList<Gun.Bullet> a) {
@@ -101,7 +100,7 @@ public class Player extends Circle {
    }
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
-         myVelocityY += myJumpHeight;
+         myVelocity.addY(myJumpHeight);
          myJumps++;
          myIsJumpReleased = false;
       }

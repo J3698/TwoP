@@ -26,7 +26,9 @@ public class Gun {
       double y = (myYPoints[0] + myYPoints[1]) / 2;
       double velocityX = (myXPoints[3] - myXPoints[0]) * mySpinDirection;
       double velocityY = (myYPoints[3] - myYPoints[0]) * mySpinDirection;
-      myBullets.add(new Bullet(x, y, velocityX, velocityY));
+      Vector2 center = new Vector2(x, y);
+      Vector2 velocity = new Vector2(velocityX, velocityY);
+      myBullets.add(new Bullet(center, velocity));
    }
 
    public void update() {
@@ -56,10 +58,10 @@ public class Gun {
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
       for (Bullet b: myBullets) {
-         boolean outLeft = (myPlayer.getGroundX() > b.getX());
-         boolean outBottom = (myPlayer.getGroundY() < b.getY());
-         boolean outRight = (myPlayer.getCeilingX() < b.getX());
-         boolean outTop = (myPlayer.getCeilingY() > b.getY());
+         boolean outLeft = (myPlayer.getGroundX() > b.getCenter().getX());
+         boolean outBottom = (myPlayer.getGroundY() < b.getCenter().getY());
+         boolean outRight = (myPlayer.getCeilingX() < b.getCenter().getX());
+         boolean outTop = (myPlayer.getCeilingY() > b.getCenter().getY());
          if (outLeft || outBottom || outRight || outTop)
             toTrash.add(b);
       }
@@ -74,36 +76,36 @@ public class Gun {
       double sin = Math.sin(angle);
       double cos = Math.cos(angle);
       for (int i = 0; i < 4; i++) {
-         myXPoints[i] -= myPlayer.getX();
-         myYPoints[i] -= myPlayer.getY();
+         myXPoints[i] -= myPlayer.getCenter().getX();
+         myYPoints[i] -= myPlayer.getCenter().getY();
          double tempX = myXPoints[i];
          myXPoints[i] = myXPoints[i] * cos - myYPoints[i] * sin;
          myYPoints[i] = myYPoints[i] * cos + tempX * sin;
-         myXPoints[i] += myPlayer.getX();
-         myYPoints[i] += myPlayer.getY();
+         myXPoints[i] += myPlayer.getCenter().getX();
+         myYPoints[i] += myPlayer.getCenter().getY();
       }
    }
    public void initializePoints() {
-      myOldPlayerX = myPlayer.getX();
-      myOldPlayerY = myPlayer.getY() - myPlayer.getRadius();
-      myXPoints[0] = myPlayer.getX() - 6;
+      myOldPlayerX = myPlayer.getCenter().getX();
+      myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
+      myXPoints[0] = myPlayer.getCenter().getX() - 6;
       myXPoints[1] = myXPoints[0];
-      myXPoints[2] = myPlayer.getX() + 6;
+      myXPoints[2] = myPlayer.getCenter().getX() + 6;
       myXPoints[3] = myXPoints[2];
-      myYPoints[0] = myPlayer.getY() - myPlayer.getRadius() - 6;
-      myYPoints[1] = myPlayer.getY() - myPlayer.getRadius() - 12;
+      myYPoints[0] = myPlayer.getCenter().getY() - myPlayer.getRadius() - 6;
+      myYPoints[1] = myPlayer.getCenter().getY() - myPlayer.getRadius() - 12;
       myYPoints[2] = myYPoints[1];
       myYPoints[3] = myYPoints[0];
    }
    public void fixPosition() {
-      double xDiff = myPlayer.getX() - myOldPlayerX;
-      double yDiff = myPlayer.getY() - myPlayer.getRadius() - myOldPlayerY;
+      double xDiff = myPlayer.getCenter().getX() - myOldPlayerX;
+      double yDiff = myPlayer.getCenter().getY() - myPlayer.getRadius() - myOldPlayerY;
       for (int i = 0; i < 4; i++)
          myXPoints[i] += xDiff;
       for (int i = 0; i < 4; i++)
          myYPoints[i] += yDiff;
-      myOldPlayerX = myPlayer.getX();
-      myOldPlayerY = myPlayer.getY() - myPlayer.getRadius();
+      myOldPlayerX = myPlayer.getCenter().getX();
+      myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
    }
    public ArrayList<Bullet> getBullets() {
       return myBullets;
@@ -126,19 +128,16 @@ public class Gun {
 
    public class Bullet extends Circle {
       private double myRadius = 3;
-      private double myVelocityX;
-      private double myVelocityY;
+      private Vector2 myVelocity;
 
-      public Bullet(double x, double y, double velocityX,
-                                        double velocityY) {
-         super(3, x, y);
-         myVelocityX = velocityX;
-         myVelocityY = velocityY;
+      public Bullet(Vector2 center, Vector2 velocity) {
+         super(center, 3);
+         myVelocity = velocity;
       }
       
       public void update() {
-         setX(getX() + myVelocityX);
-         setY(getY() + myVelocityY);
+         getCenter().addX(myVelocity.getX());
+         getCenter().addY(myVelocity.getY());
       }
    }
 }

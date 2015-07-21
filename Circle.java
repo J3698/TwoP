@@ -2,27 +2,27 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Circle {
-   private double myX;
-   private double myY;
+   private Vector2 myCenter;
    private double myRadius;
    private Color myColor = Color.black;
    private Color myOutline = Color.black;
 
-   public Circle(double radius, double x, double y) {
-      myX = x;
-      myY = y;
+   public Circle(Vector2 center, double radius) {
+      myCenter = center;
       myRadius = radius;
    }
 
    public boolean isColliding(Circle c) {
-      double aSquared = Math.pow(myX - c.getX(), 2);
-      double bSquared = Math.pow(myY - c.getY(), 2);
-      double distance = Math.pow(aSquared + bSquared, 0.5);
+      double aDiff = myCenter.getX() - c.getCenter().getX();
+      double bDiff = myCenter.getY() - c.getCenter().getY();
+      double aDiffSquared = Math.pow(aDiff, 2);
+      double bDiffSquared = Math.pow(bDiff, 2);
+      double distance = Math.pow(aDiffSquared + bDiffSquared, 0.5);
       return (myRadius + c.getRadius() >= distance);
    }
    public void draw(Graphics pen) {
-      int centerX = (int) (myX - myRadius);
-      int centerY = (int) (myY - myRadius);
+      int centerX = (int) (myCenter.getX() - myRadius);
+      int centerY = (int) (myCenter.getY() - myRadius);
       int diameter = (int) (myRadius * 2);
       pen.setColor(myColor);
       pen.fillOval(centerX, centerY,
@@ -46,16 +46,13 @@ public class Circle {
    public double getRadius() {
       return myRadius;
    }
-   public double getX() {
-      return myX;
+   public void setRadius(double radius) {
+      myRadius = radius;
    }
-   public void setX(double x) {
-      myX = x;
+   public Vector2 getCenter() {
+      return myCenter;
    }
-   public double getY() {
-      return myY;
-   }
-   public void setY(double y) {
-      myY = y;
+   public void setCenter(Vector2 center) {
+      myCenter = center;
    }
 }
