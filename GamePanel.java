@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import javax.swing.Timer;
 import java.awt.Font;
 import java.awt.Color;
+import java.lang.Thread;
 
 public class GamePanel extends JPanel {
    Play myPlay = new Play();
@@ -91,7 +92,44 @@ public class GamePanel extends JPanel {
       void update();
       void checkKeyListenTrigger(KeyEvent event);
       void keyListen(KeyEvent event);
-      void checkChangeModeTrigger(String gameMode);  // needed??
+   }
+
+   public class Load implements GameState {
+      private String myGameMode = "load";
+      private String myNextMode;
+      Thread myLoader;
+      
+      public Load(Thread loader, String nextMode) {
+         myLoader = loader;
+         myNextMode = nextMode;
+      }
+
+      public void run() {
+         myLoader.run();
+      }
+
+      public void checkDrawTrigger(String gameMode, Graphics pen) {
+         if (myGameMode == gameMode)
+            draw(pen);
+      }
+      public void draw(Graphics pen) {
+
+      }
+      public void checkUpdateTrigger(String gameMode) {
+         if (myGameMode == gameMode)
+            update();
+      }
+      public void update() {
+         if (myLoader.getState() == Thread.State.TERMINATED)
+            gameMode = myNextMode;
+      }
+      public void checkKeyListenTrigger(KeyEvent event) {
+         if (myGameMode == gameMode)
+            keyListen(event);
+      }
+      public void keyListen(KeyEvent event) {
+
+      }
    }
 
    public class Play implements GameState {
@@ -152,8 +190,6 @@ public class GamePanel extends JPanel {
          if (myGameMode == gameMode)
             update();
       }
-      public void checkChangeModeTrigger(String gameMode) {
-      }
       public void fadeOutTextOpacity() {
       }
       public void fadeInTextOpacity() {
@@ -193,8 +229,6 @@ public class GamePanel extends JPanel {
          if (myGameMode == gameMode)
             update();
       }
-      public void checkChangeModeTrigger(String gameMode) {
-      }
       public void fadeOutTextOpacity() {
       }
       public void fadeInTextOpacity() {
@@ -204,7 +238,7 @@ public class GamePanel extends JPanel {
    public class GameOver implements GameState {
       private int myVeilOpacity = 0;
       private int myStringOpacity = 0;
-      private int myTextLocation = 300;
+      private int myTextLocation = 200;
        private String myGameMode = "gameOver";
       public void draw(Graphics pen) {
          if (myVeilOpacity != 255)
@@ -212,7 +246,7 @@ public class GamePanel extends JPanel {
          pen.setColor(new Color(255, 255, 255, myVeilOpacity));
          pen.fillRect(0, 0, myGameWidth, myGameHeight);
          pen.setColor(new Color(0, 0, 0, myStringOpacity));
-         pen.drawString("Game Over", 100, myTextLocation);
+         pen.drawString("Game Over", 30, myTextLocation);
       }
       public void update() {
          if (myVeilOpacity != 255)
@@ -221,7 +255,7 @@ public class GamePanel extends JPanel {
             myVeilOpacity += 3;
          else if (myVeilOpacity <= 250 || myStringOpacity <= 252) {
             myStringOpacity += 3;
-            if (myTextLocation >= 250)
+            if (myTextLocation >= 150)
                myTextLocation -= 1;
          }
       }
@@ -230,6 +264,8 @@ public class GamePanel extends JPanel {
             keyListen(event);
       }
       public void keyListen(KeyEvent event) {
+         if (myVeilOpacity != 255)
+            myPlay.keyListen(event);
       }
       public void checkDrawTrigger(String gameMode, Graphics pen) {
          if (myGameMode == gameMode)
@@ -238,9 +274,6 @@ public class GamePanel extends JPanel {
       public void checkUpdateTrigger(String gameMode) {
          if (myGameMode == gameMode)
             update();
-      }
-      public void checkChangeModeTrigger(String gameMode) {
-      
       }
    }
 }
