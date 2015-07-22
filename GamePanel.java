@@ -241,7 +241,7 @@ public class GamePanel extends JPanel {
    public class GameOver implements GameState {
       private int myVeilOpacity = 0;
       private int myStringOpacity = 0;
-      private int myTextLocation = 200;
+      private double myTextLocation = 175;
        private String myGameMode = "gameOver";
       public void draw(Graphics pen) {
          if (myVeilOpacity != 255)
@@ -249,17 +249,17 @@ public class GamePanel extends JPanel {
          pen.setColor(new Color(255, 255, 255, myVeilOpacity));
          pen.fillRect(0, 0, myGameWidth, myGameHeight);
          pen.setColor(new Color(0, 0, 0, myStringOpacity));
-         pen.drawString("Game Over", 30, myTextLocation);
+         pen.drawString("Game Over", 30, (int) myTextLocation);
       }
       public void update() {
          if (myVeilOpacity != 255)
             myPlay.update();
-         if (myVeilOpacity <= 252)
-            myVeilOpacity += 3;
-         else if (myVeilOpacity <= 250 || myStringOpacity <= 252) {
-            myStringOpacity += 3;
+         if (myVeilOpacity <= 250)
+            myVeilOpacity += 5;
+         else if (myVeilOpacity <= 250 || myStringOpacity <= 254) {
+            myStringOpacity += 1;
             if (myTextLocation >= 150)
-               myTextLocation -= 1;
+               myTextLocation -= 0.5;
          }
       }
       public void checkKeyListenTrigger(KeyEvent event) {
