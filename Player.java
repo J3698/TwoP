@@ -86,7 +86,7 @@ public class Player extends Circle implements Boundable {
    public void takeDamage(ArrayList<Gun.Bullet> a) {
       ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
       for (Gun.Bullet b: a) {
-         if (isColliding(b)) {
+         if (collidesCircle(b)) {
             myHealth -= 1;
             toDelete.add(b);
          }

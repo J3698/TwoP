@@ -12,7 +12,7 @@ public class Circle {
       myRadius = radius;
    }
 
-   public boolean isColliding(Circle c) {
+   public boolean collidesCircle(Circle c) {
       double aDiff = myCenter.getX() - c.getCenter().getX();
       double bDiff = myCenter.getY() - c.getCenter().getY();
       double aDiffSquared = Math.pow(aDiff, 2);
