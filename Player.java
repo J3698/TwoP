@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class Player extends Circle implements Boundable {
+public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private int myHealth = 200;
