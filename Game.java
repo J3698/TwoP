@@ -65,14 +65,14 @@ public class Game {
       myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
    }
 
-   public void keyUpListen(KeyEvent event) {
+   public void keyDownListen(KeyEvent event) {
        myInstructions.checkKeyListenTrigger(event);
        myPlay.checkKeyListenTrigger(event);
        myPause.checkKeyListenTrigger(event);
        myGameOver.checkKeyListenTrigger(event);
    }
 
-   public void keyDownListen(KeyEvent event) {
+   public void keyUpListen(KeyEvent event) {
        myFirstPlayer.getControls().keyUp(event);
        mySecondPlayer.getControls().keyUp(event);
    }
