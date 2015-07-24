@@ -20,6 +20,9 @@ public class Circle {
       double distance = Math.pow(aDiffSquared + bDiffSquared, 0.5);
       return (myRadius + c.getRadius() >= distance);
    }
+   public boolean collidesRect(Rect r) {
+      return false;
+   }
    public void draw(Graphics pen) {
       int centerX = (int) (myCenter.getX() - myRadius);
       int centerY = (int) (myCenter.getY() - myRadius);
