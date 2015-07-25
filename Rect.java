@@ -17,8 +17,17 @@ public class Rect {
    public boolean collidesRect(Rect r) {
       return true;
    }
+
    public boolean collidesCircle(Circle c) {
-      return true;
+      boolean aboveEdge = c.getCenter().getX() > myPosition.getX()
+      boolean belowEdge = c.getCenter().getX() < myPosition.getX() + myWidth;
+      boolean rightOfEdge = c.getCenter().getY() > myPosition.getY()
+      boolean leftOfEdge = c.getCenter().getY() < myPosition.getY() + myHeight;
+      if ((aboveEdge && belowEdge) || (rightOfEdge && leftOfEdge)) {
+         //Test collision as if circle were a rectangle
+      } else {
+         //Test if rect corners collide with circle
+      }
    }
    public Color getColor() {
       return myColor;
