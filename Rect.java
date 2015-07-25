@@ -16,16 +16,16 @@ public class Rect {
 
    public boolean collidesRect(Rect r) {
       boolean collides = true;
-      if (myPosition.getX() > r.getPosition.getX() + r.getWidth()) {
+      if (myPosition.getX() > r.getPosition().getX() + r.getWidth()) {
          collides = false;
       }
-      else if (myPosition.getX() + myWidth < r.getPosition.getX()) {
+      else if (myPosition.getX() + myWidth < r.getPosition().getX()) {
          collides = false;
       }
-      else if (myPosition.getY() > r.getPosition.getY() + r.getWidth()) {
+      else if (myPosition.getY() > r.getPosition().getY() + r.getWidth()) {
          collides = false;
       }
-      else if (myPosition.getY() + myHeight < r.getPosition.getY()) {
+      else if (myPosition.getY() + myHeight < r.getPosition().getY()) {
          collides = false;
       }
       return collides;
