@@ -15,19 +15,33 @@ public class Rect {
    }
 
    public boolean collidesRect(Rect r) {
-      return true;
+      boolean collides = true;
+      if (myPosition.getX() > r.getPosition.getX() + r.getWidth()) {
+         collides = false;
+      }
+      else if (myPosition.getX() + myWidth < r.getPosition.getX()) {
+         collides = false;
+      }
+      else if (myPosition.getY() > r.getPosition.getY() + r.getWidth()) {
+         collides = false;
+      }
+      else if (myPosition.getY() + myHeight < r.getPosition.getY()) {
+         collides = false;
+      }
+      return collides;
    }
-
    public boolean collidesCircle(Circle c) {
-      boolean aboveEdge = c.getCenter().getX() > myPosition.getX()
+      boolean collides = false;
+      boolean aboveEdge = c.getCenter().getX() > myPosition.getX();
       boolean belowEdge = c.getCenter().getX() < myPosition.getX() + myWidth;
-      boolean rightOfEdge = c.getCenter().getY() > myPosition.getY()
+      boolean rightOfEdge = c.getCenter().getY() > myPosition.getY();
       boolean leftOfEdge = c.getCenter().getY() < myPosition.getY() + myHeight;
       if ((aboveEdge && belowEdge) || (rightOfEdge && leftOfEdge)) {
          //Test collision as if circle were a rectangle
       } else {
          //Test if rect corners collide with circle
       }
+      return collides;
    }
    public Color getColor() {
       return myColor;
