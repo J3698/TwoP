@@ -37,9 +37,27 @@ public class Rect {
       boolean rightOfEdge = c.getCenter().getY() > myPosition.getY();
       boolean leftOfEdge = c.getCenter().getY() < myPosition.getY() + myHeight;
       if ((aboveEdge && belowEdge) || (rightOfEdge && leftOfEdge)) {
-         //Test collision as if circle were a rectangle
+         if (myPosition.getX() > c.getCenter().getX() + c.getRadius()) {
+         } else if (myPosition.getX() + myWidth < c.getCenter().getX() - c.getRadius()) {
+         } else if (myPosition.getY() > c.getCenter().getY() + c.getRadius()) {
+         } else if (myPosition.getY() + myHeight < c.getCenter().getY() - c.getRadius()) {
+         } else {
+            collides = true;
+         }
       } else {
-         //Test if rect corners collide with circle
+         Vector2 firstCorner = new Vector2(myPosition.getX(), myPosition.getY() + myHeight);
+         Vector2 secondCorner = new Vector2(myPosition.getX() + myWidth, myPosition.getY());
+         Vector2 thirdCorner = new Vector2(myPosition.getX(), myPosition.getY() + myHeight);
+         Vector2 fourthCorner = new Vector2(myPosition.getX() + myWidth, myPosition.getY() + myHeight);
+         Vector2[] corners = {firstCorner, secondCorner, thirdCorner, fourthCorner};
+         for (Vector2 v: corners) {
+            v.subtractVector(c.getCenter());
+            if (v.getMagnitude() <= c.getRadius()) {
+               collides = true;
+               break;
+               
+            }
+         }
       }
       return collides;
    }
