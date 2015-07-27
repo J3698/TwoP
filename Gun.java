@@ -2,6 +2,11 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.util.ArrayList;
 
+/**
+*
+*
+*
+*/
 public class Gun {
    public static int RIGHT = 1;
    public static int LEFT = -1;
@@ -16,11 +21,21 @@ public class Gun {
    private ArrayList<Bullet> myBullets = new ArrayList<Bullet>();
    private boolean myIsShooting = false;
 
+   /**
+    *
+    *
+    *
+    */
    public Gun (Player p) {
       myPlayer = p;
       initializePoints();
    }
 
+   /**
+    *
+    *
+    *
+    */
    private void shoot() {
       double x = (myXPoints[0] + myXPoints[2]) / 2;
       double y = (myYPoints[0] + myYPoints[1]) / 2;
@@ -31,6 +46,11 @@ public class Gun {
       myBullets.add(new Bullet(center, velocity));
    }
 
+   /**
+    *
+    *
+    *
+    */
    public void update() {
       fixPosition();
       if (myIsSpinning)
@@ -41,6 +61,12 @@ public class Gun {
          shoot();
       garbageCollectBullets();
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void draw(Graphics pen) {
       for (Bullet b: myBullets)
          b.draw(pen);
@@ -55,6 +81,12 @@ public class Gun {
       pen.setColor(myPlayer.getColor());
       pen.fillPolygon(tempXPoints, tempYPoints, 4);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
       for (Bullet b: myBullets) {
@@ -68,6 +100,12 @@ public class Gun {
       for (Bullet b: toTrash)
          myBullets.remove(b);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void rotatePoints(double angle) {
       angle = Math.toRadians(angle);
       while(Math.abs(angle)>2*Math.PI){
@@ -85,6 +123,12 @@ public class Gun {
          myYPoints[i] += myPlayer.getCenter().getY();
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void initializePoints() {
       myOldPlayerX = myPlayer.getCenter().getX();
       myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
@@ -97,6 +141,12 @@ public class Gun {
       myYPoints[2] = myYPoints[1];
       myYPoints[3] = myYPoints[0];
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void fixPosition() {
       double xDiff = myPlayer.getCenter().getX() - myOldPlayerX;
       double yDiff = myPlayer.getCenter().getY() - myPlayer.getRadius() - myOldPlayerY;
@@ -107,34 +157,85 @@ public class Gun {
       myOldPlayerX = myPlayer.getCenter().getX();
       myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
    }
+
+   /**
+    *
+    *
+    *
+    */
    public ArrayList<Bullet> getBullets() {
       return myBullets;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void setIsSpinning(boolean isSpinning) {
       myIsSpinning = isSpinning;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void flipIsSpinning() {
       myIsSpinning = !myIsSpinning;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void setSpinDirection(int spinDirection) {
       mySpinDirection = spinDirection;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void flipSpinDirection() {
       mySpinDirection *= -1;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void setShooting(boolean isShooting) {
       myIsShooting = isShooting;
    }
 
+   /**
+    *
+    *
+    *
+    */
    public class Bullet extends Circle {
       private double myRadius = 3;
       private Vector2 myVelocity;
 
+      /**
+       *
+       *
+       *
+       */
       public Bullet(Vector2 center, Vector2 velocity) {
          super(center, 3);
          myVelocity = velocity;
       }
-      
+
+      /**
+       *
+       *
+       *
+       */
       public void update() {
          getCenter().addX(myVelocity.getX());
          getCenter().addY(myVelocity.getY());

@@ -4,6 +4,11 @@ import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ *
+ */
 public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
@@ -28,6 +33,11 @@ public class Player extends Circle {
    int myCeilingX;
    int myCeilingY;
 
+   /**
+    *
+    *
+    *
+    */
    public Player(Vector2 center, double radius, int groundX,
                   int groundY, int ceilingX, int ceilingY) {
       super(center, radius);
@@ -39,6 +49,11 @@ public class Player extends Circle {
       myVelocity = new Vector2(0, 10);
    }
 
+   /**
+    *
+    *
+    *
+    */
    public void update() {
       updateVelocity();
       updatePosition();
@@ -46,19 +61,38 @@ public class Player extends Circle {
       updateJumpAbility();
       myGun.update();
    }
+
+
    //Can't update speed in keylistener, only update whether
    //acceleration is occuring, otherwise there will be a
    //delay.
    //Note: May fix later, may have nice effect
+   /**
+    *
+    *
+    *
+    */
    public void updateVelocity() {
       myVelocity.addX(mySpeed);
       myVelocity.multiplyX(myInertia);
       myVelocity.addY(gravity);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void updatePosition() {
       getCenter().addX(myVelocity.getX());
       getCenter().subtractY(myVelocity.getY());
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void keepInBounds() {
       if (getCenter().getY() + getRadius() > myGroundY) {
          myVelocity.setY(0);
@@ -79,10 +113,22 @@ public class Player extends Circle {
          getCenter().setX(getRadius() + myGroundX);
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void updateJumpAbility() {
       if (getCenter().getY() + getRadius() == myGroundY)
          myJumps = 0;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void takeDamage(ArrayList<Gun.Bullet> a) {
       ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
       for (Gun.Bullet b: a) {
@@ -94,10 +140,22 @@ public class Player extends Circle {
       for (Gun.Bullet b: toDelete)
          a.remove(b);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void drawSelfAndWeapon(Graphics pen) {
       myGun.draw(pen);
       draw(pen);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
          myVelocity.addY(myJumpHeight);
@@ -105,18 +163,42 @@ public class Player extends Circle {
          myIsJumpReleased = false;
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseUp() {
       myIsJumpReleased = true;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void down() {
       if (myIsFlipReleased) {
          myGun.flipSpinDirection();
          myIsFlipReleased = false;
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseDown() {
       myIsFlipReleased = true;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void left() {
       myIsLeftPressed = true;
       mySpeed -= myAcceleration;
@@ -124,11 +206,23 @@ public class Player extends Circle {
          mySpeed = -myMaxSpeed;
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseLeft() {
       myIsLeftPressed = false;
       if (mySpeed < 0)
          mySpeed = 0;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void right() {
       myIsRightPressed = true;
       mySpeed += myAcceleration;
@@ -136,29 +230,71 @@ public class Player extends Circle {
          mySpeed = myMaxSpeed;
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseRight() {
       myIsRightPressed = false;
       if (mySpeed > 0)
          mySpeed = 0;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void firstAction() {
       myGun.setShooting(true);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseFirstAction() {
       myGun.setShooting(false);
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void secondAction() {
       if (myIsSpinToggleReleased) {
          myGun.flipIsSpinning();
          myIsSpinToggleReleased = false;
       }
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void releaseSecondAction() {
       myIsSpinToggleReleased = true;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public Controls getControls() {
       return myControls;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public void setRandomColor() {
       Random rand = new Random();
       int r = rand.nextInt(255);
@@ -166,24 +302,66 @@ public class Player extends Circle {
       int b = rand.nextInt(255);
       setColor(new Color(r, g, b));
    }
+
+   /**
+    *
+    *
+    *
+    */
    public double getBallHeight() {
-      return myBallHeight; 
+      return myBallHeight;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public Gun getGun() {
       return myGun;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public int getGroundX() {
       return myGroundX;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public int getGroundY() {
       return myGroundY;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public int getCeilingX() {
       return myCeilingX;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public int getCeilingY() {
       return myCeilingY;
    }
+
+   /**
+    *
+    *
+    *
+    */
    public int getHealth() {
       return myHealth;
    }
