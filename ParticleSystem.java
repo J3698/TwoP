@@ -7,22 +7,30 @@ import java.awt.Color;
 public abstract class ParticleSystem {
    private ArrayList<Particle> myParticles;
    private Vector2 myPosition;
+   private String myParticleType;
 
-   public ParticleSystem(Vector2 position) {
+   public ParticleSystem(Vector2 position, particleType) {
       myPosition = position;
       myParticles = new ArrayList<Particle>();
+      myParticleType = particleType;
    }
 
    public void update(Graphics pen) {
       Particle temp;
-      for (int i = 0; i < particles.size(); i++) {
-         temp = particles.get(i);
+      for (int i = 0; i < myParticles.size(); i++) {
+         temp = myParticles.get(i);
          if(temp.isDead())
-            particles.remove(temp);
+            myParticles.remove(temp);
          else
-            particles.get(i).run(pen);
+            myParticles.get(i).run(pen);
       }
       createParticles();   // To turn degree into vector, need "degree to vector" or somtin
+   }
+
+   public void createParticle() {}
+   public Particle getParticle() {
+      if (myParticleType.equalsIgnoreCas("FIRE"))
+
    }
    public Vector2 getPosition() {
       return myPosition;
