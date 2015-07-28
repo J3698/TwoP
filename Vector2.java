@@ -99,6 +99,9 @@ public class Vector2{                        //Two dimensional vector
    public void rotateDegrees(double angle){
       rotateRadians(Math.toRadians(angle % 360));
    }
+   public Vector2 copy() {
+      return new Vector2(x, y);
+   }
 
    public String toString(){
       return "("+x+", "+y+")";
