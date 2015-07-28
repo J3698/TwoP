@@ -1,24 +1,18 @@
-import java.awt.Graphics;
 import java.util.ArrayList;
+import java.awt.Graphics;
 
-public class BumperHandler implements Subject {
+public class BumperHandler {
    private ArrayList<Bumper> bumpers;
 
-   public Bumper() {
-      bumpers = new ArrayList<Observer>();
+   public BumperHandler() {
+      bumpers = new ArrayList<Bumper>();
    }
 
-   public void register(Obser newObserver) {
-      bumpers.add(newObserver);
-   }
-   public void unregister(Observer deleteObserver) {
-      bumpers.remove(o);
-   }
-   public void updateBumpers() {
+   public void updateBumpers(Player firstPlayer, Player secondPlayer) {
       for (Bumper b: bumpers)
-         b.update();
+         b.update(firstPlayer, secondPlayer);
    }
-   public void drawBumpers(Graphics pen) {
+   public void drawPlanes(Graphics pen) {
       for (Bumper b: bumpers)
          b.draw(pen);
    }
