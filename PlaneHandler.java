@@ -8,7 +8,7 @@ public class PlaneHandler {
       planes = new ArrayList<Plane>();
    }
 
-   public void updatePlanes() {
+   public void update() {
       for (Plane p: planes)
          p.update();
    }

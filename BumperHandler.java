@@ -8,7 +8,7 @@ public class BumperHandler {
       bumpers = new ArrayList<Bumper>();
    }
 
-   public void updateBumpers(Player firstPlayer, Player secondPlayer) {
+   public void update(Player firstPlayer, Player secondPlayer) {
       for (Bumper b: bumpers)
          b.update(firstPlayer, secondPlayer);
    }

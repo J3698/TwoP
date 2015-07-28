@@ -22,6 +22,8 @@ public class Game {
    private int myGameHeight;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
+   private BumperHandler myBumperHandler;
+   private PlaneHandler myPlaneHandler;
    private Font playAndResumeFont;
    private Instructions myInstructions;
    private Play myPlay;
@@ -37,6 +39,8 @@ public class Game {
       myCurrentGameMode = currentGameMode;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myBumperHandler = new BumperHandler();
+      myPlaneHandler = new PlaneHandler();
       initPlayers();
       initGameModes();
       setFonts();
@@ -227,6 +231,8 @@ public class Game {
          myFirstPlayer.takeDamage(mySecondPlayer.getGun().getBullets());
          mySecondPlayer.update();
          mySecondPlayer.takeDamage(myFirstPlayer.getGun().getBullets());
+         myPlaneHandler.update();
+         myBumperHandler.update(myFirstPlayer, mySecondPlayer);
          if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
             myCurrentGameMode = "gameOver";
       }

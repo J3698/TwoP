@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Plane extends Rect implements Observer {
+public class Plane extends Rect {
    private int myMorphTime;
    private int myMaturationTime;
    private ColorCross myColorCross;
