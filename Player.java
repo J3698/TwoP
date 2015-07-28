@@ -156,6 +156,15 @@ public class Player extends Circle {
     *
     *
     */
+   public void applyForce(Vector2 force) {
+      getCenter().addVector(force);
+   }
+
+   /**
+    *
+    *
+    *
+    */
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
          myVelocity.addY(myJumpHeight);
@@ -280,6 +289,7 @@ public class Player extends Circle {
    public void releaseSecondAction() {
       myIsSpinToggleReleased = true;
    }
+
 
    /**
     *
