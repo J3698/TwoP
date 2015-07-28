@@ -53,7 +53,7 @@ public class ColorCross {
       r2 = myEndColor.getRed() * percent;
       g2 = myEndColor.getGreen() * percent;
       b2 = myEndColor.getBlue() * percent;
-      return new Color(r + r2, g + g2, b + b2);
+      return new Color((int)(r + r2), (int)(g + g2), (int)(b + b2));
    }
 
    public int limit(double color) {
