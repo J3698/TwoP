@@ -63,9 +63,11 @@ public class Rect {
    }
    public void draw(Graphics pen) {
       pen.setColor(myColor);
-      pen.fillRect(myPosition.getX(), myPosition.getY(), myWidth, myHeight);
+      pen.fillRect((int) myPosition.getX(), (int)myPosition.getY(),
+                                       (int)myWidth, (int)myHeight);
       pen.setColor(myOutline);
-      pen.drawRect(myPosition.getX(), myPosition.getY(), myWidth, myHeight);
+      pen.drawRect((int)myPosition.getX(), (int)myPosition.getY(),
+                                      (int)myWidth, (int)myHeight);
    }
    public Color getColor() {
       return myColor;
