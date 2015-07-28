@@ -5,10 +5,10 @@ public class Rect {
    private Vector2 myPosition;
    private double myWidth;
    private double myHeight;
-   private Color myColor;
-   private Color myOutline;
+   private Color myColor = Color.white;
+   private Color myOutline = Color.white;
 
-   public Rect(Vector2 position, int width, int height) {
+   public Rect(Vector2 position, double width, double height) {
       myPosition = position;
       myWidth = width;
       myHeight = height;
@@ -55,11 +55,17 @@ public class Rect {
             if (v.getMagnitude() <= c.getRadius()) {
                collides = true;
                break;
-               
+
             }
          }
       }
       return collides;
+   }
+   public void draw(Graphics pen) {
+      pen.setColor(myColor);
+      pen.fillRect(myPosition.getX(), myPosition.getY(), myWidth, myHeight);
+      pen.setColor(myOutline);
+      pen.drawRect(myPosition.getX(), myPosition.getY(), myWidth, myHeight);
    }
    public Color getColor() {
       return myColor;
@@ -72,6 +78,10 @@ public class Rect {
    }
    public void setOutline(Color outline) {
       myOutline = outline;
+   }
+   public void setAllColor(Color color) {
+      setColor(color);
+      setOutline(color);
    }
    public Vector2 getPosition() {
       return myPosition;
