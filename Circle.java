@@ -97,6 +97,16 @@ public class Circle {
    }
 
    /**
+    * Sets both outlie and fill color
+    *
+    * @param color the color to be
+    */
+   public void setAllColor(Color color) {
+      setColor(color);
+      setOutline(color);
+   }
+
+   /**
     * Returns the radius
     *
     * @return double
