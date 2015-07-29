@@ -283,9 +283,9 @@ public class Game {
        *
        */
       public void drawGUI(Graphics pen) {
-         int firstLength = myFirstPlayer.getHealth();
+         int firstLength = (int) myFirstPlayer.getHealth();
          int firstStartPoint = myGameWidth / 2 - firstLength;
-         int secondLength = mySecondPlayer.getHealth();
+         int secondLength = (int) mySecondPlayer.getHealth();
          Color firstColor = myFirstPlayer.getColor();
          Color secondColor = mySecondPlayer.getColor();
          pen.setColor(firstColor);
