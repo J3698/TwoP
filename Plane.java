@@ -20,24 +20,24 @@ public class Plane extends Rect {
       myMaturationTime = maturationTime;
    }
 
-   public void update() {
+   public void update(Player firstPlayer, Player secondPlayer) {
+      if (collidesCircle(firstPlayer)) {
+      }
+      if (collidesCircle(secondPlayer)) {
+      }
       if (myAge <= myMorphTime) {
-         //Growth time
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));
       }else if (myAge <= myMaturationTime + myMorphTime) {
-         //Stable time
       }else if (myAge <= myMaturationTime + 2 * myMorphTime) {
-         //Aging time
-         setAllColor(myColorCross.getPercent((myAge + 0.0) /
-                        (myMaturationTime + 2 * myMorphTime)));
-      }else {
-         //Die
-
+         setAllColor(myColorCross.getPercent((1 - (myAge - (myMaturationTime + myMorphTime)) / (double)myMorphTime)));
       }
       myAge++;
    }
    
    public Effect getEffect(Player player) {
       return new Effect(player);
+   }
+   public boolean isDead() {
+      return (myAge > myMaturationTime + 2 * myMorphTime);
    }
 }
