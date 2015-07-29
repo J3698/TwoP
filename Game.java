@@ -215,9 +215,12 @@ public class Game {
    public class Play implements GameState {
       private String myGameMode = "play";
       private int myTextOpacity = 50;
+
       public void draw(Graphics pen) {
          drawBackground(pen);
-         drawPlayers(pen);
+         myPlaneHandler.draw(pen);
+         myFirstPlayer.drawSelfAndWeapon(pen);
+         mySecondPlayer.drawSelfAndWeapon(pen);
          drawGUI(pen);
       }
 
@@ -231,7 +234,7 @@ public class Game {
          myFirstPlayer.takeDamage(mySecondPlayer.getGun().getBullets());
          mySecondPlayer.update();
          mySecondPlayer.takeDamage(myFirstPlayer.getGun().getBullets());
-         myPlaneHandler.update();
+         myPlaneHandler.update(myFirstPlayer, mySecondPlayer);
          myBumperHandler.update(myFirstPlayer, mySecondPlayer);
          if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
             myCurrentGameMode = "gameOver";
@@ -272,17 +275,6 @@ public class Game {
          pen.setColor(new Color(0, 0, 0, myTextOpacity));
          pen.setFont(playAndResumeFont);
          pen.drawString("P to Pause", 100, 250);
-      }
-
-      /**
-       *
-       *
-       *
-       */
-      public void drawPlayers(Graphics pen) {
-         myFirstPlayer.drawSelfAndWeapon(pen);
-         mySecondPlayer.drawSelfAndWeapon(pen);
-         myPlaneHandler.draw(pen);
       }
 
       /**
