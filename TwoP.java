@@ -7,7 +7,7 @@
 import javax.swing.JFrame;
 
 public class TwoP {
-   public static int gameWidth = 1400;
+   public static int gameWidth = 640;
    public static int gameHeight = 480;
 
    /**
