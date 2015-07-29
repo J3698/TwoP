@@ -12,7 +12,8 @@ import java.util.ArrayList;
 public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
-   private int myHealth = 200;
+   private ArrayList<Effect> myEffects = new ArrayList<Effect>();
+   private double myHealth = 200;
    private Vector2 myVelocity;
    private double myAcceleration = 1;
    private double mySpeed = 0;
@@ -60,6 +61,14 @@ public class Player extends Circle {
       keepInBounds();
       updateJumpAbility();
       myGun.update();
+      
+      Effect effect;
+      for (int index = 0; index < myEffects.size(); index++) {
+         effect = myEffects.get(index);
+         effect.update();
+         if (effect.isDead())
+            myEffects.remove(effect);
+      }
    }
 
 
@@ -149,15 +158,8 @@ public class Player extends Circle {
    public void drawSelfAndWeapon(Graphics pen) {
       myGun.draw(pen);
       draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void applyForce(Vector2 force) {
-      getCenter().addVector(force);
+      for (Effect e: myEffects)
+         e.draw(pen);
    }
 
    /**
@@ -313,6 +315,27 @@ public class Player extends Circle {
       setColor(new Color(r, g, b));
    }
 
+   public void addEffect(Effect effect) {
+      myEffects.add(effect);
+   }
+
+   /**
+    *
+    *
+    *
+    */
+   public void applyForce(Vector2 force) {
+      getCenter().addVector(force);
+   }
+
+   public void applyHealing(double healing) {
+      myHealth += healing;
+   }
+
+   public void applyDamage(double damage) {
+      myHealth -= damage;
+   }
+
    /**
     *
     *
@@ -372,7 +395,7 @@ public class Player extends Circle {
     *
     *
     */
-   public int getHealth() {
+   public double getHealth() {
       return myHealth;
    }
 }
