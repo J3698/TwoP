@@ -2,9 +2,13 @@ import java.util.ArrayList;
 import java.awt.Graphics;
 
 public class BumperHandler {
+   private int myGameWidth;
+   private int myGameHeight;
    private ArrayList<Bumper> bumpers;
 
-   public BumperHandler() {
+   public BumperHandler(int gameWidth, int gameHeight) {
+      myGameHeight = gameHeight;
+      myGameWidth = gameWidth;
       bumpers = new ArrayList<Bumper>();
    }
 
