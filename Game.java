@@ -39,8 +39,8 @@ public class Game {
       myCurrentGameMode = currentGameMode;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myBumperHandler = new BumperHandler();
-      myPlaneHandler = new PlaneHandler();
+      myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
+      myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       initPlayers();
       initGameModes();
       setFonts();
@@ -282,6 +282,7 @@ public class Game {
       public void drawPlayers(Graphics pen) {
          myFirstPlayer.drawSelfAndWeapon(pen);
          mySecondPlayer.drawSelfAndWeapon(pen);
+         myPlaneHandler.draw(pen);
       }
 
       /**
