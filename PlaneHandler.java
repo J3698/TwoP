@@ -6,27 +6,35 @@ import java.util.Random;
 public class PlaneHandler {
    private int myGameWidth;
    private int myGameHeight;
-   private ArrayList<Plane> planes;
+   private boolean triggered = false;
+   private ArrayList<Plane> myPlanes;
    private Random myRandom;
 
    public PlaneHandler(int gameWidth, int gameHeight) {
       myGameHeight = gameHeight;
       myGameWidth = gameWidth;
-      planes = new ArrayList<Plane>();
+      myPlanes = new ArrayList<Plane>();
       myRandom = new Random();
    }
 
-   public void update() {
-      if (myRandom.nextInt(1000) == 44) {
-         planes.add(new FirePlane(new Vector2(myGameWidth / 2, myGameHeight - 10),
-                                                   30, 10, Color.green, 200, 200));
-         System.out.println(",,,,....");
+   public void update(Player firstPlayer, Player secondPlayer) {
+      if (myRandom.nextInt(500) == 44 && triggered == false) {
+         Vector2 pos = new Vector2(myGameWidth / 2, myGameHeight - 50);
+         myPlanes.add(new FirePlane(pos, 50, 20, firstPlayer.getColor(), 200, 2000000));
+         triggered = true;
       }
-      for (Plane p: planes)
-         p.update();
+      Plane p;
+      for (int index = 0; index < myPlanes.size(); index++) {
+         p = myPlanes.get(index);
+         if (p.isDead())
+            myPlanes.remove(p);
+         else
+            p.update(firstPlayer, secondPlayer);
+      }
    }
+
    public void draw(Graphics pen) {
-      for (Plane p: planes)
+      for (Plane p: myPlanes)
          p.draw(pen);
    }
 }
