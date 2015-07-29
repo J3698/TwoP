@@ -47,8 +47,8 @@ public class Vector2{                        //Two dimensional vector
       y += v.getY();
    }
    public void subtractVector(Vector2 v){
-      x += v.getX();
-      y += v.getY();
+      x -= v.getX();
+      y -= v.getY();
    }
    public void multiply(double scalar){
       x = x * scalar;
