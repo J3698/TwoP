@@ -355,7 +355,7 @@ public class Game {
        */
       public void update() {
          if (myVeilOpacity < 100)
-            myVeilOpacity += 20;
+            myVeilOpacity += 10;
          fadeInTextOpacity();
          myPlay.fadeOutTextOpacity();
       }
