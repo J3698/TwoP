@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Plane extends Rect {
+public abstract class Plane extends Rect {
    private ColorCross myColorCross;
    private int myMorphTime = 200;
    private int myMaturationTime = 200;
@@ -19,8 +19,10 @@ public class Plane extends Rect {
 
    public void update(Player firstPlayer, Player secondPlayer) {
       if (collidesCircle(firstPlayer)) {
+         firstPlayer.addEffect(getEffect(secondPlayer));
       }
       if (collidesCircle(secondPlayer)) {
+         firstPlayer.addEffect(getEffect(firstPlayer));
       }
       if (myAge <= myMorphTime) {
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));
@@ -37,9 +39,9 @@ public class Plane extends Rect {
    public void setmyMaturationTime(int maturationTime) {
       myMaturationTime = maturationTime;
    }
-   public Effect getEffect(Player player) {
-      return new Effect(player);
-   }
+   
+   public abstract Effect getEffect(Player player);
+   
    public boolean isDead() {
       return (myAge > myMaturationTime + 2 * myMorphTime);
    }

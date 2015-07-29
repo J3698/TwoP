@@ -6,4 +6,7 @@ public class HealthPlane extends Plane {
       super(position, width, height, background, Color.white);
    }
 
+   public Effect getEffect(Player player) {
+      return new HealthEffect(player);
+   }
 }

@@ -6,4 +6,7 @@ public class WaterPlane extends Plane {
       super(position, width, height, background, Color.blue);
    }
 
+   public Effect getEffect(Player player) {
+      return new WaterEffect(player);
+   }
 }

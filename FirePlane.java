@@ -6,4 +6,7 @@ public class FirePlane extends Plane {
       super(position, width, height, background, Color.red);
    }
 
+   public Effect getEffect(Player player) {
+      return new FireEffect(player);
+   }
 }
