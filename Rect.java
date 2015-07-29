@@ -55,7 +55,6 @@ public class Rect {
             if (v.getMagnitude() <= c.getRadius()) {
                collides = true;
                break;
-
             }
          }
       }
