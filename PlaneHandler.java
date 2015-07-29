@@ -6,8 +6,8 @@ import java.util.Random;
 public class PlaneHandler {
    private int myGameWidth;
    private int myGameHeight;
-   private int myPlaneWidth = 50;
-   private int myPlaneHeight = 20;
+   private int myPlaneWidth = 40;
+   private int myPlaneHeight = 7;
    private PlaneFactory myPlaneFactory;
    private ArrayList<Plane> myPlanes;
    private Random myRandom;
@@ -24,9 +24,9 @@ public class PlaneHandler {
       int startX = myRandom.nextInt(myGameWidth - myPlaneWidth);
       Vector2 position = new Vector2(startX, myGameHeight - myPlaneHeight);
       if (startX < myGameWidth / 2 - myPlaneWidth) {
-         myPlanes.add(myPlaneFactory.getPlane("fire", position, myPlaneWidth, myPlaneHeight, secondPlayer.getColor()));
+         myPlanes.add(myPlaneFactory.getRandomPlane(position, myPlaneWidth, myPlaneHeight, secondPlayer.getColor()));
       } else if (startX > myGameWidth / 2) {
-         myPlanes.add(myPlaneFactory.getPlane("fire", position, myPlaneWidth, myPlaneHeight, firstPlayer.getColor()));
+         myPlanes.add(myPlaneFactory.getRandomPlane(position, myPlaneWidth, myPlaneHeight, firstPlayer.getColor()));
       } else {
 //         myPlanes.add(new FirePlane(pos, myPlaneWidth, myPlaneHeight, firstPlayer.getColor()));
 //         myPlanes.add(new FirePlane(pos, myPlaneWidth, myPlaneHeight, second.getColor()));
@@ -54,26 +54,22 @@ public class PlaneHandler {
    }
 
    private class PlaneFactory {
-      public Plane getPlane(String planeType, Vector2 position, int width, int height, Color backGround) {
-         if (planeType.equalsIgnoreCase("Fire"))
-            return new FirePlane(position, width, height, backGround);
-         else if (planeType.equalsIgnoreCase("Water"))
-            return new WaterPlane(position, width, height, backGround);
-         else if (planeType.equalsIgnoreCase("Health"))
-            return new HealthPlane(position, width, height, backGround);
-         else if (planeType.equalsIgnoreCase("Poison"))
-            return new PoisonPlane(position, width, height, backGround);
-         return new Plane(position, width, height, backGround, Color.gray);
+      private String[] myPlaneOptions = {"fire", "health"};
+
+      public Plane getRandomPlane(Vector2 position, int width, int height, Color background) {
+         String choice = myPlaneOptions[myRandom.nextInt(myPlaneOptions.length)];
+         return getPlane(choice, position, width, height, background);
+      }
+      public Plane getPlane(String planeType, Vector2 position, int width, int height, Color background) {
+         if (planeType.equalsIgnoreCase("fire"))
+            return new FirePlane(position, width, height, background);
+         else if (planeType.equalsIgnoreCase("water"))
+            return new WaterPlane(position, width, height, background);
+         else if (planeType.equalsIgnoreCase("health"))
+            return new HealthPlane(position, width, height, background);
+         else if (planeType.equalsIgnoreCase("poison"))
+            return new PoisonPlane(position, width, height, background);
+         return new FirePlane(position, width, height, background);
       }
    }
 }
-
-
-
-
-
-
-
-
-
-//
