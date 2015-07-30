@@ -9,6 +9,7 @@ public class PlaneHandler {
    private int myPlaneWidth = 40;
    private int myPlaneHeight = 7;
    private PlaneFactory myPlaneFactory;
+   private Plane[] myAvailableSpots;
    private ArrayList<Plane> myPlanes;
    private Random myRandom;
 
@@ -18,10 +19,30 @@ public class PlaneHandler {
       myPlanes = new ArrayList<Plane>();
       myPlaneFactory = new PlaneFactory();
       myRandom = new Random();
+
+      myAvailableSpots = new Plane[myGameWidth / myPlaneWidth];
+      for (int index = 0; index < myAvailableSpots.length; index++)
+         myAvailableSpots[index] = null;
    }
 
    public void createPlane(Player firstPlayer, Player secondPlayer) {
-      int startX = myRandom.nextInt(myGameWidth - myPlaneWidth);
+      int finalIndex = 0;
+      int spaces = 0;
+      for (int index = 0; index < myAvailableSpots.length; index++) {
+         if (myAvailableSpots[index] == null)
+            spaces++;
+      }
+      int mySpot = myRandom.nextInt(spaces);
+      spaces = 0;
+      for (int index = 0; index < myAvailableSpots.length; index++) {
+         if (myAvailableSpots[index] == null)
+            spaces++;
+         if (spaces == mySpot)
+            finalIndex = index;
+      }
+
+      System.out.println(finalIndex);
+      int startX = finalIndex * (myGameWidth / myAvailableSpots.length) + myGameWidth % myPlaneWidth / 2;
       Vector2 position = new Vector2(startX, myGameHeight - myPlaneHeight);
       if (startX < myGameWidth / 2 - myPlaneWidth) {
          myPlanes.add(myPlaneFactory.getRandomPlane(position, myPlaneWidth, myPlaneHeight, secondPlayer.getColor()));
@@ -35,7 +56,7 @@ public class PlaneHandler {
    }
 
    public void update(Player firstPlayer, Player secondPlayer) {
-      if (myRandom.nextInt(500) == 0)
+      if (myRandom.nextInt(3) == 0)
          createPlane(firstPlayer, secondPlayer);
 
       Plane p;

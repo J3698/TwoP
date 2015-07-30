@@ -1,6 +1,6 @@
 /**
  *TwoP.java
- * @version 1.0.00
+ * @version 1.0.05
  * @author Antioch John Sanders
  */
 
