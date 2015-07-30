@@ -25,6 +25,7 @@ public class Game {
    private BumperHandler myBumperHandler;
    private PlaneHandler myPlaneHandler;
    private Font playAndResumeFont;
+   private Font versionFont;
    private Instructions myInstructions;
    private Play myPlay;
    private Pause myPause;
@@ -82,6 +83,7 @@ public class Game {
     */
    public void setFonts() {
       playAndResumeFont = new Font("Ariel", Font.BOLD, 90);
+      versionFont = new Font("Sans", 1, 14);
    }
 
    /**
@@ -106,6 +108,9 @@ public class Game {
       myPlay.checkDrawTrigger(myCurrentGameMode, pen);
       myPause.checkDrawTrigger(myCurrentGameMode, pen);
       myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
+      pen.setFont(versionFont);
+      pen.setColor(new Color(123, 45, 249));
+      pen.drawString("Pre-Alpha Build", 10, 60);
    }
 
    /**
