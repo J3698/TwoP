@@ -13,7 +13,7 @@ public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
    private ArrayList<Effect> myEffects = new ArrayList<Effect>();
-   private double myHealth = 200;
+   private double myHealth = 200000000;
    private Vector2 myVelocity;
    private double myAcceleration = 1;
    private double mySpeed = 0;

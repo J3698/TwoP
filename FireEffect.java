@@ -1,18 +1,19 @@
 import java.awt.Graphics;
 
 public class FireEffect extends Effect {
-   //private FireParticleSystem myFireVisual
+   private ParticleSystem myVisualEffect;
 
    public FireEffect(Player player) {
       super(player, 300);
-      //myFireVisual = new ___;
+      myVisualEffect = new ParticleSystem(getPlayer().getCenter(), "fire");
    }
 
    public void update() {
       getPlayer().applyDamage(0.001);
-      //myFireVisual.update();
+      myVisualEffect.setPosition(getPlayer().getCenter());
+      myVisualEffect.update();
    }
    public void draw(Graphics pen) {
-      //myFireVisual.draw(pen);
+      myVisualEffect.draw(pen);
    }
 }

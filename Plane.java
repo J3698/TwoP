@@ -2,18 +2,20 @@ import java.awt.Color;
 
 public abstract class Plane extends Rect {
    private ColorCross myColorCross;
-   private int myMorphTime = 200;
-   private int myMaturationTime = 200;
+   private int myMorphTime = 100;
+   private int myMaturationTime = 100;
    private int myAge = 0;
+   private int mySpot;
    /**
     *
     *
     */
     public Plane(Vector2 position, double width, double height,
-                                 Color background, Color color) {
+                       Color background, Color color, int spot) {
       super(position, width, height);
       setColor(color);
       setOutline(color);
+      mySpot = spot;
       myColorCross = new ColorCross(background, color, 1);
    }
 
@@ -44,5 +46,13 @@ public abstract class Plane extends Rect {
    
    public boolean isDead() {
       return (myAge > myMaturationTime + 2 * myMorphTime);
+   }
+   
+   public int getSpot() {
+      return mySpot;
+   }
+   
+   public void setSpot(int spot) {
+      mySpot = spot;
    }
 }
