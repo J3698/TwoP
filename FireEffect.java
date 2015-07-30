@@ -10,7 +10,7 @@ public class FireEffect extends Effect {
 
    public void update() {
       getPlayer().applyDamage(0.001);
-      myVisualEffect.setPosition(getPlayer().getCenter());
+      myVisualEffect.setSourcePosition(getPlayer().getCenter().copy());
       myVisualEffect.update();
    }
    public void draw(Graphics pen) {
