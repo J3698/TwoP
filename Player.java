@@ -158,8 +158,8 @@ public class Player extends Circle {
    public void drawSelfAndWeapon(Graphics pen) {
       myGun.draw(pen);
       draw(pen);
-      for (Effect e: myEffects)
-         e.draw(pen);
+      for (Effect effect: myEffects)
+         effect.draw(pen);
    }
 
    /**
