@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.Color;
+import java.awt.Polygon;
 
-
-public abstract class ParticleSystem {
+public class ParticleSystem {
    private ArrayList<Particle> myParticles;
    private Vector2 mySourcePosition;
    private String myParticleType;
@@ -15,20 +17,25 @@ public abstract class ParticleSystem {
       myParticleType = particleType;
    }
 
-   public void update(Graphics pen) {
+   public void update() {
       Particle temp;
       for (int i = 0; i < myParticles.size(); i++) {
          temp = myParticles.get(i);
          if(temp.isDead())
             myParticles.remove(temp);
          else
-            myParticles.get(i).run(pen);
+            temp.update();
       }
       createParticles();
    }
+   
+   public void draw(Graphics pen) {
+      for (int i = 0; i < myParticles.size(); i++)
+         myParticles.get(i).draw(pen);
+   }
 
-   public Particle createParticles() { // .rotateDegrees(leastDegree + randint(-leastDegree+maxDegree));
-      return new FireParticle(mySourcePosition);
+   public void createParticles() { // .rotateDegrees(leastDegree + randint(-leastDegree+maxDegree));
+      myParticles.add(new FireParticle(mySourcePosition));
    }
    public Vector2 getSourcePosition() {
       return mySourcePosition;
@@ -39,13 +46,13 @@ public abstract class ParticleSystem {
 
 
    public abstract class Particle {
-      private Vector2 myPosition;
-      private Vector2 myVelocity;
+      private Vector2 myParticlePosition;
+      private Vector2 myParticleVelocity;
       private int myLife = 255;
 
-      public Particle(Vector2 position, Vector2 velocity){
-         myPosition = position;
-         myVelocity = velocity;
+      public Particle(Vector2 particlePosition){
+         myParticlePosition = particlePosition;
+         myParticleVelocity = new Vector2(0, 0);
       }
 
       public void run(Graphics pen){
@@ -61,12 +68,12 @@ public abstract class ParticleSystem {
       }
       public int getLife(){ return myLife; }
       public void setLife(int life){ myLife = life; }
-      public Vector2 getPosition() { return myPosition; }
-      public void setPosition(Vector2 position) {myPosition = position; }
-      public Vector2 getVelocity() { return myVelocity; }
-      public void setVelocity(Vector2 velocity) { myVelocity = velocity; }
+      public Vector2 getParticlePosition() { return myParticlePosition; }
+      public void setParticlePosition(Vector2 position) {myParticlePosition = position; }
+      public Vector2 getParticleVelocity() { return myParticleVelocity; }
+      public void setParticleVelocity(Vector2 velocity) { myParticleVelocity = velocity; }
    }
-   
+
    public interface ColoredParticle {
       default public Color randomColor() {
          Random random = new Random();
@@ -88,10 +95,18 @@ public abstract class ParticleSystem {
    private class FireParticle extends Particle implements ColoredParticle {
 
       public FireParticle(Vector2 position) {
-         super(position, new Vector2(0, 0));
-         setVelocity(new Vector2(3, 3));
+         super(position);
+         setParticleVelocity(new Vector2(3, 3));
       }
-      public void update() {}
-      public void draw(Graphics pen) {}
+      public void update() {
+         System.out.println("...");
+         getParticlePosition().addVector(getParticleVelocity());
+      }
+      public void draw(Graphics pen) {
+         pen.setColor(Color.red);
+         int x0 = (int) getParticlePosition().getX();
+         int y0 = (int) getParticlePosition().getY();
+         pen.fillRect(x0, y0, 10, 10);
+      }
    }
 }
