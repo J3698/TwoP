@@ -24,6 +24,9 @@ public abstract class Effect {
          return true;
       return false;
    }
+   public void loseLife(int damage) {
+      myLife -= damage;
+   }
    public int getLife() {
       return myLife;
    }
