@@ -21,10 +21,10 @@ public abstract class Plane extends Rect {
 
    public void update(Player firstPlayer, Player secondPlayer) {
       if (collidesCircle(firstPlayer)) {
-         firstPlayer.addEffect(getEffect(secondPlayer));
+         firstPlayer.addEffect(getEffect(firstPlayer));
       }
       if (collidesCircle(secondPlayer)) {
-         firstPlayer.addEffect(getEffect(firstPlayer));
+         secondPlayer.addEffect(getEffect(secondPlayer));
       }
       if (myAge <= myMorphTime) {
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));
