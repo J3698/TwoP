@@ -1,7 +1,7 @@
 import java.awt.Color;
 
 public class HealthPlane extends Plane {
-   public static int myTick = 0;
+   public int myTick = 0;
 
    public HealthPlane(Vector2 position, double width, double height,
                                          Color background, int spot) {
@@ -13,6 +13,7 @@ public class HealthPlane extends Plane {
       myTick++;
    }
    public void onCollision(Player player) {
-      player.addEffect(new HealthEffect(player));
+      if (myTick % 10 == 0)
+         player.addEffect(new HealthEffect(player));
    }
 }

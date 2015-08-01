@@ -12,10 +12,10 @@ import java.awt.Color;
 
 
 /**
-*
-*
-*
-*/
+ * Game class holds game modes and
+ * contains methods for managing them.
+ *
+ */
 public class Game {
    private String myCurrentGameMode;
    private int myGameWidth;
@@ -48,8 +48,8 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Create instances of the different
+    * game modes.
     *
     */
    public void initGameModes() {
@@ -61,8 +61,8 @@ public class Game {
 
 
    /**
-    *
-    *
+    * Instantiate players and  take care of
+    * some player related fields.
     *
     */
    public void initPlayers() {
@@ -77,8 +77,8 @@ public class Game {
 
 
    /**
-    *
-    *
+    * Instantiate fonts to be used
+    * in the game.
     *
     */
    public void setFonts() {
@@ -87,8 +87,8 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Tell all game states to check if they
+    * should update and act accordingly.
     *
     */
    public void update() {
@@ -99,8 +99,9 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Tell all game states to check if they
+    * should draw and act accordingly.
+    * Display version in set position.
     *
     */
    public void draw(Graphics pen) {
@@ -114,8 +115,8 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Tell all game states to check if they should
+    * check for key-down events and act accordingly.
     *
     */
    public void keyDownListen(KeyEvent event) {
@@ -126,8 +127,8 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Tell all game states to check if they should
+    * check for key-up events and act accordingly.
     *
     */
    public void keyUpListen(KeyEvent event) {
@@ -136,8 +137,8 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Interface that different game states should
+    * implement.
     *
     */
    public interface GameState {
@@ -150,16 +151,16 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Instructions game state for showing controls
+    * to players.
     *
     */
    public class Instructions implements GameState {
       private String myGameMode = "instructions";
 
       /**
-       *
-       *
+       * Draw instructions screen if current gamemode
+       * is instructions.
        *
        */
       public void checkDrawTrigger(String myCurrentGameMode, Graphics pen) {
@@ -168,16 +169,15 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Draw the instructions screen.
        *
        */
       public void draw(Graphics pen) {
       }
 
       /**
-       *
-       *
+       * Update the instructions if current game state
+       * is instructions.
        *
        */
       public void checkUpdateTrigger(String myCurrentGameMode) {
@@ -186,16 +186,15 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Update the instructions screen
        *
        */
       public void update() {
       }
 
       /**
-       *
-       *
+       * Listen for key events if current game state
+       * is instructions.
        *
        */
       public void checkKeyListenTrigger(KeyEvent event) {
@@ -204,8 +203,7 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Listen for instruction key events.
        *
        */
       public void keyListen(KeyEvent event) {
@@ -213,8 +211,7 @@ public class Game {
    }
 
    /**
-    *
-    *
+    * Play game state for playing the game.
     *
     */
    public class Play implements GameState {
@@ -226,12 +223,11 @@ public class Game {
          myPlaneHandler.draw(pen);
          myFirstPlayer.drawSelfAndWeapon(pen);
          mySecondPlayer.drawSelfAndWeapon(pen);
-         drawGUI(pen);
+         drawHealth(pen);
       }
 
       /**
-       *
-       *
+       * Update the cuurently played game.
        *
        */
       public void update() {
@@ -246,8 +242,8 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Listen for play key events if current game
+       * state is play.
        *
        */
       public void checkKeyListenTrigger(KeyEvent event) {
@@ -256,8 +252,7 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Listen for play key events
        *
        */
       public void keyListen(KeyEvent event) {
@@ -268,8 +263,7 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Draw the background for play.
        *
        */
       public void drawBackground(Graphics pen) {
@@ -283,11 +277,10 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Draw the healthbars of the players.
        *
        */
-      public void drawGUI(Graphics pen) {
+      public void drawHealth(Graphics pen) {
          int firstLength = (int) myFirstPlayer.getHealth();
          int firstStartPoint = myGameWidth / 2 - firstLength;
          int secondLength = (int) mySecondPlayer.getHealth();
@@ -300,8 +293,7 @@ public class Game {
       }
 
       /**
-       *
-       *
+       * Draws the play screen if game state is play.
        *
        */
       public void checkDrawTrigger(String myCurrentGameMode, Graphics pen) {
@@ -444,6 +436,7 @@ public class Game {
          pen.setColor(new Color(255, 255, 255, myVeilOpacity));
          pen.fillRect(0, 0, myGameWidth, myGameHeight);
          pen.setColor(new Color(0, 0, 0, myStringOpacity));
+         pen.setFont(playAndResumeFont);
          pen.drawString("Game Over", 30, (int) myTextLocation);
       }
 
