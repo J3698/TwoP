@@ -1,5 +1,4 @@
 Add randomized bumper rects that fade in from the background, have effect
 Bumper circles which are in air, bump player
-Implement particle system, interfaces as needed
 If bumper rect straddles line, funtions as one bumper, drawn as two (so one half is diff color)
 Next: Shooting/weapon is too boring
