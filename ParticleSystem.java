@@ -26,7 +26,7 @@ public class ParticleSystem {
       }
       createParticles();
    }
-   
+
    public void draw(Graphics pen) {
       for (int i = 0; i < myParticles.size(); i++)
          myParticles.get(i).draw(pen);
@@ -78,7 +78,6 @@ public class ParticleSystem {
          Random random = new Random();
          int red = minRed + random.nextInt(maxRed - minRed);
          int green = minGreen + random.nextInt(maxGreen - minGreen);
-         System.out.println(green);
          int blue = minBlue + random.nextInt(maxBlue - minBlue);
          return new Color(red, green, blue);
       }
