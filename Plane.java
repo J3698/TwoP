@@ -29,6 +29,7 @@ public abstract class Plane extends Rect {
 
       if (myAge <= myMorphTime)
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));
+      else if (myAge <= myMaturationTime + myMorphTime);
       else if (myAge <= myMaturationTime + 2 * myMorphTime)
          setAllColor(myColorCross.getPercent((1 - (myAge - (myMaturationTime + myMorphTime)) / (double)myMorphTime)));
 
@@ -43,12 +44,11 @@ public abstract class Plane extends Rect {
    }
 
    public abstract void onCollision(Player player);
-   public abstract Effect getEffect(Player player);
-   
+
    public boolean isDead() {
       return (myAge > myMaturationTime + 2 * myMorphTime);
    }
-   
+
    public int getSpot() {
       return mySpot;
    }
