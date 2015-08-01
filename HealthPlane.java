@@ -12,8 +12,7 @@ public class HealthPlane extends Plane {
       super.update(firstPlayer, secondPlayer);
       myTick++;
    }
-
-   public Effect getEffect(Player player) {
-      return new HealthEffect(player);
+   public void onCollision(Player player) {
+      player.addEffect(new HealthEffect(player));
    }
 }

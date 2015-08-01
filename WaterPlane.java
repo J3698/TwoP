@@ -9,4 +9,7 @@ public class WaterPlane extends Plane {
    public Effect getEffect(Player player) {
       return new WaterEffect(player);
    }
+   public void onCollision(Player player) {
+      player.addEffect(new WaterEffect(player));
+   }
 }

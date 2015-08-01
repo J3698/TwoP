@@ -6,7 +6,7 @@ public class PoisonPlane extends Plane {
       super(position, width, height, background, Color.green, spot);
    }
 
-   public Effect getEffect(Player player) {
-      return new PoisonEffect(player);
+   public void onCollision(Player player) {
+      player.addEffect(new PoisonEffect(player));
    }
 }

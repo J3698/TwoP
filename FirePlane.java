@@ -6,7 +6,7 @@ public class FirePlane extends Plane {
       super(position, width, height, background, Color.red, spot);
    }
 
-   public Effect getEffect(Player player) {
-      return new FireEffect(player);
+   public void onCollision(Player player) {
+      player.addEffect(new FireEffect(player));
    }
 }
