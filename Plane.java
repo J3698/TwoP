@@ -20,28 +20,29 @@ public abstract class Plane extends Rect {
    }
 
    public void update(Player firstPlayer, Player secondPlayer) {
-      if (collidesCircle(firstPlayer)) {
-         firstPlayer.addEffect(getEffect(firstPlayer));
-      }
-      if (collidesCircle(secondPlayer)) {
-         secondPlayer.addEffect(getEffect(secondPlayer));
-      }
-      if (myAge <= myMorphTime) {
+      if (collidesCircle(firstPlayer))
+         onCollision(firstPlayer);
+//         firstPlayer.addEffect(getEffect(firstPlayer));
+      if (collidesCircle(secondPlayer))
+         onCollision(secondPlayer);
+//         secondPlayer.addEffect(getEffect(secondPlayer));
+
+      if (myAge <= myMorphTime)
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));
-      }else if (myAge <= myMaturationTime + myMorphTime) {
-      }else if (myAge <= myMaturationTime + 2 * myMorphTime) {
+      else if (myAge <= myMaturationTime + 2 * myMorphTime)
          setAllColor(myColorCross.getPercent((1 - (myAge - (myMaturationTime + myMorphTime)) / (double)myMorphTime)));
-      }
+
       myAge++;
    }
-   
+
    public void setMorphTime(int morphTime) {
       myMorphTime = morphTime;
    }
    public void setmyMaturationTime(int maturationTime) {
       myMaturationTime = maturationTime;
    }
-   
+
+   public abstract void onCollision(Player player);
    public abstract Effect getEffect(Player player);
    
    public boolean isDead() {
