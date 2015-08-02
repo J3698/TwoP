@@ -1,7 +1,6 @@
 import java.awt.Graphics;
 
 public abstract class Effect {
-   public static int FOREVER = -10;
    private int myLife;
    private Player myPlayer;
 
@@ -20,7 +19,7 @@ public abstract class Effect {
       myPlayer = player;
    }
    public boolean isDead() {
-      if (myLife == 0)
+      if (myLife <= 0)
          return true;
       return false;
    }
