@@ -7,18 +7,18 @@ import javax.swing.*;
 
 public class Sound {
 
-   private URL file;
-   private AudioInputStream audioIn;
-   private Clip clip;
-   private FloatControl gainControl;
+   private URL myFile;
+   private AudioInputStream myAudioIn;
+   private Clip myClip;
+   private FloatControl myGainControl;
   
-   public Sound(String startFile) {
+   public Sound(String file) {
       try {
-         file = this.getClass().getClassLoader().getResource("acceljam/Resources/audio/"+startFile);
-         audioIn = AudioSystem.getAudioInputStream(file);
-         clip = AudioSystem.getClip();
-         clip.open(audioIn);
-         gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+         myFile = this.getClass().getClassLoader().getResource(file);
+         myAudioIn = AudioSystem.getAudioInputStream(myFile);
+         myClip = AudioSystem.getClip();
+         myClip.open(myAudioIn);
+         myGainControl = (FloatControl) myClip.getControl(FloatControl.Type.MASTER_GAIN);
       } catch (UnsupportedAudioFileException exception) {
          exception.printStackTrace();
       } catch (IOException exception) {
@@ -29,31 +29,34 @@ public class Sound {
    }
 
    public void play() {
-      clip.start();
+      myClip.start();
    }
 
    public void loop(int repetitions) {
-      clip.loop(repetitions - 1);
+      myClip.loop(repetitions - 1);
    }
 
    public void loop() {
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
+      myClip.loop(Clip.LOOP_CONTINUOUSLY);
    }
 
    public void stop() {
-      if(clip.isRunning())
-         clip.stop();
+      if(myClip.isRunning())
+         myClip.stop();
    }
 
    public boolean isRunning() {
-      return clip.isRunning();
+      return myClip.isRunning();
    }
 
    public void reset() {
-      clip.setFramePosition(0);
+      myClip.setFramePosition(0);
    }
 
    public void changeVolume(float decibels) {
-      gainControl.setValue(decibels);
+      myGainControl.setValue(decibels);
+   }
+
+   public static void main(String[] args) {
    }
 }
