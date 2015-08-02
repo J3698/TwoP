@@ -14,6 +14,7 @@ public class Player extends Circle {
    private Controls myControls = new Controls(this);
    private ArrayList<Effect> myEffects = new ArrayList<Effect>();
    private double myHealth = 300;
+   private double myMaxHealth = myHealth;
    private Vector2 myVelocity;
    private double myAcceleration = 1;
    private double mySpeed = 0;
@@ -329,7 +330,10 @@ public class Player extends Circle {
    }
 
    public void applyHealing(double healing) {
-      myHealth += healing;
+      if (myHealth + healing > myMaxHealth)
+         myHealth = myMaxHealth;
+      else
+         myHealth += healing;
    }
 
    public void applyDamage(double damage) {
