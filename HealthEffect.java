@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -8,9 +9,9 @@ public class HealthEffect extends Effect {
    private Vector2 myVelocity;
 
    public HealthEffect(Player player) {
-      super(player, 100);
-      player.applyHealing(1);
-      myVelocity = new Vector2(0, -1);
+      super(player, 30 + new Random().nextInt(70));
+      player.applyHealing(3);
+      myVelocity = new Vector2(0, -4);
       myPosition = player.getCenter().copy();
    }
 
@@ -19,10 +20,11 @@ public class HealthEffect extends Effect {
       loseLife(5);
    }
    public void draw(Graphics pen) {
-      pen.setColor(Color.white);
       pen.setFont(effectFont);
       int xPos = (int) myPosition.getX();
       int yPos = (int) myPosition.getY();
-      pen.drawString("+1", xPos, yPos);
+      System.out.println(2 * getLife());
+      pen.setColor(new Color(255, 255, 255, 2 * getLife()));
+      pen.drawString("+3", xPos, yPos);
    }
 }
