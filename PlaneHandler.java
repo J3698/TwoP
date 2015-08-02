@@ -78,7 +78,7 @@ public class PlaneHandler {
    }
 
    private class PlaneFactory {
-      private String[] myPlaneOptions = {"fire", "health"};
+      private String[] myPlaneOptions = {"fire", "health", "poison"};
 
       public Plane getRandomPlane(Vector2 position, int width, int height, Color background, int spot) {
          String choice = myPlaneOptions[myRandom.nextInt(myPlaneOptions.length)];
