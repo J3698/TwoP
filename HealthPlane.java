@@ -13,7 +13,7 @@ public class HealthPlane extends Plane {
       myTick++;
    }
    public void onCollision(Player player) {
-      if (myTick % 10 == 0)
+      if (myTick % 5 == 0)
          player.addEffect(new HealthEffect(player));
    }
 }
