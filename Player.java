@@ -141,9 +141,14 @@ public class Player extends Circle {
     */
    public void takeDamage(ArrayList<Gun.Bullet> a) {
       ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
+      Vector2 force;
       for (Gun.Bullet b: a) {
          if (collidesCircle(b)) {
             myHealth -= 1;
+            force = getCenter().copy();
+            force.subtractVector(b.getCenter());
+            force.setMagnitude(3);
+            applyForce(force);
             toDelete.add(b);
          }
       }
