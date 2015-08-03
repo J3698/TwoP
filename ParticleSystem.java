@@ -26,8 +26,10 @@ public class ParticleSystem {
          else
             temp.update();
       }
-      if (myTick % myEmissionSkip == 0)
+      if (myTick % myEmissionSkip == 0) {
          createParticles();
+      } else { System.out.println(".."); }
+
       myTick++;
    }
 
@@ -37,9 +39,7 @@ public class ParticleSystem {
    }
 
    public void createParticles() {
-      if (myParticleType.equalsIgnoreCase("poison"))
-         myParticles.add(new PoisonParticle(mySourcePosition.copy()));
-      else if (myParticleType.equalsIgnoreCase("fire"))
+      if (myParticleType.equalsIgnoreCase("fire"))
          myParticles.add(new FireParticle(mySourcePosition.copy()));
    }
    public Vector2 getSourcePosition() {
@@ -133,33 +133,6 @@ public class ParticleSystem {
          int x0 = (int) getParticlePosition().getX();
          int y0 = (int) getParticlePosition().getY();
          pen.fillRect(x0 - 3, y0 - 3, 6, 6);
-      }
-   }
-
-
-
-   private class PoisonParticle extends Particle {
-      private int myRadius = 10;
-
-      public PoisonParticle(Vector2 position) {
-         super(position);
-         setLife(150);
-         Random r = new Random();
-         getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
-      }
-
-      public void update() {
-         myRadius ++;
-         loseLife(5);
-      }
-
-      public void draw(Graphics pen) {
-         pen.setColor(new Color(0, 100, 0, getLife()));
-         int x0 = (int) (getParticlePosition().getX() - myRadius);
-         int y0 = (int) (getParticlePosition().getY() - myRadius);
-         pen.fillOval(x0, y0, 2 * myRadius, 2 * (int) myRadius);
-         pen.setColor(Color.green);
-         pen.drawOval(x0, y0, 2 * myRadius, 2 * (int) myRadius);
       }
    }
 }

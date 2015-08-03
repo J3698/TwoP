@@ -78,7 +78,7 @@ public class PlaneHandler {
    }
 
    private class PlaneFactory {
-      private String[] myPlaneOptions = {"fire", "health", "poison"};
+      private String[] myPlaneOptions = {"fire", "health"};
 
       public Plane getRandomPlane(Vector2 position, int width, int height, Color background, int spot) {
          String choice = myPlaneOptions[myRandom.nextInt(myPlaneOptions.length)];
@@ -91,8 +91,6 @@ public class PlaneHandler {
             return new WaterPlane(position, width, height, background, spot);
          else if (planeType.equalsIgnoreCase("health"))
             return new HealthPlane(position, width, height, background, spot);
-         else if (planeType.equalsIgnoreCase("poison"))
-            return new PoisonPlane(position, width, height, background, spot);
          return new FirePlane(position, width, height, background, spot);
       }
    }
