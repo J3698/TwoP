@@ -17,4 +17,4 @@ for f in files:
         continue
 print("--------")
 print(str(line_total) + " lines of .java counted.")
-time.sleep(5);
+time.sleep(7);
