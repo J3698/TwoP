@@ -1,3 +1,7 @@
+package twop;
+
+import twop.util.Vector2;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +12,6 @@ public class ParticleSystem {
    private ArrayList<Particle> myParticles;
    private Vector2 mySourcePosition;
    private String myParticleType;
-   private int myEmissionSkip = 1;
    private int myTick = 0;
 
    public ParticleSystem(Vector2 sourcePosition, String particleType) {
@@ -26,8 +29,7 @@ public class ParticleSystem {
          else
             temp.update();
       }
-      if (myTick % myEmissionSkip == 0)
-         createParticles();
+      createParticles();
       myTick++;
    }
 
@@ -37,22 +39,19 @@ public class ParticleSystem {
    }
 
    public void createParticles() {
-      if (myParticleType.equalsIgnoreCase("poison"))
-         myParticles.add(new PoisonParticle(mySourcePosition.copy()));
-      else if (myParticleType.equalsIgnoreCase("fire"))
+      if (myParticleType.equalsIgnoreCase("poison")) {
+         if (new Random().nextDouble() < 0.1)
+            myParticles.add(new PoisonParticle(mySourcePosition.copy()));
+      }
+      else if (myParticleType.equalsIgnoreCase("fire")) {
          myParticles.add(new FireParticle(mySourcePosition.copy()));
+      }
    }
    public Vector2 getSourcePosition() {
       return mySourcePosition;
    }
    public void setSourcePosition(Vector2 sourcePosition) {
       mySourcePosition = sourcePosition;
-   }
-   public int getEmmisionSkip() {
-      return myEmissionSkip;
-   }
-   public void setEmissionSkip(int emissionSkip) {
-      myEmissionSkip = emissionSkip;
    }
 
    public abstract class Particle {
