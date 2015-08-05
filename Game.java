@@ -40,8 +40,7 @@ public class Game {
       myCurrentGameMode = currentGameMode;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
-      myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
+      versionFont = StringDraw.versionFont();
       initPlayers();
       initGameModes();
    }
@@ -98,7 +97,7 @@ public class Game {
       myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
       pen.setFont(versionFont);
       pen.setColor(new Color(123, 45, 249));
-      pen.drawString("Pre-Alpha Build", 10, 60);
+      pen.drawString("V. 1", 5, 20);
    }
 
    /**
