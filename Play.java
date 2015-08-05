@@ -11,6 +11,7 @@ public class Play implements GameState {
    private String myGameMode = "play";
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
+   private ItemHandler myItemHandler;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
    private Font playResumeFont;
@@ -26,12 +27,15 @@ public class Play implements GameState {
       myGameHeight = gameHeight;
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
+      myItemHandler = new DropHandler(myGameWidth, myGameHeight);
       playResumeFont = StringDraw.playResumeFont();
    }
 
    public void draw(Graphics pen) {
       drawBackground(pen);
       myPlaneHandler.draw(pen);
+      myBumperHandler.draw(pen);
+      myItemHandler.draw(pen);
       myFirstPlayer.drawSelfAndWeapon(pen);
       mySecondPlayer.drawSelfAndWeapon(pen);
       drawHealth(pen);
@@ -48,6 +52,7 @@ public class Play implements GameState {
       mySecondPlayer.takeDamage(myFirstPlayer.getGun().getBullets());
       myPlaneHandler.update(myFirstPlayer, mySecondPlayer);
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
+      myItemHandler.update(myFirstPlayer, mySecondPlayer);
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
          System.out.println("GAME OVER!!!");
    }
