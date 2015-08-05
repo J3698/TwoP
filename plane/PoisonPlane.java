@@ -1,3 +1,9 @@
+package twop.plane;
+
+import twop.util.Vector2;
+import twop.Player;
+import twop.effect.PoisonEffect;
+
 import java.awt.Color;
 
 public class PoisonPlane extends Plane {
@@ -7,6 +13,10 @@ public class PoisonPlane extends Plane {
    }
 
    public void onCollision(Player player) {
-      player.addEffect(new PoisonEffect(player));
+      if (!player.hasEffectKey("poison"))
+         player.addEffect("poison", new PoisonEffect(player));
+      else {
+      
+      }
    }
 }

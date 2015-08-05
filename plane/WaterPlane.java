@@ -1,3 +1,9 @@
+package twop.plane;
+
+import twop.util.Vector2;
+import twop.Player;
+import twop.effect.WaterEffect;
+
 import java.awt.Color;
 
 public class WaterPlane extends Plane {
@@ -6,10 +12,8 @@ public class WaterPlane extends Plane {
       super(position, width, height, background, Color.blue, spot);
    }
 
-   public Effect getEffect(Player player) {
-      return new WaterEffect(player);
-   }
    public void onCollision(Player player) {
-      player.addEffect(new WaterEffect(player));
+      if (!player.hasEffectKey("water"));
+         player.addEffect("water", new WaterEffect(player));
    }
 }

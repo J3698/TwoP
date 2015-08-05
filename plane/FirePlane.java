@@ -1,3 +1,9 @@
+package twop.plane;
+
+import twop.util.Vector2;
+import twop.Player;
+import twop.effect.FireEffect;
+
 import java.awt.Color;
 
 public class FirePlane extends Plane {
@@ -7,6 +13,9 @@ public class FirePlane extends Plane {
    }
 
    public void onCollision(Player player) {
-      player.addEffect(new FireEffect(player));
+      if (player.hasEffectKey("fire"))
+         player.getEffects().get("fire").increaseIntensity();
+      else
+         player.addEffect("fire", new FireEffect(player));
    }
 }

@@ -1,3 +1,9 @@
+package twop.plane;
+
+import twop.util.Vector2;
+import twop.Player;
+import twop.effect.HealthEffect;
+
 import java.awt.Color;
 
 public class HealthPlane extends Plane {
@@ -13,7 +19,12 @@ public class HealthPlane extends Plane {
       myTick++;
    }
    public void onCollision(Player player) {
-      if (myTick % 5 == 0)
-         player.addEffect(new HealthEffect(player));
+      int availableID = 0;
+      if (myTick % 5 == 0) {
+         while (player.hasEffectKey("health" + availableID))
+            availableID++;
+         player.addEffect("health" + availableID, new HealthEffect(player));
+
+      }
    }
 }
