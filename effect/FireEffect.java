@@ -1,11 +1,18 @@
+package twop.effect;
+
+import twop.ParticleSystem;
+import twop.Player;
+
 import java.awt.Graphics;
 
 public class FireEffect extends Effect {
    private ParticleSystem myVisualEffect;
+   private int myIntensity;
 
    public FireEffect(Player player) {
       super(player, 350);
       myVisualEffect = new ParticleSystem(getPlayer().getCenter(), "fire");
+      myIntensity = 1;
    }
 
    public void update() {
@@ -16,5 +23,9 @@ public class FireEffect extends Effect {
    }
    public void draw(Graphics pen) {
       myVisualEffect.draw(pen);
+   }
+
+   public void increaseIntensity() {
+      myIntensity++;
    }
 }
