@@ -40,16 +40,19 @@ public class Instructions implements GameState {
       pen.setColor(Color.white);
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(myFirstPlayer.getColor());
-      pen.fillRect(120, 210, 70, 70);
-      pen.fillRect(40, 210, 70, 70);
-      pen.fillRect(120, 130, 70, 70);
-      pen.fillRect(200, 210, 70, 70);
-
+      pen.fillRect(150, 240, 50, 50);
+      pen.fillRect(210, 240, 50, 50);
+      pen.fillRect(90, 240, 50, 50);
+      pen.fillRect(150, 180, 50, 50);
+      pen.fillRect(30, 155, 50, 50);
+      pen.fillRect(90, 155, 50, 50);
       pen.setColor(mySecondPlayer.getColor());
-      pen.fillRect(440, 210, 70, 70);
-      pen.fillRect(360, 210, 70, 70);
-      pen.fillRect(440, 130, 70, 70);
-      pen.fillRect(520, 210, 70, 70);
+      pen.fillRect(150 + 320, 240, 50, 50);
+      pen.fillRect(210 + 320, 240, 50, 50);
+      pen.fillRect(90 + 320, 240, 50, 50);
+      pen.fillRect(150 + 320, 180, 50, 50);
+      pen.fillRect(30 + 320, 155, 50, 50);
+      pen.fillRect(90 + 320, 155, 50, 50);
    }
 
    /**
