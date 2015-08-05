@@ -1,3 +1,7 @@
+package twop.effect;
+
+import twop.Player;
+
 import java.awt.Graphics;
 
 public abstract class Effect {
@@ -11,6 +15,8 @@ public abstract class Effect {
 
    public abstract void update();
    public abstract void draw(Graphics pen);
+
+   public void increaseIntensity() {}
 
    public Player getPlayer() {
       return myPlayer;
