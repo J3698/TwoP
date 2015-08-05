@@ -1,3 +1,8 @@
+package twop.effect;
+
+import twop.Player;
+import twop.ParticleSystem;
+
 import java.awt.Graphics;
 
 public class PoisonEffect extends Effect {
@@ -6,7 +11,6 @@ public class PoisonEffect extends Effect {
    public PoisonEffect(Player player) {
       super(player, 300);
       myPoisonVisual = new ParticleSystem(player.getCenter(), "poison");
-      myPoisonVisual.setEmissionSkip(5);
    }
 
    public void update() {

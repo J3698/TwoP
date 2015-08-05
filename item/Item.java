@@ -1,3 +1,5 @@
+package twop.item;
+
 import java.awt.Graphics;
 
 public interface Item {

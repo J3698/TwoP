@@ -1,3 +1,5 @@
+package twop.util;
+
 public class Vector2{                        //Two dimensional vector
    private double x;                         //CVector elements
    private double y;

@@ -1,3 +1,10 @@
+package twop.bumper;
+
+import twop.Circle;
+import twop.Player;
+import twop.util.ColorCross;
+import twop.util.Vector2;
+
 import java.awt.Color;
 
 public class Bumper extends Circle {

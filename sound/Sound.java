@@ -1,4 +1,4 @@
-package VectorGame;
+package twop.sound;
 
 import java.io.*;
 import java.net.URL;

@@ -1,3 +1,7 @@
+package twop;
+
+import twop.util.Vector2;
+
 import java.awt.Color;
 import java.awt.Graphics;
 

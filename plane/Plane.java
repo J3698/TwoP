@@ -1,3 +1,10 @@
+package twop.plane;
+
+import twop.util.ColorCross;
+import twop.util.Vector2;
+import twop.Player;
+import twop.Rect;
+
 import java.awt.Color;
 
 public abstract class Plane extends Rect {
@@ -22,10 +29,8 @@ public abstract class Plane extends Rect {
    public void update(Player firstPlayer, Player secondPlayer) {
       if (collidesCircle(firstPlayer))
          onCollision(firstPlayer);
-//         firstPlayer.addEffect(getEffect(firstPlayer));
       if (collidesCircle(secondPlayer))
          onCollision(secondPlayer);
-//         secondPlayer.addEffect(getEffect(secondPlayer));
 
       if (myAge <= myMorphTime)
          setAllColor(myColorCross.getPercent((myAge + 0.0) / myMorphTime));

@@ -1,3 +1,8 @@
+package twop.effect;
+
+import twop.util.Vector2;
+import twop.Player;
+
 import java.awt.Graphics;
 import java.util.Random;
 import java.awt.Color;
@@ -23,7 +28,6 @@ public class HealthEffect extends Effect {
       pen.setFont(effectFont);
       int xPos = (int) myPosition.getX();
       int yPos = (int) myPosition.getY();
-      System.out.println(2 * getLife());
       pen.setColor(new Color(255, 255, 255, 2 * getLife()));
       pen.drawString("+3", xPos, yPos);
    }

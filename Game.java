@@ -1,3 +1,9 @@
+package twop;
+
+import twop.gamestate.*;
+import twop.util.StringDraw;
+import twop.util.Vector2;
+
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
@@ -22,8 +28,6 @@ public class Game {
    private int myGameHeight;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
-   private BumperHandler myBumperHandler;
-   private PlaneHandler myPlaneHandler;
    private Font playAndResumeFont;
    private Font versionFont;
    private Instructions myInstructions;

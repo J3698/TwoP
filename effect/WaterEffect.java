@@ -1,3 +1,7 @@
+package twop.effect;
+
+import twop.Player;
+
 import java.awt.Graphics;
 
 public class WaterEffect extends Effect {

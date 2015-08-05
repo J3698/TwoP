@@ -1,7 +1,8 @@
+package twop.util;
+
 import java.awt.Font;
 
 public class StringDraw {
-
    public static Font playResumeFont() {
       return new Font("Ariel", Font.BOLD, 90);
    }

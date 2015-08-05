@@ -1,3 +1,7 @@
+package twop.gamestate;
+
+import twop.util.StringDraw;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;

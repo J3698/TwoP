@@ -1,3 +1,9 @@
+package twop.gamestate;
+
+import twop.handler.*;
+import twop.Player;
+import twop.util.StringDraw;
+
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
@@ -27,7 +33,7 @@ public class Play implements GameState {
       myGameHeight = gameHeight;
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
-      myItemHandler = new DropHandler(myGameWidth, myGameHeight);
+      myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
       playResumeFont = StringDraw.playResumeFont();
    }
 

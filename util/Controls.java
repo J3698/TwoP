@@ -1,3 +1,7 @@
+package twop.util;
+
+import twop.Player;
+
 import java.awt.event.KeyEvent;
 
 public class Controls {

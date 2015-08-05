@@ -1,6 +1,8 @@
+package twop;
+
 /**
  *TwoP.java
- * @version 1.0.15
+ * @version 1
  * @author Antioch John Sanders
  */
 
