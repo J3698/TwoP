@@ -1,8 +1,15 @@
+package twop;
+
+import twop.util.Controls;
+import twop.util.Vector2;
+import twop.effect.Effect;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -12,7 +19,7 @@ import java.util.ArrayList;
 public class Player extends Circle {
    private static double gravity = -0.5;
    private Controls myControls = new Controls(this);
-   private ArrayList<Effect> myEffects = new ArrayList<Effect>();
+   private HashMap<String, Effect> myEffects = new HashMap<String, Effect>();
    private double myHealth = 300;
    private double myMaxHealth = myHealth;
    private Vector2 myVelocity;
@@ -63,13 +70,16 @@ public class Player extends Circle {
       updateJumpAbility();
       myGun.update();
 
+      ArrayList<String> toDelete = new ArrayList<String>();
       Effect effect;
-      for (int index = 0; index < myEffects.size(); index++) {
-         effect = myEffects.get(index);
+      for (String key: myEffects.keySet()) {
+         effect = myEffects.get(key);
          effect.update();
          if (effect.isDead())
-            myEffects.remove(effect);
+            toDelete.add(key);
       }
+      for (String key: toDelete)
+         myEffects.remove(key);
    }
 
 
@@ -159,7 +169,7 @@ public class Player extends Circle {
    public void drawSelfAndWeapon(Graphics pen) {
       myGun.draw(pen);
       draw(pen);
-      for (Effect effect: myEffects)
+      for (Effect effect: myEffects.values())
          effect.draw(pen);
    }
 
@@ -316,8 +326,16 @@ public class Player extends Circle {
       setColor(new Color(r, g, b));
    }
 
-   public void addEffect(Effect effect) {
-      myEffects.add(effect);
+   public HashMap<String, Effect> getEffects() {
+      return myEffects;
+   }
+
+   public void addEffect(String key, Effect effect) {
+      myEffects.put(key, effect);
+   }
+
+   public boolean hasEffectKey(String key) {
+      return myEffects.containsKey(key);
    }
 
    /**
