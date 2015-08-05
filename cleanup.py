@@ -1,20 +1,16 @@
 import os
 import time
 
-files = [f for f in os.listdir('.') if os.path.isfile(f)]
-line_total = 0
-print("Removed files:")
-print("--------")
-for f in files:
-    try:
-        if f[-6:] == ".class":
-            print("   "+f)
-            os.remove(f)
-        if f[-5:] == ".java":
-            m = open(f, "r")
-            line_total += len(m.readlines())
-    except IndexError:
-        continue
-print("--------")
-print(str(line_total) + " lines of .java counted.")
-time.sleep(7);
+def remove_class_files(dir):
+   files = [f for f in os.listdir(dir)]
+   for f in files:
+       try:
+           if os.path.isdir(f):
+               remove_class_files(dir + "/" + f)
+               continue
+           if f[-6:] == ".class":
+               os.remove(dir + "/" + f)
+       except IndexError:
+           continue
+remove_class_files(".")
+print("Completed")
