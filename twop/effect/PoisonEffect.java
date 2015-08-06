@@ -9,7 +9,7 @@ public class PoisonEffect extends Effect {
    private ParticleSystem myPoisonVisual;
 
    public PoisonEffect(Player player) {
-      super(player, 300);
+      super(player, 1000);
       myPoisonVisual = new ParticleSystem(player.getCenter(), "poison");
    }
 
