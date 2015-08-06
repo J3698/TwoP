@@ -1,6 +1,6 @@
 package twop.effect;
 
-import twop.ParticleSystem;
+import twop.particlesys.ParticleSystem;
 import twop.Player;
 
 import java.awt.Graphics;
