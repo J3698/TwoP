@@ -17,12 +17,12 @@ import java.awt.Color;
 *
 */
 public class GamePanel extends JPanel {
-   BufferedImage myImage;
-   Graphics myBuffer;
-   Timer timer;
-   Game myGame;
-   int myGameWidth;
-   int myGameHeight;
+   private BufferedImage myImage;
+   private Graphics myBuffer;
+   private Timer timer;
+   private Game myGame;
+   private int myGameWidth;
+   private int myGameHeight;
 
    /**
     *
