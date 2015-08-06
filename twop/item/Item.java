@@ -1,5 +1,7 @@
 package twop.item;
 
+import twop.Player;
+
 import java.awt.Graphics;
 
 public interface Item {
