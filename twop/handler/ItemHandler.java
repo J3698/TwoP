@@ -2,15 +2,16 @@ package twop.handler;
 
 import twop.item.*;
 import twop.Player;
+import twop.util.Vector2;
 
 import java.awt.Graphics;
 import java.util.Random;
-import
+import java.util.ArrayList;
 
 public class ItemHandler {
    private int myGameWidth;
    private int myGameHeight;
-   private Random myRandom
+   private Random myRandom;
    private ArrayList<Item> myItems;
    private ItemFactory myItemFactory;
 
@@ -23,9 +24,29 @@ public class ItemHandler {
    }
 
    public void draw(Graphics pen) {
+      for (Item item: myItems)
+         item.draw(pen);
    }
-   public void update(Player firstPlayer, Player secondPlayer) {
 
+   public void update(Player firstPlayer, Player secondPlayer) {
+      if (myRandom.nextDouble() < 0.001) {
+         createItem();
+      }
+
+      Item item;
+      for (int index = 0; index < myItems.size(); index++) {
+         item = myItems.get(index);
+         if (item.isDead())
+            myItems.remove(item);
+         else {
+            item.update(firstPlayer, secondPlayer);
+            item.getPosition().addY(1);
+         }
+      }
+   }
+
+   public void createItem() {
+      myItems.add(new HealthPack(new Vector2(myRandom.nextInt(myGameWidth), -100)));
    }
 
    //Implement different sorts of entrances, e.g. from explosion of
