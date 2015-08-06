@@ -1,4 +1,4 @@
-package twop;
+package twop.particlesys;
 
 import twop.util.Vector2;
 
@@ -40,7 +40,7 @@ public class ParticleSystem {
 
    public void createParticles() {
       if (myParticleType.equalsIgnoreCase("poison")) {
-         if (new Random().nextDouble() < 0.1)
+         if (new Random().nextDouble() < 0.01)
             myParticles.add(new PoisonParticle(mySourcePosition.copy()));
       }
       else if (myParticleType.equalsIgnoreCase("fire")) {
@@ -102,63 +102,5 @@ public class ParticleSystem {
       public void setParticleVelocity(Vector2 velocity) { myParticleVelocity = velocity; }
       public void setColor(Color color) { myColor = color; }
       public Color getColor() { return myColor; }
-   }
-
-
-
-   private class FireParticle extends Particle {
-      private int myDegreeOffset;
-
-      public FireParticle(Vector2 position) {
-         super(position);
-         Random r = new Random();
-         getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
-         setParticleVelocity(new Vector2(0, -3));
-         int myDegreeOffset = new Random().nextInt(80) - 40;
-         getParticleVelocity().rotateDegrees(myDegreeOffset);
-         setColor(getRandomColor(100, 256, 0, 10, 0, 10));
-      }
-
-      public void update() {
-         getParticlePosition().addVector(getParticleVelocity());
-         loseLife(15);
-      }
-      public void draw(Graphics pen) {
-         int red = getColor().getRed();
-         int green = getColor().getGreen();
-         int blue = getColor().getBlue();
-         Color color = new Color(red, green, blue, getLife());
-         pen.setColor(color);
-         int x0 = (int) getParticlePosition().getX();
-         int y0 = (int) getParticlePosition().getY();
-         pen.fillRect(x0 - 3, y0 - 3, 6, 6);
-      }
-   }
-
-
-
-   private class PoisonParticle extends Particle {
-      private int myRadius = 10;
-
-      public PoisonParticle(Vector2 position) {
-         super(position);
-         setLife(150);
-         Random r = new Random();
-         getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
-      }
-
-      public void update() {
-         myRadius ++;
-         loseLife(5);
-      }
-
-      public void draw(Graphics pen) {
-         pen.setColor(new Color(0, 100, 0, getLife()));
-         int x0 = (int) (getParticlePosition().getX() - myRadius);
-         int y0 = (int) (getParticlePosition().getY() - myRadius);
-         pen.fillOval(x0, y0, 2 * myRadius, 2 * (int) myRadius);
-         pen.setColor(Color.green);
-         pen.drawOval(x0, y0, 2 * myRadius, 2 * (int) myRadius);
-      }
    }
 }
