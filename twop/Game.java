@@ -101,7 +101,7 @@ public class Game {
       myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
       pen.setFont(versionFont);
       pen.setColor(new Color(123, 45, 249));
-      pen.drawString("V. 1", 5, 20);
+      pen.drawString("V. 1.1", 5, 20);
    }
 
    /**

@@ -2,7 +2,7 @@ package twop;
 
 /**
  *TwoP.java
- * @version 1
+ * @version 1.1
  * @author Antioch John Sanders
  */
 
