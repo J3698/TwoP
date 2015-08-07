@@ -42,7 +42,7 @@ public class GameOver implements GameState {
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(0, 0, 0, myStringOpacity));
       pen.setFont(playResumeFont);
-      pen.drawString("Game Over", 30, (int) myTextLocation);
+      StringDraw.drawStringCenter(pen, "Game Over", myGameWidth / 2, (int) myTextLocation);
    }
 
    /**
@@ -55,8 +55,8 @@ public class GameOver implements GameState {
          myGame.getPlay().update();
       if (myVeilOpacity <= 250)
          myVeilOpacity += 5;
-      else if (myVeilOpacity <= 250 || myStringOpacity <= 254) {
-         myStringOpacity += 1;
+      else if (myVeilOpacity <= 250 || myStringOpacity <= 253) {
+         myStringOpacity += 2;
          if (myTextLocation >= 150)
             myTextLocation -= 0.5;
       }
