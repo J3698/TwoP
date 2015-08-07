@@ -33,7 +33,7 @@ public class HealthPack extends Rect implements Item {
       int w = (int) getWidth();
       int h = (int) getHeight();
       pen.setColor(getColor());
-      pen.fillRoundRect(x, y, w, h, 3, 3);
+      pen.fillRect(x, y, w, h);
       pen.setColor(getOutline());
       pen.fillRect(x + 3 * w / 7, y, w / 7, h);
       pen.fillRect(x, y + 3 * h / 7, w, h / 7);

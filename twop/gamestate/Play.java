@@ -1,5 +1,6 @@
 package twop.gamestate;
 
+import twop.Game;
 import twop.handler.*;
 import twop.Player;
 import twop.util.StringDraw;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
  */
 public class Play implements GameState {
    private String myGameMode = "play";
+   private Game myGame;
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
    private ItemHandler myItemHandler;
@@ -25,8 +27,9 @@ public class Play implements GameState {
    private int myGameHeight;
    private int myTextOpacity = 50;
 
-   public Play(Player firstPlayer, Player secondPlayer,
-                         int gameWidth, int gameHeight) {
+   public Play(Game game, Player firstPlayer, Player secondPlayer,
+                                    int gameWidth, int gameHeight) {
+      myGame = game;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
@@ -81,7 +84,7 @@ public class Play implements GameState {
       myFirstPlayer.getControls().keyDown(event);
       mySecondPlayer.getControls().keyDown(event);
       if (event.getKeyCode() == KeyEvent.VK_P)
-         System.out.println("GAME PAUSED!!!");
+         myGame.setGameMode("pause");
    }
 
    /**

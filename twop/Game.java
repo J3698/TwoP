@@ -70,10 +70,10 @@ public class Game {
     *
     */
    public void initGameModes() {
-      myInstructions = new Instructions(myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
-      myPlay = new Play(myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
-      myPause = new Pause(myPlay, myGameWidth, myGameHeight);
-      myGameOver = new GameOver(myPlay, myGameWidth, myGameHeight);
+      myInstructions = new Instructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myPause = new Pause(this, myGameWidth, myGameHeight);
+      myGameOver = new GameOver(this, myGameWidth, myGameHeight);
    }
 
    /**
@@ -125,4 +125,10 @@ public class Game {
        myFirstPlayer.getControls().keyUp(event);
        mySecondPlayer.getControls().keyUp(event);
    }
+
+   public void setGameMode(String gameMode) { myCurrentGameMode = gameMode; }
+   public Play getPlay() { return myPlay; }
+   public Pause getPause() { return myPause; }
+   public Instructions getInstructions() { return myInstructions; }
+   public GameOver getGameOver() { return myGameOver; }
 }

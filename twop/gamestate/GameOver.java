@@ -1,5 +1,6 @@
 package twop.gamestate;
 
+import twop.Game;
 import twop.util.StringDraw;
 
 import java.awt.Graphics;
@@ -13,7 +14,7 @@ import java.awt.event.KeyEvent;
  *
  */
 public class GameOver implements GameState {
-   private Play myPlay;
+   private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
    private Font playResumeFont;
@@ -22,8 +23,8 @@ public class GameOver implements GameState {
    private double myTextLocation = 175;
    private String myGameMode = "gameOver";
 
-   public GameOver(Play play, int gameWidth, int gameHeight) {
-      myPlay = play;
+   public GameOver(Game game, int gameWidth, int gameHeight) {
+      myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       playResumeFont = StringDraw.playResumeFont();
@@ -36,7 +37,7 @@ public class GameOver implements GameState {
     */
    public void draw(Graphics pen) {
       if (myVeilOpacity != 255)
-         myPlay.draw(pen);
+         myGame.getPlay().draw(pen);
       pen.setColor(new Color(255, 255, 255, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(0, 0, 0, myStringOpacity));
@@ -51,7 +52,7 @@ public class GameOver implements GameState {
     */
    public void update() {
       if (myVeilOpacity != 255)
-         myPlay.update();
+         myGame.getPlay().update();
       if (myVeilOpacity <= 250)
          myVeilOpacity += 5;
       else if (myVeilOpacity <= 250 || myStringOpacity <= 254) {
@@ -78,7 +79,7 @@ public class GameOver implements GameState {
     */
    public void keyListen(KeyEvent event) {
       if (myVeilOpacity != 255)
-         myPlay.keyListen(event);
+         myGame.getPlay().keyListen(event);
    }
 
    /**

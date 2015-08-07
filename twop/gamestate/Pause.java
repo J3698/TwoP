@@ -1,5 +1,7 @@
 package twop.gamestate;
 
+import twop.Game;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
@@ -7,21 +9,21 @@ import java.awt.event.KeyEvent;
 
 public class Pause implements GameState {
    private String myGameMode = "pause";
-   private Play myPlay;
+   private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
    private Font playResumeFont;
    private int myVeilOpacity = 0;
    private int myTextOpacity = 0;
 
-   public Pause(Play play, int gameWidth, int gameHeight) {
-      myPlay = play;
+   public Pause(Game game, int gameWidth, int gameHeight) {
+      myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
    }
 
    public void draw(Graphics pen) {
-      myPlay.draw(pen);
+      myGame.getPlay().draw(pen);
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(255, 255, 255, myTextOpacity));
@@ -55,7 +57,7 @@ public class Pause implements GameState {
     */
    public void keyListen(KeyEvent event) {
       if (event.getKeyCode() == KeyEvent.VK_R)
-         System.out.println("GAME IS PLAYED!!!");
+         myGame.setGameMode("play");
    }
 
    /**
