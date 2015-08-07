@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 public class Pause implements GameState {
    private String myGameMode = "pause";
    private Game myGame;
+   private boolean myIsPausing = true;
    private int myGameWidth;
    private int myGameHeight;
    private Font playResumeFont;
@@ -27,7 +28,6 @@ public class Pause implements GameState {
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(255, 255, 255, myTextOpacity));
-      pen.drawString("R to Resume", 50, 250);
    }
 
    /**
@@ -36,8 +36,15 @@ public class Pause implements GameState {
     *
     */
    public void update() {
-      if (myVeilOpacity < 100)
-         myVeilOpacity += 10;
+      if (myIsPausing)
+         fadeInVeil();
+      else {
+         fadeOutVeil();
+         if (myVeilOpacity == 0) {
+            myGame.setGameMode("play");
+            myGame.getPlay().setBackgroundMessage("P to Play");
+         }
+      }
    }
 
    /**
@@ -57,7 +64,7 @@ public class Pause implements GameState {
     */
    public void keyListen(KeyEvent event) {
       if (event.getKeyCode() == KeyEvent.VK_R)
-         myGame.setGameMode("play");
+         myIsPausing = false;
    }
 
    /**
@@ -78,5 +85,19 @@ public class Pause implements GameState {
    public void checkUpdateTrigger(String currentGameMode) {
       if (myGameMode == currentGameMode)
          update();
+   }
+
+   public void fadeOutVeil() {
+      if (myVeilOpacity > 0)
+         myVeilOpacity -= 10;
+   }
+
+   public void fadeInVeil() {
+      if (myVeilOpacity < 100)
+         myVeilOpacity += 10;
+   }
+
+   public void setIsPausing(boolean isPausing) {
+      myIsPausing = isPausing;
    }
 }
