@@ -67,16 +67,22 @@ public class Instructions implements GameState {
     *
     */
    public void draw(Graphics pen) {
-      String instructions = "Etc, etc, more instructions, boo!";
 
       pen.setColor(new Color(150, 150, 150));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(myKeyFont2);
       pen.setColor(myFirstPlayer.getColor());
-      StringDraw.drawStringCenter(pen, instructions, myGameWidth / 4, 300);
+      StringDraw.drawStringCenter(pen, "1  -  shoot", myGameWidth / 4, 230 + 40);
+      StringDraw.drawStringCenter(pen, "2  -  toggle gun spinning", myGameWidth / 4, 260 + 40);
+      StringDraw.drawStringCenter(pen, "s  -  toggle gun direction", myGameWidth / 4, 290 + 40);
+      StringDraw.drawStringCenter(pen, "w, a, d  -  movement", myGameWidth / 4, 320 + 40);
+
       pen.setColor(mySecondPlayer.getColor());
-      StringDraw.drawStringCenter(pen, instructions, myGameWidth * 3 / 4, 300);
+      StringDraw.drawStringCenter(pen, ".  -  shoot", myGameWidth * 3 / 4, 230 + 40);
+      StringDraw.drawStringCenter(pen, "/  -  toggle gun spinning", myGameWidth * 3 / 4, 260 + 40);
+      StringDraw.drawStringCenter(pen, "down  -  toggle gun direction", myGameWidth * 3 / 4, 290 + 40);
+      StringDraw.drawStringCenter(pen, "up, left, right  -  movement", myGameWidth * 3 / 4, 320 + 40);
 
       pen.setColor(new Color(50, 50, 50, 100));
       pen.setFont(myKeyFont);
