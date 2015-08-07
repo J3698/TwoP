@@ -26,6 +26,7 @@ public class Play implements GameState {
    private int myGameWidth;
    private int myGameHeight;
    private int myTextOpacity = 50;
+   private String myBackgroundMessage = "P to Pause";
 
    public Play(Game game, Player firstPlayer, Player secondPlayer,
                                     int gameWidth, int gameHeight) {
@@ -62,8 +63,9 @@ public class Play implements GameState {
       myPlaneHandler.update(myFirstPlayer, mySecondPlayer);
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
+
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
-         System.out.println("GAME OVER!!!");
+         myGame.setGameMode("gameOver");
    }
 
    /**
@@ -83,8 +85,11 @@ public class Play implements GameState {
    public void keyListen(KeyEvent event) {
       myFirstPlayer.getControls().keyDown(event);
       mySecondPlayer.getControls().keyDown(event);
-      if (event.getKeyCode() == KeyEvent.VK_P)
+      if (event.getKeyCode() == KeyEvent.VK_P) {
+         myBackgroundMessage = "R to Resume";
          myGame.setGameMode("pause");
+         myGame.getPause().setIsPausing(true);
+      }
    }
 
    /**
@@ -98,7 +103,7 @@ public class Play implements GameState {
       pen.fillRect(myGameWidth / 2, 0, myGameWidth / 2, myGameHeight);
       pen.setColor(new Color(0, 0, 0, myTextOpacity));
       pen.setFont(playResumeFont);
-      pen.drawString("P to Pause", 100, 250);
+      StringDraw.drawStringCenter(pen, myBackgroundMessage, myGameWidth / 2, myGameHeight / 2 - 30);
    }
 
    /**
@@ -134,5 +139,9 @@ public class Play implements GameState {
    public void checkUpdateTrigger(String currentGameMode) {
       if (myGameMode == currentGameMode)
          update();
+   }
+
+   public void setBackgroundMessage(String message) {
+      myBackgroundMessage = message;
    }
 }
