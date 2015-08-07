@@ -1,11 +1,9 @@
 package twop.util;
 
-import twop.util.Vector2;
-
-import java.awt.Graphics2D;
-import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public class StringDraw {
