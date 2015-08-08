@@ -31,6 +31,6 @@ public class FireParticle extends Particle {
       pen.setColor(color);
       int x0 = (int) getParticlePosition().getX();
       int y0 = (int) getParticlePosition().getY();
-      pen.fillRect(x0 - 3, y0 - 3, 6, 6);
+      pen.fillOval(x0 - 3, y0 - 3, 6, 6);
    }
 }
