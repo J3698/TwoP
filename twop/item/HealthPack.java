@@ -1,14 +1,15 @@
 package twop.item;
 
 import twop.Player;
-import twop.util.Vector2;
 import twop.Rect;
+import twop.util.Vector2;
+import twop.sound.Sound;
 
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class HealthPack extends Rect implements Item {
-   private static double myHealing = 50;
+   private static double myHealing = 65;
    private boolean myIsDead = false;
 
    public HealthPack(Vector2 position) {
@@ -21,9 +22,11 @@ public class HealthPack extends Rect implements Item {
       if (collidesCircle(firstPlayer)) {
          myIsDead = true;
          firstPlayer.applyHealing(myHealing);
+         new Sound("healthpackage").play();
       }
       if (collidesCircle(secondPlayer)) {
          myIsDead = true;
+         new Sound("healthpackage").play();
       }
    }
 
