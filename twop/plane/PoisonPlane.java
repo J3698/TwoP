@@ -16,7 +16,7 @@ public class PoisonPlane extends Plane {
       if (!player.hasEffectKey("poison"))
          player.addEffect("poison", new PoisonEffect(player));
       else {
-      
+         player.getEffects().get("poison").increaseIntensity();
       }
    }
 }
