@@ -75,8 +75,10 @@ public class Player extends Circle {
       for (String key: myEffects.keySet()) {
          effect = myEffects.get(key);
          effect.update();
-         if (effect.isDead())
+         if (effect.isDead()) {
             toDelete.add(key);
+            effect.onDeath();
+         }
       }
       for (String key: toDelete)
          myEffects.remove(key);
