@@ -12,6 +12,7 @@ public class ParticleSystem {
    private ArrayList<Particle> myParticles;
    private Vector2 mySourcePosition;
    private String myParticleType;
+   private int myEmissionRate = 1;
    private int myTick = 0;
 
    public ParticleSystem(Vector2 sourcePosition, String particleType) {
@@ -29,7 +30,9 @@ public class ParticleSystem {
          else
             temp.update();
       }
-      createParticles();
+      for (int i = 0; i < myEmissionRate; i++) {
+         createParticles();
+      }
       myTick++;
    }
 
@@ -47,10 +50,7 @@ public class ParticleSystem {
          myParticles.add(new FireParticle(mySourcePosition.copy()));
       }
    }
-   public Vector2 getSourcePosition() {
-      return mySourcePosition;
-   }
-   public void setSourcePosition(Vector2 sourcePosition) {
-      mySourcePosition = sourcePosition;
-   }
+   public Vector2 getSourcePosition() { return mySourcePosition; }
+   public void setSourcePosition(Vector2 position) { mySourcePosition = position; }
+   public void setEmissionRate(int emissionRate) { myEmissionRate = emissionRate; }
 }
