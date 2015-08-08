@@ -3,6 +3,7 @@ package twop.gamestate;
 import twop.Game;
 import twop.Player;
 import twop.util.StringDraw;
+import twop.sound.Sound;
 
 import java.awt.Graphics;
 import java.awt.Font;
@@ -177,8 +178,9 @@ public class Instructions implements GameState {
          myTick++;
       }
       public void keyListen(KeyEvent event) {
-         if (event.getKeyCode() == myKeyCode) {
+         if (event.getKeyCode() == myKeyCode && myIsActivated == false) {
             myIsActivated = true;
+            new Sound("keytyped").play();
          }
       }
       public boolean isActivated() {
