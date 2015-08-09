@@ -37,10 +37,10 @@ public class Player extends Circle {
    private int maxJumps = 3;
    private int myJumpHeight = 7;
    private double myInertia = 0.95;
-   int myGroundX;
-   int myGroundY;
-   int myCeilingX;
-   int myCeilingY;
+   private int myGroundX;
+   private int myGroundY;
+   private int myCeilingX;
+   private int myCeilingY;
 
    /**
     *
