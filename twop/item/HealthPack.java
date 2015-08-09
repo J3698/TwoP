@@ -26,6 +26,7 @@ public class HealthPack extends Rect implements Item {
       }
       if (collidesCircle(secondPlayer)) {
          myIsDead = true;
+         secondPlayer.applyHealing(myHealing);
          new Sound("healthpackage").play();
       }
    }
