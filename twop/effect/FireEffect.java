@@ -3,6 +3,7 @@ package twop.effect;
 import twop.particlesys.ParticleSystem;
 import twop.Player;
 import twop.sound.Sound;
+import twop.util.Vector2;
 
 import java.awt.Graphics;
 
@@ -14,7 +15,7 @@ public class FireEffect extends Effect {
 
    public FireEffect(Player player) {
       super(player, 350);
-      myVisualEffect = new ParticleSystem(getPlayer().getCenter(), "fire");
+      myVisualEffect = new ParticleSystem("fire", getPlayer().getCenter().copy());
       mySound = new Sound("crackling");
       mySound.play();
    }

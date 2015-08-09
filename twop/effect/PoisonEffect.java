@@ -12,7 +12,7 @@ public class PoisonEffect extends Effect {
 
    public PoisonEffect(Player player) {
       super(player, 1000);
-      myVisualEffect = new ParticleSystem(player.getCenter(), "poison");
+      myVisualEffect = new ParticleSystem("poison", player.getCenter().copy());
    }
 
    public void update() {
