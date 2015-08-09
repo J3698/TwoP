@@ -9,8 +9,8 @@ import java.util.Random;
 public class PoisonParticle extends Particle {
    private double myRadius = 10;
 
-   public PoisonParticle(Vector2 position) {
-      super(position);
+   public PoisonParticle(Vector2 position, Vector2 velocity) {
+      super(position, velocity);
       setLife(150);
       Random r = new Random();
       getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
