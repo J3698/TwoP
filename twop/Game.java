@@ -30,6 +30,7 @@ public class Game {
    private Player mySecondPlayer;
    private Font playAndResumeFont;
    private Font versionFont;
+   private MainMenu myMainMenu;
    private Instructions myInstructions;
    private Play myPlay;
    private Pause myPause;
@@ -70,6 +71,7 @@ public class Game {
     *
     */
    public void initGameModes() {
+      myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
       myInstructions = new Instructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
@@ -82,6 +84,7 @@ public class Game {
     *
     */
    public void update() {
+      myMainMenu.checkUpdateTrigger(myCurrentGameMode);
       myInstructions.checkUpdateTrigger(myCurrentGameMode);
       myPlay.checkUpdateTrigger(myCurrentGameMode);
       myPause.checkUpdateTrigger(myCurrentGameMode);
@@ -95,6 +98,7 @@ public class Game {
     *
     */
    public void draw(Graphics pen) {
+      myMainMenu.checkDrawTrigger(myCurrentGameMode, pen);
       myInstructions.checkDrawTrigger(myCurrentGameMode, pen);
       myPlay.checkDrawTrigger(myCurrentGameMode, pen);
       myPause.checkDrawTrigger(myCurrentGameMode, pen);
@@ -110,6 +114,7 @@ public class Game {
     *
     */
    public void keyDownListen(KeyEvent event) {
+       myMainMenu.checkKeyListenTrigger(myCurrentGameMode, event);
        myInstructions.checkKeyListenTrigger(myCurrentGameMode, event);
        myPlay.checkKeyListenTrigger(myCurrentGameMode, event);
        myPause.checkKeyListenTrigger(myCurrentGameMode, event);
@@ -127,6 +132,7 @@ public class Game {
    }
 
    public void setGameMode(String gameMode) { myCurrentGameMode = gameMode; }
+   public MainMenu getMainMenu() { return myMainMenu; }
    public Play getPlay() { return myPlay; }
    public Pause getPause() { return myPause; }
    public Instructions getInstructions() { return myInstructions; }
