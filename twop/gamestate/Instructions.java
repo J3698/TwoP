@@ -69,7 +69,7 @@ public class Instructions implements GameState {
     */
    public void draw(Graphics pen) {
 
-      pen.setColor(new Color(150, 150, 150));
+      pen.setColor(new Color(100, 100, 100));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(myKeyFont2);
