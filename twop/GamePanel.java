@@ -5,7 +5,9 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
 import java.awt.Graphics;
 import javax.swing.Timer;
 import java.awt.Font;
@@ -56,6 +58,7 @@ public class GamePanel extends JPanel {
     */
    public void addThreadInputs() {
       addKeyListener(new KeyListener());
+      addMouseListener(new MouseListener());
       timer = new Timer(20, new UpdateListener());
       timer.start();
    }
@@ -107,6 +110,14 @@ public class GamePanel extends JPanel {
        */
       public void keyReleased(KeyEvent event) {
          myGame.keyUpListen(event);
+      }
+   }
+
+   public class MouseListener extends MouseAdapter {
+      public void mouseClicked(MouseEvent event) {
+         if (event.getButton() == MouseEvent.BUTTON1) {
+            System.out.println("(" + event.getX() + ", " + event.getY() + ")");
+         }
       }
    }
 }
