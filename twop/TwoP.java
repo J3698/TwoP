@@ -21,6 +21,7 @@ public class TwoP {
       JFrame frame = new JFrame("TwoP");
       frame.setSize(770, 580);
       frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setContentPane(new GamePanel(gameWidth, gameHeight));
       frame.setVisible(true);
