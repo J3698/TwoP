@@ -2,6 +2,7 @@ package twop.gamestate;
 
 import twop.Game;
 import twop.util.StringDraw;
+import twop.gui.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -12,11 +13,14 @@ public class MainMenu implements GameState {
    private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
+   private GUIManager myGUIManager;
 
    public MainMenu(Game game, int gameWidth, int gameHeight) {
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myGUIManager = new GUIManager();
+      myGUIManager.addButton(new MenuButton());
    }
 
    public void draw(Graphics pen) {
