@@ -36,7 +36,7 @@ public class GamePanel extends JPanel {
       myGameHeight = gameHeight;
       setFocusable(true);
       preparePanelImage();
-      myGame = new Game("mainMenu", myGameWidth, myGameHeight);
+      myGame = new Game("instructions", myGameWidth, myGameHeight);
       addThreadInputs();
    }
 
