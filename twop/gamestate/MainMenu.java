@@ -45,29 +45,21 @@ public class MainMenu extends GameState {
    public void update() {
    }
 
-   public void keyListen(KeyEvent event) {
-   }
-
-   public void mouseListen(MouseEvent event) {
-      myGUIManager.mouseListen(event);
-   }
-
    public KeyAdapter getKeyListener() { return myKeyListener; }
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
-	   
    }
 
    private class MouseListener extends MouseAdapter {
 	  public void mousePressed(MouseEvent event) {
-         myGUIManager.mouseListen(event);
+         myGUIManager.mousePressed(event);
 	  }
    }
    
    private class PlayListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGame.setGameMode("play");
+         myGame.setGameMode("quickinstructions");
       }
    }
 
