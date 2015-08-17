@@ -4,15 +4,10 @@ import twop.gamestate.*;
 import twop.util.StringDraw;
 import twop.util.Vector2;
 
-import java.awt.Graphics;
-import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Graphics;
-import javax.swing.Timer;
 import java.awt.Font;
 import java.awt.Color;
 
@@ -35,6 +30,8 @@ public class Game {
    private Play myPlay;
    private Pause myPause;
    private GameOver myGameOver;
+   private Credits myCredits;
+   private ArrayList<GameState> myGameStates;
 
    /**
     *
@@ -46,6 +43,7 @@ public class Game {
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       versionFont = StringDraw.versionFont();
+      myGameStates = new ArrayList<GameState>();
       initPlayers();
       initGameModes();
    }
@@ -56,7 +54,7 @@ public class Game {
     *
     */
    public void initPlayers() {
-      int radius = 20;
+      int radius = 19;
       Vector2 firstPos = new Vector2(60, 350);
       Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
       myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight, myGameWidth, 0);
@@ -72,10 +70,17 @@ public class Game {
     */
    public void initGameModes() {
       myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
-      myInstructions = new Instructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myInstructions = new Instructions(this, myGameWidth, myGameHeight);
       myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
       myGameOver = new GameOver(this, myGameWidth, myGameHeight);
+      myCredits = new Credits(this, myGameWidth, myGameHeight);
+      myGameStates.add(myMainMenu);
+      myGameStates.add(myInstructions);
+      myGameStates.add(myPlay);
+      myGameStates.add(myPause);
+      myGameStates.add(myGameOver);
+      myGameStates.add(myCredits);
    }
 
    /**
@@ -84,11 +89,8 @@ public class Game {
     *
     */
    public void update() {
-      myMainMenu.checkUpdateTrigger(myCurrentGameMode);
-      myInstructions.checkUpdateTrigger(myCurrentGameMode);
-      myPlay.checkUpdateTrigger(myCurrentGameMode);
-      myPause.checkUpdateTrigger(myCurrentGameMode);
-      myGameOver.checkUpdateTrigger(myCurrentGameMode);
+      for (GameState gameState : myGameStates)
+         gameState.checkUpdateTrigger(myCurrentGameMode);
    }
 
    /**
@@ -98,11 +100,8 @@ public class Game {
     *
     */
    public void draw(Graphics pen) {
-      myMainMenu.checkDrawTrigger(myCurrentGameMode, pen);
-      myInstructions.checkDrawTrigger(myCurrentGameMode, pen);
-      myPlay.checkDrawTrigger(myCurrentGameMode, pen);
-      myPause.checkDrawTrigger(myCurrentGameMode, pen);
-      myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
+      for (GameState gameState : myGameStates)
+         gameState.checkDrawTrigger(myCurrentGameMode, pen);
       pen.setFont(versionFont);
       pen.setColor(new Color(123, 45, 249));
       pen.drawString("V. 1.1", 5, 20);
@@ -114,11 +113,8 @@ public class Game {
     *
     */
    public void keyDownListen(KeyEvent event) {
-       myMainMenu.checkKeyListenTrigger(myCurrentGameMode, event);
-       myInstructions.checkKeyListenTrigger(myCurrentGameMode, event);
-       myPlay.checkKeyListenTrigger(myCurrentGameMode, event);
-       myPause.checkKeyListenTrigger(myCurrentGameMode, event);
-       myGameOver.checkKeyListenTrigger(myCurrentGameMode, event);
+       for (GameState gameState : myGameStates)
+         gameState.checkKeyListenTrigger(myCurrentGameMode, event);
    }
 
    /**
@@ -131,10 +127,16 @@ public class Game {
        mySecondPlayer.getControls().keyUp(event);
    }
 
+   public void mouseListen(MouseEvent event) {
+       for (GameState gameState : myGameStates)
+          gameState.checkMouseListenTrigger(myCurrentGameMode, event);
+   }
+
    public void setGameMode(String gameMode) { myCurrentGameMode = gameMode; }
    public MainMenu getMainMenu() { return myMainMenu; }
    public Play getPlay() { return myPlay; }
    public Pause getPause() { return myPause; }
    public Instructions getInstructions() { return myInstructions; }
    public GameOver getGameOver() { return myGameOver; }
+   public Credits getCredits() { return myCredits; }
 }
