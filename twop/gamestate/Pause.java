@@ -6,9 +6,9 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
-public class Pause implements GameState {
-   private String myGameMode = "pause";
+public class Pause extends GameState {
    private Game myGame;
    private boolean myIsPausing = true;
    private int myGameWidth;
@@ -18,6 +18,7 @@ public class Pause implements GameState {
    private int myTextOpacity = 0;
 
    public Pause(Game game, int gameWidth, int gameHeight) {
+      super("pause");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
@@ -52,39 +53,13 @@ public class Pause implements GameState {
     *
     *
     */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
-   }
-
-   /**
-    *
-    *
-    *
-    */
    public void keyListen(KeyEvent event) {
       if (event.getKeyCode() == KeyEvent.VK_R)
          myIsPausing = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
+   public void mouseListen(MouseEvent event) {
+      
    }
 
    public void fadeOutVeil() {

@@ -7,13 +7,14 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  *
  *
  *
  */
-public class GameOver implements GameState {
+public class GameOver extends GameState {
    private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
@@ -21,9 +22,9 @@ public class GameOver implements GameState {
    private int myVeilOpacity = 0;
    private int myStringOpacity = 0;
    private double myTextLocation = 175;
-   private String myGameMode = "gameOver";
 
    public GameOver(Game game, int gameWidth, int gameHeight) {
+      super("gameOver");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
@@ -67,38 +68,11 @@ public class GameOver implements GameState {
     *
     *
     */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
-   }
-
-   /**
-    *
-    *
-    *
-    */
    public void keyListen(KeyEvent event) {
       if (myVeilOpacity != 255)
          myGame.getPlay().keyListen(event);
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
+   public void mouseListen(MouseEvent event) {
    }
 }

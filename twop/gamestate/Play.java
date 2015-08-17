@@ -9,13 +9,13 @@ import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Play game state for playing the game.
  *
  */
-public class Play implements GameState {
-   private String myGameMode = "play";
+public class Play extends GameState {
    private Game myGame;
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
@@ -30,6 +30,7 @@ public class Play implements GameState {
 
    public Play(Game game, Player firstPlayer, Player secondPlayer,
                                     int gameWidth, int gameHeight) {
+      super("play");
       myGame = game;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
@@ -66,16 +67,6 @@ public class Play implements GameState {
 
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
          myGame.setGameMode("gameOver");
-   }
-
-   /**
-    * Listen for play key events if current game
-    * state is play.
-    *
-    */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
    }
 
    /**
@@ -122,26 +113,11 @@ public class Play implements GameState {
       pen.fillRect(myGameWidth / 2, 10, secondLength, 30);
    }
 
-   /**
-    * Draws the play screen if game state is play.
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
-   }
-
    public void setBackgroundMessage(String message) {
       myBackgroundMessage = message;
+   }
+
+   public void mouseListen(MouseEvent event) {
+      
    }
 }
