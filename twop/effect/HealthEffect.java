@@ -5,7 +5,6 @@ import twop.util.StringDraw;
 import twop.Player;
 
 import java.awt.Graphics;
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Font;
 

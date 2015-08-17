@@ -3,7 +3,6 @@ package twop.effect;
 import twop.particlesys.ParticleSystem;
 import twop.Player;
 import twop.sound.Sound;
-import twop.util.Vector2;
 
 import java.awt.Graphics;
 

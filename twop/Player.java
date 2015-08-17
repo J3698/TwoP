@@ -6,7 +6,6 @@ import twop.effect.Effect;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;

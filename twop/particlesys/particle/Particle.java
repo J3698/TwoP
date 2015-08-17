@@ -1,8 +1,6 @@
 package twop.particlesys.particle;
 
 import twop.util.Vector2;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 import java.awt.Graphics;
