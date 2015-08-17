@@ -222,7 +222,6 @@ public class Gun {
     *
     */
    public class Bullet extends Circle {
-      private double myRadius = 3;
       private Vector2 myVelocity;
 
       /**

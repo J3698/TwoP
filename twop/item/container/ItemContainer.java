@@ -18,7 +18,7 @@ public class ItemContainer {
       
    }
 
-   public void draw() {
+   public void draw(Graphics pen) {
       // myItem.draw(), this block
       // may have condititionals
       // to draw a different effect,

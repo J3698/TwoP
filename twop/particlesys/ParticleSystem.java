@@ -6,7 +6,6 @@ import twop.particlesys.particle.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Graphics;
-import java.awt.Color;
 
 public class ParticleSystem {
    private ArrayList<Particle> myParticles;
@@ -16,7 +15,6 @@ public class ParticleSystem {
    private int myEmissionRate = 1;
    private int myLowerAngleLimit = -180;
    private int myUpperAngleLimit = 180;
-   private int myTick = 0;
 
    public ParticleSystem(String particleType, Vector2 position, Vector2 velocity,
                                         int lowerAngleLimit, int upperAngleLimit) {
@@ -54,7 +52,6 @@ public class ParticleSystem {
       for (int i = 0; i < myEmissionRate; i++) {
          createParticles();
       }
-      myTick++;
    }
 
    public void draw(Graphics pen) {
