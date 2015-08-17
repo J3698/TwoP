@@ -6,18 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.Graphics;
 import javax.swing.Timer;
-import java.awt.Font;
-import java.awt.Color;
 
-/**
-*
-*
-*
-*/
 public class GamePanel extends JPanel {
    private BufferedImage myImage;
    private Graphics myBuffer;
@@ -93,29 +87,48 @@ public class GamePanel extends JPanel {
     *
     */
    public class KeyListener extends KeyAdapter {
-
-      /**
-       *
-       *
-       *
-       */
       public void keyPressed(KeyEvent event) {
-         myGame.keyDownListen(event);
+         myGame.getKeyListener().keyPressed(event);
       }
-
-      /**
-       *
-       *
-       *
-       */
       public void keyReleased(KeyEvent event) {
-         myGame.keyUpListen(event);
+         myGame.getKeyListener().keyReleased(event);
+      }
+      public void keyTyped(KeyEvent event) {
+    	  myGame.getKeyListener().keyTyped(event);
       }
    }
 
    public class MouseListener extends MouseAdapter {
+      public void mouseClicked(MouseEvent event) {
+    	  myGame.getMouseListener().mouseClicked(event);
+      }
+      public void mouseDragged(MouseEvent event) {
+    	  myGame.getMouseListener().mouseDragged(event);
+      }
+      public void mouseEntered(MouseEvent event) {
+    	  myGame.getMouseListener().mouseEntered(event);
+      }
+      public void mouseExited(MouseEvent event) {
+    	  myGame.getMouseListener().mouseExited(event);
+      }
+      public void mouseMoved(MouseEvent event) {
+    	  myGame.getMouseListener().mouseMoved(event);
+      }
       public void mousePressed(MouseEvent event) {
-         myGame.mouseListen(event);
+    	  myGame.getMouseListener().mousePressed(event);
+      }
+      public void mouseReleased(MouseEvent event) {
+    	  myGame.getMouseListener().mouseReleased(event);
+      }
+      public void mouseWheelMoved(MouseWheelEvent event) {
+    	  myGame.getMouseListener().mouseWheelMoved(event);
       }
    }
 }
+
+
+
+
+
+
+
