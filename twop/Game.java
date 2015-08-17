@@ -5,12 +5,13 @@ import twop.util.StringDraw;
 import twop.util.Vector2;
 
 import java.util.ArrayList;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
-
 
 /**
  * Game class holds game modes and
@@ -23,7 +24,6 @@ public class Game {
    private int myGameHeight;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
-   private Font playAndResumeFont;
    private Font versionFont;
    private MainMenu myMainMenu;
    private Instructions myInstructions;
@@ -73,7 +73,7 @@ public class Game {
       myInstructions = new Instructions(this, myGameWidth, myGameHeight);
       myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
-      myGameOver = new GameOver(this, myGameWidth, myGameHeight);
+      myGameOver = new GameOver(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myCredits = new Credits(this, myGameWidth, myGameHeight);
       myGameStates.add(myMainMenu);
       myGameStates.add(myInstructions);
@@ -107,29 +107,20 @@ public class Game {
       pen.drawString("V. 1.1", 5, 20);
    }
 
-   /**
-    * Tell all game states to check if they should
-    * check for key-down events and act accordingly.
-    *
-    */
-   public void keyDownListen(KeyEvent event) {
-       for (GameState gameState : myGameStates)
-         gameState.checkKeyListenTrigger(myCurrentGameMode, event);
+   public MouseAdapter getMouseListener() {
+	   for (GameState gameState : myGameStates) {
+		   if (gameState.getGameMode().equals(myCurrentGameMode))
+			   return gameState.getMouseListener();
+	   }
+	   return null;
    }
 
-   /**
-    * Tell all game states to check if they should
-    * check for key-up events and act accordingly.
-    *
-    */
-   public void keyUpListen(KeyEvent event) {
-       myFirstPlayer.getControls().keyUp(event);
-       mySecondPlayer.getControls().keyUp(event);
-   }
-
-   public void mouseListen(MouseEvent event) {
-       for (GameState gameState : myGameStates)
-          gameState.checkMouseListenTrigger(myCurrentGameMode, event);
+   public KeyAdapter getKeyListener() {
+	   for (GameState gameState : myGameStates) {
+		   if (gameState.getGameMode().equals(myCurrentGameMode))
+			   return gameState.getKeyListener();
+	   }
+	   return null;
    }
 
    public void setGameMode(String gameMode) { myCurrentGameMode = gameMode; }
