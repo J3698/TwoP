@@ -18,4 +18,4 @@ def remove_class_files(dir):
        except IndexError:
            continue
 remove_class_files(".")
-print("Completed, with " + str(total_lines) + " of java counted.")
+print("Completed, with " + str(total_lines) + " lines of java counted.")
