@@ -27,6 +27,10 @@ public class StringDraw {
       return new Font("Ariel", Font.BOLD, 40);
    }
 
+   public static Font instructionsButtonsFont() {
+      return new Font("Ariel", Font.ITALIC, 20);
+   }
+
    public static void drawStringCenter(Graphics pen, String string, int x, int y) {
       Graphics2D pen2D = (Graphics2D) pen;
       FontMetrics fontMetrics = pen2D.getFontMetrics();
