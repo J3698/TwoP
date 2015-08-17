@@ -86,8 +86,8 @@ public class Controls {
       setDownKey(KeyEvent.VK_DOWN);
       setLeftKey(KeyEvent.VK_LEFT);
       setRightKey(KeyEvent.VK_RIGHT);
-      setFirstActionKey(KeyEvent.VK_PERIOD);
-      setSecondActionKey(KeyEvent.VK_SLASH);
+      setFirstActionKey(KeyEvent.VK_COMMA);
+      setSecondActionKey(KeyEvent.VK_PERIOD);
    }
 
    /**
