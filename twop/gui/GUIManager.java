@@ -17,7 +17,7 @@ public class GUIManager {
          button.draw(pen);
    }
 
-   public void mouseListen(MouseEvent event) {
+   public void mousePressed(MouseEvent event) {
       if (event.getButton() == MouseEvent.BUTTON1) {
          for (Button button: myButtons) {
             if (button.collidesPoint(event.getX() * 480 / 580, event.getY() * 640 / 770))
