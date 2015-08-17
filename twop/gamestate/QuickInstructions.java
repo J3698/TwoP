@@ -8,7 +8,9 @@ import twop.sound.Sound;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
@@ -16,7 +18,7 @@ import java.awt.event.MouseEvent;
  * to players.
  *
  */
-public class Instructions extends GameState {
+public class QuickInstructions extends GameState {
    private static Font myKeyFont = StringDraw.keyFont();
    private static Font myKeyFont2 = StringDraw.keyFont2();
    private Game myGame;
@@ -25,17 +27,20 @@ public class Instructions extends GameState {
    private int myGameWidth;
    private int myGameHeight;
    private InstructRect[] myInstructRects = new InstructRect[12];
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
-   public Instructions(Game game, Player firstPlayer, Player secondPlayer,
+   public QuickInstructions(Game game, Player firstPlayer, Player secondPlayer,
                                             int gameWidth, int gameHeight) {
-      super("instructions");
+      super("quickinstructions");
       myGame = game;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
 
-      
       Color c = myFirstPlayer.getColor();
       Color c2 = mySecondPlayer.getColor();
       Font f = myKeyFont;
@@ -101,6 +106,17 @@ public class Instructions extends GameState {
    public void keyListen(KeyEvent event) {
       for (InstructRect rect: myInstructRects)
          rect.keyListen(event);
+   }
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+	   
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   
    }
 
    private class InstructRect {

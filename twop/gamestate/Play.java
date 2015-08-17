@@ -8,7 +8,9 @@ import twop.util.StringDraw;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
@@ -27,6 +29,8 @@ public class Play extends GameState {
    private int myGameHeight;
    private int myTextOpacity = 50;
    private String myBackgroundMessage = "P to Pause";
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
    public Play(Game game, Player firstPlayer, Player secondPlayer,
                                     int gameWidth, int gameHeight) {
@@ -36,6 +40,8 @@ public class Play extends GameState {
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
       myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
@@ -52,10 +58,6 @@ public class Play extends GameState {
       drawHealth(pen);
    }
 
-   /**
-    * Update the cuurently played game.
-    *
-    */
    public void update() {
       myFirstPlayer.update();
       myFirstPlayer.takeDamage(mySecondPlayer.getGun().getBullets());
@@ -69,24 +71,6 @@ public class Play extends GameState {
          myGame.setGameMode("gameOver");
    }
 
-   /**
-    * Listen for play key events
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      myFirstPlayer.getControls().keyDown(event);
-      mySecondPlayer.getControls().keyDown(event);
-      if (event.getKeyCode() == KeyEvent.VK_P) {
-         myBackgroundMessage = "R to Resume";
-         myGame.setGameMode("pause");
-         myGame.getPause().setIsPausing(true);
-      }
-   }
-
-   /**
-    * Draw the background for play.
-    *
-    */
    public void drawBackground(Graphics pen) {
       pen.setColor(mySecondPlayer.getColor());
       pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
@@ -117,7 +101,26 @@ public class Play extends GameState {
       myBackgroundMessage = message;
    }
 
-   public void mouseListen(MouseEvent event) {
-      
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+	   public void keyPressed(KeyEvent event) {
+		   myFirstPlayer.getControls().keyDown(event);
+		   mySecondPlayer.getControls().keyDown(event);
+
+		   if (event.getKeyCode() == KeyEvent.VK_P) {
+	          myBackgroundMessage = "R to Resume";
+	          myGame.setGameMode("pause");
+	          myGame.getPause().setIsPausing(true);
+ 	       }
+	   }
+	   public void keyReleased(KeyEvent event) {
+		   myFirstPlayer.getControls().keyUp(event);
+		   mySecondPlayer.getControls().keyUp(event);
+	   }
+   }
+
+   private class MouseListener extends MouseAdapter {
    }
 }

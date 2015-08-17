@@ -2,10 +2,13 @@ package twop.gamestate;
 
 import twop.Game;
 import twop.util.StringDraw;
+import twop.gui.GUIManager;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Instructions extends GameState {
@@ -13,12 +16,16 @@ public class Instructions extends GameState {
    private int myGameWidth;
    private int myGameHeight;
    private GUIManager myGUIManager;
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
    public Instructions(Game game, int gameWidth, int gameHeight) {
       super("instructions");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
       myGUIManager = new GUIManager();
    }
 
@@ -38,5 +45,16 @@ public class Instructions extends GameState {
 
    public void secondPage(Graphics pen) {}
 
-   public void thirdPage(Graphics pen) {} 
+   public void thirdPage(Graphics pen) {}
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+	   
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   
+   }
 }

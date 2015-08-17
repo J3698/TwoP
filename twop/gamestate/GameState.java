@@ -1,16 +1,11 @@
 package twop.gamestate;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
 
-/**
- * Interface that different game states should
- * implement.
- *
- */
 public abstract class GameState {
-   public String myGameMode;
+   private String myGameMode;
 
    public GameState(String gameMode) {
       myGameMode = gameMode;
@@ -18,8 +13,6 @@ public abstract class GameState {
 
    public abstract void draw(Graphics pen);
    public abstract void update();
-   public abstract void keyListen(KeyEvent event);
-   public abstract void mouseListen(MouseEvent event);
 
    public void checkDrawTrigger(String currentGameMode, Graphics pen) {
       if (myGameMode == currentGameMode)
@@ -31,13 +24,10 @@ public abstract class GameState {
          update();
    }
 
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
+   public String getGameMode() {
+	   return myGameMode;
    }
 
-   public void checkMouseListenTrigger(String currentGameMode, MouseEvent event) {
-      if (myGameMode == currentGameMode)
-         mouseListen(event);
-   }
+   public abstract KeyAdapter getKeyListener();
+   public abstract MouseAdapter getMouseListener();
 }

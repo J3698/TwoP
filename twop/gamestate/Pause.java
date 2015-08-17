@@ -4,24 +4,27 @@ import twop.Game;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class Pause extends GameState {
    private Game myGame;
    private boolean myIsPausing = true;
    private int myGameWidth;
    private int myGameHeight;
-   private Font playResumeFont;
    private int myVeilOpacity = 0;
    private int myTextOpacity = 0;
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
    public Pause(Game game, int gameWidth, int gameHeight) {
       super("pause");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
    }
 
    public void draw(Graphics pen) {
@@ -48,20 +51,6 @@ public class Pause extends GameState {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      if (event.getKeyCode() == KeyEvent.VK_R)
-         myIsPausing = false;
-   }
-
-   public void mouseListen(MouseEvent event) {
-      
-   }
-
    public void fadeOutVeil() {
       if (myVeilOpacity > 0)
          myVeilOpacity -= 10;
@@ -74,5 +63,19 @@ public class Pause extends GameState {
 
    public void setIsPausing(boolean isPausing) {
       myIsPausing = isPausing;
+   }
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+      public void keyPressed(KeyEvent event) {
+         if (event.getKeyCode() == KeyEvent.VK_R)
+            myIsPausing = false;
+      }
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   
    }
 }

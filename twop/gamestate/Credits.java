@@ -4,7 +4,9 @@ import twop.Game;
 import twop.util.StringDraw;
 
 import java.util.Random;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 import java.awt.Font;
@@ -15,12 +17,16 @@ public class Credits extends GameState {
    private int myGameWidth;
    private int myGameHeight;
    private Color myColor;
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
    public Credits(Game game, int gameWidth, int gameHeight) {
       super("credits");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
       Random r = new Random();
       myColor = new Color(150 + r.nextInt(50), 150 + r.nextInt(50), 150 + r.nextInt(50));
    }
@@ -42,6 +48,17 @@ public class Credits extends GameState {
 
    public void mouseListen(MouseEvent event) {}
    public void keyListen(KeyEvent event) {}
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+	   
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   
+   }
 }
 
 
