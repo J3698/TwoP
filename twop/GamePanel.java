@@ -36,7 +36,7 @@ public class GamePanel extends JPanel {
       myGameHeight = gameHeight;
       setFocusable(true);
       preparePanelImage();
-      myGame = new Game("instructions", myGameWidth, myGameHeight);
+      myGame = new Game("mainmenu", myGameWidth, myGameHeight);
       addThreadInputs();
    }
 
@@ -114,10 +114,8 @@ public class GamePanel extends JPanel {
    }
 
    public class MouseListener extends MouseAdapter {
-      public void mouseClicked(MouseEvent event) {
-         if (event.getButton() == MouseEvent.BUTTON1) {
-            System.out.println("(" + event.getX() + ", " + event.getY() + ")");
-         }
+      public void mousePressed(MouseEvent event) {
+         myGame.mouseListen(event);
       }
    }
 }
