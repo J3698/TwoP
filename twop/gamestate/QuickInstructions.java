@@ -55,8 +55,8 @@ public class QuickInstructions extends GameState {
       myInstructRects[7] = new InstructRect("right", c2, f2, KeyEvent.VK_RIGHT, 530, 150, 50, 50);
       myInstructRects[8] = new InstructRect("left", c2, f2, KeyEvent.VK_LEFT, 410, 150, 50, 50);
       myInstructRects[9] = new InstructRect("up", c2, f, KeyEvent.VK_UP, 470, 90, 50, 50);
-      myInstructRects[10] = new InstructRect(".", c2, f, KeyEvent.VK_PERIOD, 350, 65, 50, 50);
-      myInstructRects[11] = new InstructRect("/", c2, f, KeyEvent.VK_SLASH, 410, 65, 50, 50);
+      myInstructRects[10] = new InstructRect(",", c2, f, KeyEvent.VK_COMMA, 350, 65, 50, 50);
+      myInstructRects[11] = new InstructRect(".", c2, f, KeyEvent.VK_PERIOD, 410, 65, 50, 50);
    }
 
    public void draw(Graphics pen) {
@@ -72,8 +72,8 @@ public class QuickInstructions extends GameState {
       StringDraw.drawStringCenter(pen, "w, a, d  -  movement", myGameWidth / 4, 320 + 40);
 
       pen.setColor(mySecondPlayer.getColor());
-      StringDraw.drawStringCenter(pen, ".  -  shoot", myGameWidth * 3 / 4, 230 + 40);
-      StringDraw.drawStringCenter(pen, "/  -  toggle gun spinning", myGameWidth * 3 / 4, 260 + 40);
+      StringDraw.drawStringCenter(pen, ",  -  shoot", myGameWidth * 3 / 4, 230 + 40);
+      StringDraw.drawStringCenter(pen, ".  -  toggle gun spinning", myGameWidth * 3 / 4, 260 + 40);
       StringDraw.drawStringCenter(pen, "down  -  toggle gun direction", myGameWidth * 3 / 4, 290 + 40);
       StringDraw.drawStringCenter(pen, "up, left, right  -  movement", myGameWidth * 3 / 4, 320 + 40);
 
@@ -95,28 +95,17 @@ public class QuickInstructions extends GameState {
          myGame.setGameMode("play");
    }
 
-   public void mouseListen(MouseEvent event) {
-
-   }
-
-   /**
-    * Listen for instruction key events.
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      for (InstructRect rect: myInstructRects)
-         rect.keyListen(event);
-   }
-
    public KeyAdapter getKeyListener() { return myKeyListener; }
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
-	   
+	   public void keyPressed(KeyEvent event) {
+	      for (InstructRect rect: myInstructRects)
+	         rect.keyPressed(event);
+	   }
    }
 
    private class MouseListener extends MouseAdapter {
-	   
    }
 
    private class InstructRect {
@@ -132,8 +121,8 @@ public class QuickInstructions extends GameState {
       private int myTick;
       private int myBlinkDelay;
 
-      public InstructRect(String text, Color color, Font font, int keyCode,int positionX,
-                                         int positionY, int width, int height) {
+      public InstructRect(String text, Color color, Font font, int keyCode, int positionX,
+                                                     int positionY, int width, int height) {
 
          myText = text;
          myColor = color;
@@ -160,7 +149,7 @@ public class QuickInstructions extends GameState {
          }
          myTick++;
       }
-      public void keyListen(KeyEvent event) {
+      public void keyPressed(KeyEvent event) {
          if (event.getKeyCode() == myKeyCode && myIsActivated == false) {
             myIsActivated = true;
             new Sound("keytyped").play();
