@@ -12,12 +12,14 @@ public class Instructions extends GameState {
    private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
+   private GUIManager myGUIManager;
 
    public Instructions(Game game, int gameWidth, int gameHeight) {
       super("instructions");
       myGame = game;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myGUIManager = new GUIManager();
    }
 
    public void mouseListen(MouseEvent event) {}
@@ -31,7 +33,7 @@ public class Instructions extends GameState {
 
    public void firstPage(Graphics pen) {
       pen.setColor(new Color(0, 30, 100));
-      StringDraw.drawStringCenter(pen, "Welcome to TwoP, the simple two player bash 'em up!", myGameWidth / 2, myGameHeight / 2);
+      StringDraw.drawStringCenter(pen, "Welcome to TwoP, the simple two player bash 'em up game!", myGameWidth / 2, myGameHeight / 2);
    }
 
    public void secondPage(Graphics pen) {}
