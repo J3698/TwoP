@@ -27,6 +27,7 @@ public class Game {
    private Font versionFont;
    private MainMenu myMainMenu;
    private Instructions myInstructions;
+   private QuickInstructions myQuickInstructions;
    private Play myPlay;
    private Pause myPause;
    private GameOver myGameOver;
@@ -71,12 +72,14 @@ public class Game {
    public void initGameModes() {
       myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
       myInstructions = new Instructions(this, myGameWidth, myGameHeight);
+      myQuickInstructions = new QuickInstructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
       myGameOver = new GameOver(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myCredits = new Credits(this, myGameWidth, myGameHeight);
       myGameStates.add(myMainMenu);
       myGameStates.add(myInstructions);
+      myGameStates.add(myQuickInstructions);
       myGameStates.add(myPlay);
       myGameStates.add(myPause);
       myGameStates.add(myGameOver);
@@ -112,6 +115,7 @@ public class Game {
 		   if (gameState.getGameMode().equals(myCurrentGameMode))
 			   return gameState.getMouseListener();
 	   }
+      System.out.println("Invalid GameState!!");
 	   return null;
    }
 
@@ -120,6 +124,7 @@ public class Game {
 		   if (gameState.getGameMode().equals(myCurrentGameMode))
 			   return gameState.getKeyListener();
 	   }
+	   System.out.println("Invalid GameState!!");
 	   return null;
    }
 
@@ -128,6 +133,7 @@ public class Game {
    public Play getPlay() { return myPlay; }
    public Pause getPause() { return myPause; }
    public Instructions getInstructions() { return myInstructions; }
+   public QuickInstructions getQuickInstructions() { return myQuickInstructions; }
    public GameOver getGameOver() { return myGameOver; }
    public Credits getCredits() { return myCredits; }
 }
