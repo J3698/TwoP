@@ -2,12 +2,16 @@ package twop.gamestate;
 
 import twop.Game;
 import twop.Player;
+import twop.gui.GUIManager;
+import twop.gui.InstructionsButton;
 import twop.util.StringDraw;
 import twop.sound.Sound;
 
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
