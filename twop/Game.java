@@ -32,6 +32,7 @@ public class Game {
    private Pause myPause;
    private GameOver myGameOver;
    private Credits myCredits;
+   private Options myOptions;
    private ArrayList<GameState> myGameStates;
 
    /**
@@ -77,6 +78,7 @@ public class Game {
       myPause = new Pause(this, myGameWidth, myGameHeight);
       myGameOver = new GameOver(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myCredits = new Credits(this, myGameWidth, myGameHeight);
+      myOptions = new Options(this, myGameWidth, myGameHeight);
       myGameStates.add(myMainMenu);
       myGameStates.add(myInstructions);
       myGameStates.add(myQuickInstructions);
@@ -84,6 +86,7 @@ public class Game {
       myGameStates.add(myPause);
       myGameStates.add(myGameOver);
       myGameStates.add(myCredits);
+      myGameStates.add(myOptions);
    }
 
    /**
