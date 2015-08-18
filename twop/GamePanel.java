@@ -53,6 +53,7 @@ public class GamePanel extends JPanel {
    public void addThreadInputs() {
       addKeyListener(new KeyListener());
       addMouseListener(new MouseListener());
+      addMouseMotionListener(new MouseListener());
       timer = new Timer(20, new UpdateListener());
       timer.start();
    }
