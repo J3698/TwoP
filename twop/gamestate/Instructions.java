@@ -33,9 +33,9 @@ public class Instructions extends GameState {
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       myCurrentPage = 1;
-      myGUIManager.addButton(new InstructionsButton(new BackListener(), "Back", new Vector2(20, 420), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "MainMenu", new Vector2(20, 420), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new InstructionsButton(new BackListener(), "Back", new Vector2(250, 420), myGameWidth, myGameHeight));
       myGUIManager.addButton(new InstructionsButton(new NextListener(), "Next", new Vector2(480, 420), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "MainMenu", new Vector2(250, 420), myGameWidth, myGameHeight));
    }
 
    public void update() {}
@@ -108,5 +108,8 @@ public class Instructions extends GameState {
       public void mousePressed(MouseEvent event) {
          myGUIManager.mousePressed(event);
       }
+	  public void mouseMoved(MouseEvent event) {
+	         myGUIManager.mouseMoved(event);
+	  }
    }
 }
