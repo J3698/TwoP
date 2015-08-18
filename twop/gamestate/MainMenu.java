@@ -55,6 +55,9 @@ public class MainMenu extends GameState {
 	  public void mousePressed(MouseEvent event) {
          myGUIManager.mousePressed(event);
 	  }
+	  public void mouseMoved(MouseEvent event) {
+         myGUIManager.mouseMoved(event);
+	  }
    }
    
    private class PlayListener implements ActionListener {
