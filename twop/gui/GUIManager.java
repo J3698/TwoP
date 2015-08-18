@@ -13,8 +13,13 @@ public class GUIManager {
    }
 
    public void draw(Graphics pen) {
-      for (Button button: myButtons)
-         button.draw(pen);
+      for (Button button: myButtons) {
+          if (button.getMouseHovering()) {
+    		  button.drawHovered(pen);
+          } else {
+    	     button.draw(pen);
+          }
+      }
    }
 
    public void mousePressed(MouseEvent event) {
@@ -24,7 +29,16 @@ public class GUIManager {
                button.doAction();
          }
       }
+   }
 
+   public void mouseMoved(MouseEvent event) {
+       for (Button button: myButtons) {
+           if (button.collidesPoint(event.getX() * 480 / 580, event.getY() * 640 / 770)) {
+              button.setMouseHovering(true);
+           } else {
+        	   button.setMouseHovering(false);
+           }
+       }
    }
 
    public void addButton(Button button) {

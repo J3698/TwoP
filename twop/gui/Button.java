@@ -10,6 +10,7 @@ import java.awt.Color;
 
 public abstract class Button {
    private ActionListener myListener;
+   private boolean myMouseHovering;
    private int myGameWidth;
    private int myGameHeight;
    private Vector2 myPosition;
@@ -30,6 +31,7 @@ public abstract class Button {
       mySize = size;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseHovering = false;
    }
 
    public void draw(Graphics pen) {
@@ -42,6 +44,16 @@ public abstract class Button {
       pen.setColor(myTextColor);
       pen.setFont(myFont);
       StringDraw.drawStringCenter(pen, myText, x + width / 2, y + height / 2);
+   }
+
+   public void drawHovered(Graphics pen) {
+	   draw(pen);
+	   pen.setColor(new Color(0, 0, 0, 100));
+	   int x = (int) myPosition.getX();
+	   int y = (int) myPosition.getY();
+	   int width = (int) mySize.getX();
+	   int height = (int) mySize.getY();
+	   pen.fillRect(x, y, width, height);
    }
 
    public void doAction() {
@@ -58,4 +70,6 @@ public abstract class Button {
    public Vector2 getSize() { return mySize; }
    public void setBodyColor(Color bodyColor) { myBodyColor = bodyColor; }
    public void setTextColor(Color textColor) { myTextColor = textColor; }
+   public boolean getMouseHovering() { return myMouseHovering; }
+   public void setMouseHovering(boolean isHovering) { myMouseHovering = isHovering; }
 }
