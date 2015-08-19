@@ -16,7 +16,7 @@ public class HealthEffect extends Effect {
    public HealthEffect(Player player) {
       super(player, 100);
       player.applyHealing(3);
-      myVelocity = new Vector2(0, -4);
+      myVelocity = new Vector2(0.5, -4);
       myPosition = player.getCenter().copy();
    }
 
