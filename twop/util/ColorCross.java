@@ -3,6 +3,7 @@ package twop.util;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
@@ -64,6 +65,13 @@ public class ColorCross {
       else if (color < 0)
          color = 0;
       return (int) color;
+   }
+
+   public static Color alpha(Color color, int alpha) {
+	   int red = color.getRed();
+	   int green = color.getGreen();
+	   int blue = color.getBlue();
+	   return new Color(red, green, blue);
    }
 
    public static void main(String[] args) {
