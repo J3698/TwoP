@@ -26,7 +26,7 @@ public class GUIManager {
       if (event.getButton() == MouseEvent.BUTTON1) {
          for (Button button: myButtons) {
             if (button.collidesPoint(event.getX() * 480 / 580, event.getY() * 640 / 770))
-               button.doAction();
+        	   button.doAction();
          }
       }
    }
@@ -34,7 +34,7 @@ public class GUIManager {
    public void mouseMoved(MouseEvent event) {
        for (Button button: myButtons) {
            if (button.collidesPoint(event.getX() * 480 / 580, event.getY() * 640 / 770)) {
-              button.setMouseHovering(true);
+        	   button.setMouseHovering(true);
            } else {
         	   button.setMouseHovering(false);
            }
