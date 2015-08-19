@@ -1,6 +1,7 @@
 package twop.gamestate;
 
 import twop.Game;
+import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.gui.MenuButton;
 import twop.gui.GUIManager;
@@ -39,7 +40,8 @@ public class MainMenu extends GameState {
    public void draw(Graphics pen) {
 	  pen.setColor(new Color(100, 100, 100));
 	  pen.fillRect(0, 0, myGameWidth, myGameHeight);
-      myGUIManager.draw(pen);
+	  StringDraw.drawSmoothStrings(pen);
+	  myGUIManager.draw(pen);
    }
 
    public void update() {

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 public class StringDraw {
@@ -29,6 +30,12 @@ public class StringDraw {
 
    public static Font instructionsButtonsFont() {
       return new Font("Ariel", Font.ITALIC, 20);
+   }
+
+   public static void drawSmoothStrings(Graphics pen) {
+      Graphics2D pen2D = (Graphics2D) pen;
+      pen2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      pen2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
    }
 
    public static void drawStringCenter(Graphics pen, String string, int x, int y) {
