@@ -36,8 +36,9 @@ public class HealthPackEffect extends Effect {
 	      myOpacity = 0;
 	   }
 
-	   firstRadius += 10;
-	   secondRadius += 10;
+	   firstRadius += 15;
+	   secondRadius += 15;
+
 	   loseLife(1);
 	}
 
