@@ -87,7 +87,10 @@ public class ColorCross {
    }
 
    public static class TestPanel extends JPanel {
+      private static final long serialVersionUID = 7023289628855326869L;
+
       private ColorCross testCross;
+
       public TestPanel(Color start, Color end, int steps) {
          testCross = new ColorCross(start, end, steps);
          Timer timer = new Timer(20, new UpdateListener());

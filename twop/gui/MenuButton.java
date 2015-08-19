@@ -4,8 +4,6 @@ import twop.util.Vector2;
 import twop.util.StringDraw;
 
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
-import java.awt.Font;
 import java.awt.Color;
 import java.util.Random;
 

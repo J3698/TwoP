@@ -7,6 +7,8 @@ import java.awt.Graphics;
 
 public class GUIManager {
    private ArrayList<Button> myButtons;
+   private double scaleFactorX = 480 / (double) 580;
+   private double scaleFactorY = 640 / (double) 770;
 
    public GUIManager() {
       myButtons = new ArrayList<Button>();
@@ -14,31 +16,32 @@ public class GUIManager {
 
    public void draw(Graphics pen) {
       for (Button button: myButtons) {
-          if (button.getMouseHovering()) {
-    		  button.drawHovered(pen);
-          } else {
-    	     button.draw(pen);
-          }
+         if (button.getMouseHovering()) {
+    		   button.drawHovered(pen);
+         } else {
+    	      button.draw(pen);
+         }
       }
    }
 
    public void mousePressed(MouseEvent event) {
       if (event.getButton() == MouseEvent.BUTTON1) {
          for (Button button: myButtons) {
-            if (button.collidesPoint(event.getX() * 480 / (double) 580, event.getY() * 640 / (double) 770))
-        	   button.doAction();
+            if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
+               button.doAction();
+            }
          }
       }
    }
 
    public void mouseMoved(MouseEvent event) {
-       for (Button button: myButtons) {
-           if (button.collidesPoint(event.getX() * 480 / (double) 580, event.getY() * 640 / (double) 770)) {
+      for (Button button: myButtons) {
+         if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
         	   button.setMouseHovering(true);
-           } else {
+         } else {
         	   button.setMouseHovering(false);
-           }
-       }
+         }
+      }
    }
 
    public void addButton(Button button) {

@@ -60,9 +60,9 @@ public abstract class Button {
       myListener.actionPerformed(null);
    }
 
-   public boolean collidesPoint(int x, int y) {
-      boolean inXBounds = (x > myPosition.getX() && x < myPosition.getX() + mySize.getX());
-      boolean inYBounds = (y > myPosition.getY() && y < myPosition.getY() + mySize.getY());
+   public boolean collidesPoint(double x, double y) {
+      boolean inXBounds = (x >= myPosition.getX() && x <= myPosition.getX() + mySize.getX());
+      boolean inYBounds = (y >= myPosition.getY() && y <= myPosition.getY() + mySize.getY());
       return (inXBounds && inYBounds);
    }
 
