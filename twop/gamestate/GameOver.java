@@ -44,8 +44,9 @@ public class GameOver extends GameState {
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       myGUIManager = new GUIManager();
-      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "Main Menu", new Vector2(200, 200), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new GameOverButton(new RematchListener(), "Rematch", new Vector2(350, 350), myGameWidth, myGameHeight));
+      int halfWidth = myGameWidth / 2;
+      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "MAIN MENU", new Vector2(halfWidth - 160, 200), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
    }
 
    /**
@@ -75,7 +76,7 @@ public class GameOver extends GameState {
       pen.setColor(mySecondPlayer.getColor());
       StringDraw.drawStringCenter(pen, "P L A Y E R  T W O  " + secondWinState, myGameWidth / 2 + 155, myGameHeight / 2 - 60);
 
-      myGUIManager.draws();
+      myGUIManager.draw(pen);
    }
 
    /**
@@ -95,11 +96,15 @@ public class GameOver extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
+//		   myGame.getPlay().reset();
+		   myGame.setGameMode("mainmenu");
 	   }
    }
 
    public class RematchListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
+//		   myGame.getPlay().reset();
+		   myGame.setGameMode("play");
 	   }
    }
 
