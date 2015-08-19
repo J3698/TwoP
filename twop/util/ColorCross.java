@@ -71,7 +71,7 @@ public class ColorCross {
 	   int red = color.getRed();
 	   int green = color.getGreen();
 	   int blue = color.getBlue();
-	   return new Color(red, green, blue);
+	   return new Color(red, green, blue, alpha);
    }
 
    public static void main(String[] args) {

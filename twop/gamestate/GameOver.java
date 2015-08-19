@@ -17,22 +17,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- *
- *
- *
- */
+
 public class GameOver extends GameState {
    private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
-   private int myVeilOpacity = 0;
-   private int myStringOpacity = 0;
+
    private Player myFirstPlayer;
    private Player mySecondPlayer;
+
+   private GUIManager myGUIManager;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
-   private GUIManager myGUIManager;
+
+   private int myVeilOpacity = 0;
+
 
    public GameOver(Game game, Player firstPlayer, Player secondPlayer, int gameWidth, int gameHeight) {
       super("gameOver");
@@ -49,11 +48,6 @@ public class GameOver extends GameState {
       myGUIManager.addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void draw(Graphics pen) {
       myGame.getPlay().draw(pen);
 
@@ -79,18 +73,11 @@ public class GameOver extends GameState {
       myGUIManager.draw(pen);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void update() {
-      if (myVeilOpacity != 200)
-         myGame.getPlay().update();
-      if (myVeilOpacity <= 200)
+      myGame.getPlay().update();
+
+      if (myVeilOpacity <= 150) {
          myVeilOpacity += 5;
-      else if (myVeilOpacity <= 250 || myStringOpacity <= 253) {
-         myStringOpacity += 2;
       }
    }
 
