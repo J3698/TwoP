@@ -2,11 +2,16 @@ package twop.gamestate;
 
 import twop.Game;
 import twop.util.StringDraw;
+import twop.util.Vector2;
 import twop.Player;
+import twop.gui.GUIManager;
+import twop.gui.GameOverButton;
 
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -27,6 +32,7 @@ public class GameOver extends GameState {
    private Player mySecondPlayer;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
+   private GUIManager myGUIManager;
 
    public GameOver(Game game, Player firstPlayer, Player secondPlayer, int gameWidth, int gameHeight) {
       super("gameOver");
@@ -37,7 +43,9 @@ public class GameOver extends GameState {
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myGame.getPlay().setBackgroundMessage("");
+      myGUIManager = new GUIManager();
+      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "Main Menu", new Vector2(200, 200), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new GameOverButton(new RematchListener(), "Rematch", new Vector2(350, 350), myGameWidth, myGameHeight));
    }
 
    /**
@@ -51,12 +59,23 @@ public class GameOver extends GameState {
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
-      pen.setFont(new Font("Sans", 0, 25));
+      pen.setFont(new Font("Sans", 0, 22));
       pen.setColor(myFirstPlayer.getColor());
 
-      StringDraw.drawStringCenter(pen, "P L A Y E R ONE etc..." , myGameWidth / 2 - 130, myGameHeight / 2 - 10);
+      String firstWinState, secondWinState;
+      if (myGame.getPlay().getWinner() == 1) {
+    	  firstWinState = "WINS";
+    	  secondWinState = "LOSES";
+      } else {
+    	  firstWinState = "LOSES";
+    	  secondWinState = "WINS";
+      }
+
+      StringDraw.drawStringCenter(pen, "P L A Y E R  O N E  " + firstWinState , myGameWidth / 2 - 155, myGameHeight / 2 - 60);
       pen.setColor(mySecondPlayer.getColor());
-      StringDraw.drawStringCenter(pen, "P L A Y E R TWO etc...", myGameWidth / 2 + 130, myGameHeight / 2 - 10);
+      StringDraw.drawStringCenter(pen, "P L A Y E R  T W O  " + secondWinState, myGameWidth / 2 + 155, myGameHeight / 2 - 60);
+
+      myGUIManager.draws();
    }
 
    /**
@@ -74,7 +93,14 @@ public class GameOver extends GameState {
       }
    }
 
-   public void mouseListen(MouseEvent event) {
+   public class MainMenuListener implements ActionListener {
+	   public void actionPerformed(ActionEvent event) {
+	   }
+   }
+
+   public class RematchListener implements ActionListener {
+	   public void actionPerformed(ActionEvent event) {
+	   }
    }
 
    public KeyAdapter getKeyListener() { return myKeyListener; }
@@ -96,6 +122,11 @@ public class GameOver extends GameState {
    }
 
    private class MouseListener extends MouseAdapter {
-	   
+	   public void mousePressed(MouseEvent event) {
+		   myGUIManager.mousePressed(event);
+	   }
+	   public void mouseMoved(MouseEvent event) {
+		   myGUIManager.mouseMoved(event);
+	   }
    }
 }
