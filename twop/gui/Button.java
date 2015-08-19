@@ -68,8 +68,10 @@ public abstract class Button {
 
    public Vector2 getPosition() { return myPosition; }
    public Vector2 getSize() { return mySize; }
+   public String getText() { return myText; }
    public void setBodyColor(Color bodyColor) { myBodyColor = bodyColor; }
    public void setTextColor(Color textColor) { myTextColor = textColor; }
+   public Color getTextColor() { return myTextColor; }
    public boolean getMouseHovering() { return myMouseHovering; }
    public void setMouseHovering(boolean isHovering) { myMouseHovering = isHovering; }
 }
