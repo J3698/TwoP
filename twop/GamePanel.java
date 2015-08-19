@@ -13,6 +13,7 @@ import java.awt.Graphics;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel {
+   private static final long serialVersionUID = 1069592807236812370L;
    private BufferedImage myImage;
    private Graphics myBuffer;
    private Timer timer;
@@ -20,36 +21,20 @@ public class GamePanel extends JPanel {
    private int myGameWidth;
    private int myGameHeight;
 
-   /**
-    *
-    *
-    *
-    */
    public GamePanel(int gameWidth, int gameHeight) {
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       setFocusable(true);
       preparePanelImage();
-      myGame = new Game("gameOver", myGameWidth, myGameHeight);
+      myGame = new Game("mainmenu", myGameWidth, myGameHeight);
       addThreadInputs();
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void preparePanelImage() {
-      myImage = new BufferedImage(myGameWidth,myGameHeight,
-                              BufferedImage.TYPE_INT_ARGB);
+      myImage = new BufferedImage(myGameWidth, myGameHeight, BufferedImage.TYPE_INT_ARGB);
       myBuffer = myImage.getGraphics();
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void addThreadInputs() {
       addKeyListener(new KeyListener());
       addMouseListener(new MouseListener());
