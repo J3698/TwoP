@@ -21,10 +21,8 @@ public class GameOver extends GameState {
    private Game myGame;
    private int myGameWidth;
    private int myGameHeight;
-   private Font playResumeFont;
    private int myVeilOpacity = 0;
    private int myStringOpacity = 0;
-   private double myTextLocation = 175;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
    private KeyAdapter myKeyListener;
@@ -39,7 +37,7 @@ public class GameOver extends GameState {
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      playResumeFont = StringDraw.playResumeFont();
+      myGame.getPlay().setBackgroundMessage("");
    }
 
    /**
@@ -48,13 +46,17 @@ public class GameOver extends GameState {
     *
     */
    public void draw(Graphics pen) {
-      if (myVeilOpacity != 255)
-         myGame.getPlay().draw(pen);
-      pen.setColor(new Color(255, 255, 255, myVeilOpacity));
+      myGame.getPlay().draw(pen);
+
+      pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
-      pen.setColor(new Color(0, 0, 0, myStringOpacity));
-      pen.setFont(playResumeFont);
-      StringDraw.drawStringCenter(pen, "Game Over", myGameWidth / 2, (int) myTextLocation);
+
+      pen.setFont(new Font("Sans", 0, 25));
+      pen.setColor(myFirstPlayer.getColor());
+
+      StringDraw.drawStringCenter(pen, "P L A Y E R ONE etc..." , myGameWidth / 2 - 130, myGameHeight / 2 - 10);
+      pen.setColor(mySecondPlayer.getColor());
+      StringDraw.drawStringCenter(pen, "P L A Y E R TWO etc...", myGameWidth / 2 + 130, myGameHeight / 2 - 10);
    }
 
    /**
@@ -63,14 +65,12 @@ public class GameOver extends GameState {
     *
     */
    public void update() {
-      if (myVeilOpacity != 255)
+      if (myVeilOpacity != 200)
          myGame.getPlay().update();
-      if (myVeilOpacity <= 250)
+      if (myVeilOpacity <= 200)
          myVeilOpacity += 5;
       else if (myVeilOpacity <= 250 || myStringOpacity <= 253) {
          myStringOpacity += 2;
-         if (myTextLocation >= 150)
-            myTextLocation -= 0.5;
       }
    }
 
@@ -82,13 +82,13 @@ public class GameOver extends GameState {
 
    private class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
-         if (myVeilOpacity < 255) {
+         if (myVeilOpacity < 200) {
             myFirstPlayer.getControls().keyDown(event);
             mySecondPlayer.getControls().keyDown(event);
          }
       }
       public void keyReleased(KeyEvent event) {
-         if (myVeilOpacity < 255) {
+         if (myVeilOpacity < 200) {
             myFirstPlayer.getControls().keyUp(event);
             mySecondPlayer.getControls().keyUp(event);
          }
