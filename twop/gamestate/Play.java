@@ -24,6 +24,7 @@ public class Play extends GameState {
    private ItemHandler myItemHandler;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
+   private int myWinner = 0;
    private Font playResumeFont;
    private int myGameWidth;
    private int myGameHeight;
@@ -67,8 +68,15 @@ public class Play extends GameState {
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
 
-      if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
+      if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
          myGame.setGameMode("gameOver");
+         myBackgroundMessage = "";
+         if (myFirstPlayer.getHealth() <= 0) {
+        	 myWinner = 2;
+         } else if (mySecondPlayer.getHealth() <= 0) {
+        	 myWinner = 1;
+         }
+      }
    }
 
    public void drawBackground(Graphics pen) {
@@ -100,6 +108,8 @@ public class Play extends GameState {
    public void setBackgroundMessage(String message) {
       myBackgroundMessage = message;
    }
+
+   public int getWinner() { return myWinner; }
 
    public KeyAdapter getKeyListener() { return myKeyListener; }
    public MouseAdapter getMouseListener() { return myMouseListener; }
