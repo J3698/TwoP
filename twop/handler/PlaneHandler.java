@@ -77,6 +77,11 @@ public class PlaneHandler {
       }
    }
 
+   public void reset() {
+      for (int index = 0; index < myAvailableSpots.length; index++)
+         myAvailableSpots[index] = null;
+   }
+
    public void draw(Graphics pen) {
       for (Plane plane: myAvailableSpots) {
          if (plane != null)

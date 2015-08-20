@@ -21,6 +21,11 @@ public class BumperHandler {
       for (Bumper b: bumpers)
          b.update(firstPlayer, secondPlayer);
    }
+
+   public void reset() {
+      bumpers = new ArrayList<Bumper>();
+   }
+
    public void draw(Graphics pen) {
       for (Bumper b: bumpers)
          b.draw(pen);

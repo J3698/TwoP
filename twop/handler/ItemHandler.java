@@ -45,6 +45,10 @@ public class ItemHandler {
       }
    }
 
+   public void reset() {
+      myItems = new ArrayList<Item>();
+   }
+
    public void createItem() {
       myItems.add(new HealthPack(new Vector2(myRandom.nextInt(myGameWidth), -100)));
    }
