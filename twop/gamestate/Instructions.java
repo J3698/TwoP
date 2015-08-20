@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.gui.GUIManager;
@@ -16,7 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Instructions extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
    private GUIManager myGUIManager;
@@ -24,12 +24,12 @@ public class Instructions extends GameState {
    private MouseAdapter myMouseListener;
    private int myCurrentPage;
 
-   public Instructions(Game game, int gameWidth, int gameHeight) {
+   public Instructions(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("instructions");
-      myGame = game;
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myGUIManager = new GUIManager();
+      myGUIManager = new GUIManager(myGamePanel);
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       myCurrentPage = 1;
@@ -74,7 +74,7 @@ public class Instructions extends GameState {
    public class BackListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 1) {
-            myGame.setGameMode("mainmenu");
+            myGamePanel.setGameMode("mainmenu");
             myCurrentPage = 1;
          } else
             myCurrentPage--;
@@ -84,7 +84,7 @@ public class Instructions extends GameState {
    public class NextListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 3) {
-            myGame.setGameMode("mainmenu");
+            myGamePanel.setGameMode("mainmenu");
             myCurrentPage = 1;
          } else
             myCurrentPage++;
@@ -93,7 +93,7 @@ public class Instructions extends GameState {
 
    public class MainMenuListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGame.setGameMode("mainmenu");
+         myGamePanel.setGameMode("mainmenu");
          myCurrentPage = 1;
       }
    }
