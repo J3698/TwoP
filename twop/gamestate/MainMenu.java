@@ -64,25 +64,25 @@ public class MainMenu extends GameState {
    
    private class PlayListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGame.setGameMode("quickinstructions");
+         myGamePanel.setGameMode("quickinstructions");
       }
    }
 
    private class InstructionsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGame.setGameMode("instructions");
+         myGamePanel.setGameMode("instructions");
       }
    }
 
    private class OptionsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGame.setGameMode("options");
+         myGamePanel.setGameMode("options");
       }
    }
 
    private class CreditsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGame.setGameMode("credits");
+         myGamePanel.setGameMode("credits");
       }
    }
 }
