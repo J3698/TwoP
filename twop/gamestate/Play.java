@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.handler.*;
 import twop.Player;
 import twop.util.StringDraw;
@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
  *
  */
 public class Play extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
    private ItemHandler myItemHandler;
@@ -33,10 +33,10 @@ public class Play extends GameState {
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
-   public Play(Game game, Player firstPlayer, Player secondPlayer,
+   public Play(GamePanel gamePanel, Player firstPlayer, Player secondPlayer,
                                     int gameWidth, int gameHeight) {
       super("play");
-      myGame = game;
+      myGamePanel = gamePanel;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
@@ -69,14 +69,25 @@ public class Play extends GameState {
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
 
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
-         myGame.setGameMode("gameOver");
+         myGamePanel.setGameMode("gameOver");
          myBackgroundMessage = "";
-         if (myFirstPlayer.getHealth() <= 0) {
-        	 myWinner = 2;
-         } else if (mySecondPlayer.getHealth() <= 0) {
-        	 myWinner = 1;
+         if (myWinner == 0) {
+            if (myFirstPlayer.getHealth() <= 0) {
+               myWinner = 2;
+            } else if (mySecondPlayer.getHealth() <= 0) {
+               myWinner = 1;
+            }
          }
       }
+   }
+
+   public void reset() {
+      // stop sounds
+      System.out.println("Game reset");
+      myGamePanel.initPlayers();
+      myItemHandler.reset();
+      myBumperHandler.reset();
+      myPlaneHandler.reset();
    }
 
    public void drawBackground(Graphics pen) {
@@ -90,7 +101,7 @@ public class Play extends GameState {
    }
 
    /**
-    * Draw the healthbars of the players.
+    * Draw the health bars of the players.
     *
     */
    public void drawHealth(Graphics pen) {
@@ -121,8 +132,8 @@ public class Play extends GameState {
 
 		   if (event.getKeyCode() == KeyEvent.VK_P) {
 	          myBackgroundMessage = "R to Resume";
-	          myGame.setGameMode("pause");
-	          myGame.getPause().setIsPausing(true);
+	          myGamePanel.setGameMode("pause");
+	          myGamePanel.getPause().setIsPausing(true);
  	       }
 	   }
 	   public void keyReleased(KeyEvent event) {
