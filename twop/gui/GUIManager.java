@@ -1,16 +1,19 @@
 package twop.gui;
 
-import java.util.ArrayList;
+import twop.GamePanel;
 
+import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 
 public class GUIManager {
+   private GamePanel myGamePanel;
    private ArrayList<Button> myButtons;
-   private double scaleFactorX = 480 / (double) 580;
-   private double scaleFactorY = 640 / (double) 770;
+   private double scaleFactorX;
+   private double scaleFactorY;
 
-   public GUIManager() {
+   public GUIManager(GamePanel gamePanel) {
+      myGamePanel = gamePanel;
       myButtons = new ArrayList<Button>();
    }
 
@@ -26,6 +29,8 @@ public class GUIManager {
 
    public void mousePressed(MouseEvent event) {
       if (event.getButton() == MouseEvent.BUTTON1) {
+         double scaleFactorX = myGamePanel.getGameWidth() / (double) myGamePanel.getWidth();
+         double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
          for (Button button: myButtons) {
             if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
                button.doAction();
@@ -35,6 +40,8 @@ public class GUIManager {
    }
 
    public void mouseMoved(MouseEvent event) {
+      double scaleFactorX = myGamePanel.getGameWidth() / (double) myGamePanel.getWidth();
+      double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
       for (Button button: myButtons) {
          if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
         	   button.setMouseHovering(true);
