@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.Player;
 import twop.gui.GUIManager;
 import twop.gui.InstructionsButton;
@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 public class QuickInstructions extends GameState {
    private static Font myKeyFont = StringDraw.keyFont();
    private static Font myKeyFont2 = StringDraw.keyFont2();
-   private Game myGame;
+   private GamePanel myGamePanel;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
    private int myGameWidth;
@@ -34,10 +34,10 @@ public class QuickInstructions extends GameState {
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
-   public QuickInstructions(Game game, Player firstPlayer, Player secondPlayer,
+   public QuickInstructions(GamePanel gamePanel, Player firstPlayer, Player secondPlayer,
                                             int gameWidth, int gameHeight) {
       super("quickinstructions");
-      myGame = game;
+      myGamePanel = gamePanel;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
@@ -96,7 +96,7 @@ public class QuickInstructions extends GameState {
             readyToStart = false;
       }
       if (readyToStart)
-         myGame.setGameMode("play");
+         myGamePanel.setGameMode("play");
    }
 
    public KeyAdapter getKeyListener() { return myKeyListener; }
