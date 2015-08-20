@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.gui.GUIManager;
 import twop.gui.InstructionsButton;
 import twop.util.StringDraw;
@@ -18,7 +18,7 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Options extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
    private Color myColor;
@@ -26,16 +26,16 @@ public class Options extends GameState {
    private MouseAdapter myMouseListener;
    private GUIManager myGUIManager;
 
-   public Options(Game game, int gameWidth, int gameHeight) {
+   public Options(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("options");
-      myGame = game;
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       Random r = new Random();
       myColor = new Color(150 + r.nextInt(50), 150 + r.nextInt(50), 150 + r.nextInt(50));
-      myGUIManager = new GUIManager();
+      myGUIManager = new GUIManager(myGamePanel);
       myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
    }
 
@@ -53,7 +53,7 @@ public class Options extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGame.setGameMode("mainmenu");
+		   myGamePanel.setGameMode("mainmenu");
 	   }
    }
 
