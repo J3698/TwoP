@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 
 public class Pause extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private boolean myIsPausing = true;
    private int myGameWidth;
    private int myGameHeight;
@@ -18,9 +18,9 @@ public class Pause extends GameState {
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
-   public Pause(Game game, int gameWidth, int gameHeight) {
+   public Pause(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("pause");
-      myGame = game;
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
@@ -28,7 +28,7 @@ public class Pause extends GameState {
    }
 
    public void draw(Graphics pen) {
-      myGame.getPlay().draw(pen);
+      myGamePanel.getPlay().draw(pen);
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(255, 255, 255, myTextOpacity));
@@ -45,8 +45,8 @@ public class Pause extends GameState {
       else {
          fadeOutVeil();
          if (myVeilOpacity == 0) {
-            myGame.setGameMode("play");
-            myGame.getPlay().setBackgroundMessage("P to Play");
+            myGamePanel.setGameMode("play");
+            myGamePanel.getPlay().setBackgroundMessage("P to Pause");
          }
       }
    }
