@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.gamestate.Options.MainMenuListener;
 import twop.gui.GUIManager;
 import twop.gui.InstructionsButton;
@@ -19,7 +19,7 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Credits extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
    private Color myColor;
@@ -27,16 +27,16 @@ public class Credits extends GameState {
    private MouseAdapter myMouseListener;
    private GUIManager myGUIManager;
 
-   public Credits(Game game, int gameWidth, int gameHeight) {
+   public Credits(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("credits");
-      myGame = game;
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       Random r = new Random();
       myColor = new Color(150 + r.nextInt(50), 150 + r.nextInt(50), 150 + r.nextInt(50));
-      myGUIManager = new GUIManager();
+      myGUIManager = new GUIManager(myGamePanel);
       myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
    }
 
@@ -58,7 +58,7 @@ public class Credits extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGame.setGameMode("mainmenu");
+		   myGamePanel.setGameMode("mainmenu");
 	   }
    }
 

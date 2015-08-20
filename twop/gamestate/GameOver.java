@@ -1,6 +1,6 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.Player;
@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 
 
 public class GameOver extends GameState {
-   private Game myGame;
+   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
 
@@ -33,23 +33,23 @@ public class GameOver extends GameState {
    private int myVeilOpacity = 0;
 
 
-   public GameOver(Game game, Player firstPlayer, Player secondPlayer, int gameWidth, int gameHeight) {
+   public GameOver(GamePanel gamePanel, Player firstPlayer, Player secondPlayer, int gameWidth, int gameHeight) {
       super("gameOver");
-      myGame = game;
+      myGamePanel = gamePanel;
       myFirstPlayer = firstPlayer;
       mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myGUIManager = new GUIManager();
+      myGUIManager = new GUIManager(myGamePanel);
       int halfWidth = myGameWidth / 2;
       myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "MAIN MENU", new Vector2(halfWidth - 160, 200), myGameWidth, myGameHeight));
       myGUIManager.addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
    }
 
    public void draw(Graphics pen) {
-      myGame.getPlay().draw(pen);
+      myGamePanel.getPlay().draw(pen);
 
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
@@ -58,7 +58,7 @@ public class GameOver extends GameState {
       pen.setColor(myFirstPlayer.getColor());
 
       String firstWinState, secondWinState;
-      if (myGame.getPlay().getWinner() == 1) {
+      if (myGamePanel.getPlay().getWinner() == 1) {
     	  firstWinState = "WINS";
     	  secondWinState = "LOSES";
       } else {
@@ -74,7 +74,7 @@ public class GameOver extends GameState {
    }
 
    public void update() {
-      myGame.getPlay().update();
+      myGamePanel.getPlay().update();
 
       if (myVeilOpacity <= 150) {
          myVeilOpacity += 5;
@@ -83,15 +83,15 @@ public class GameOver extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-//		   myGame.getPlay().reset();
-		   myGame.setGameMode("mainmenu");
+		   myGamePanel.getPlay().reset();
+		   myGamePanel.setGameMode("mainmenu");
 	   }
    }
 
    public class RematchListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-//		   myGame.getPlay().reset();
-		   myGame.setGameMode("play");
+		   myGamePanel.getPlay().reset();
+		   myGamePanel.setGameMode("play");
 	   }
    }
 
