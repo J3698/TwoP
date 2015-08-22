@@ -1,5 +1,7 @@
 package twop;
 
+import java.awt.Dimension;
+
 /**
  *TwoP.java
  * @version 1.2
@@ -14,22 +16,14 @@ public class TwoP {
    public static int drawWidth = 770;
    public static int drawHeight = 580;
 
-   /* Here is the problem. When you set a width or height,
-      Swing/awt doesn't actually listen to you. So you can
-      make things resizable, but when you scale a mouse
-      event, make sure to scale it with getWidth(), and
-      getHeight(). You can't hard-code in the numbers.
-      This would be easier if you eliminate Game, and have
-      GamePanel cater directly to the needs of the game
-      states.
-   */
    public static void main(String[] args) {
       JFrame frame = new JFrame("TwoP");
-      frame.setSize(770, 580);
+      frame.setSize(drawWidth, drawHeight);
       frame.setLocationRelativeTo(null);
-      frame.setResizable(false);
+      frame.setResizable(true);
+      frame.setMinimumSize(new Dimension(gameWidth, gameHeight));
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setContentPane(new GamePanel(gameWidth, gameHeight));
+      frame.setContentPane(new GamePanel(frame, gameWidth, gameHeight));
       frame.setVisible(true);
    }
 }
