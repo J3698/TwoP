@@ -17,25 +17,32 @@ import java.util.HashMap;
  */
 public class Player extends Circle {
    private static double gravity = -0.5;
+
    private Controls myControls = new Controls(this);
    private HashMap<String, Effect> myEffects = new HashMap<String, Effect>();
+   private Gun myGun = new Gun(this);
+
    private double myHealth = 300;
    private double myMaxHealth = myHealth;
+
    private Vector2 myVelocity;
    private double myAcceleration = 1;
    private double mySpeed = 0;
    private double myMaxSpeed = 6;
-   private Gun myGun = new Gun(this);
+   private double myInertia = 0.95;
+
    private double myBallHeight = 130;
+
    private boolean myIsJumpReleased = true;
    private boolean myIsFlipReleased = true;
    private boolean myIsLeftPressed = false;
    private boolean myIsRightPressed = false;
    private boolean myIsSpinToggleReleased = true;
+
    private int myJumps = 3;
    private int maxJumps = 3;
    private int myJumpHeight = 7;
-   private double myInertia = 0.95;
+
    private int myGroundX;
    private int myGroundY;
    private int myCeilingX;
