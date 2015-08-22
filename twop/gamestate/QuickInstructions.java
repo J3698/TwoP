@@ -3,8 +3,10 @@ package twop.gamestate;
 import twop.GamePanel;
 import twop.Player;
 import twop.gui.GUIManager;
+import twop.gui.GameOverButton;
 import twop.gui.InstructionsButton;
 import twop.util.StringDraw;
+import twop.util.Vector2;
 import twop.sound.Sound;
 
 import java.awt.Graphics;
@@ -17,36 +19,33 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * Instructions game state for showing controls
- * to players.
- *
- */
 public class QuickInstructions extends GameState {
    private static Font myKeyFont = StringDraw.keyFont();
    private static Font myKeyFont2 = StringDraw.keyFont2();
+
    private GamePanel myGamePanel;
-   private Player myFirstPlayer;
-   private Player mySecondPlayer;
    private int myGameWidth;
    private int myGameHeight;
+
    private InstructRect[] myInstructRects = new InstructRect[12];
+
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
+   private GUIManager myGUIManager;
 
-   public QuickInstructions(GamePanel gamePanel, Player firstPlayer, Player secondPlayer,
-                                            int gameWidth, int gameHeight) {
+   public QuickInstructions(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("quickinstructions");
       myGamePanel = gamePanel;
-      myFirstPlayer = firstPlayer;
-      mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
+      myGUIManager = new GUIManager(myGamePanel);
+      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "Back", new Vector2(10, 420), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new GameOverButton(new SkipListener(), "Skip", new Vector2(500, 420), myGameWidth, myGameHeight));
 
-      Color c = myFirstPlayer.getColor();
-      Color c2 = mySecondPlayer.getColor();
+      Color c = myGamePanel.getPlay().getFirstPlayer().getColor();
+      Color c2 = myGamePanel.getPlay().getSecondPlayer().getColor();
       Font f = myKeyFont;
       Font f2 = myKeyFont2;
       myInstructRects[0] = new InstructRect("s", c, f, KeyEvent.VK_S, 150, 150, 50, 50);
@@ -69,13 +68,13 @@ public class QuickInstructions extends GameState {
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(myKeyFont2);
-      pen.setColor(myFirstPlayer.getColor());
+      pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
       StringDraw.drawStringCenter(pen, "1  -  shoot", myGameWidth / 4, 230 + 40);
       StringDraw.drawStringCenter(pen, "2  -  toggle gun spinning", myGameWidth / 4, 260 + 40);
       StringDraw.drawStringCenter(pen, "s  -  toggle gun direction", myGameWidth / 4, 290 + 40);
       StringDraw.drawStringCenter(pen, "w, a, d  -  movement", myGameWidth / 4, 320 + 40);
 
-      pen.setColor(mySecondPlayer.getColor());
+      pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
       StringDraw.drawStringCenter(pen, ",  -  shoot", myGameWidth * 3 / 4, 230 + 40);
       StringDraw.drawStringCenter(pen, ".  -  toggle gun spinning", myGameWidth * 3 / 4, 260 + 40);
       StringDraw.drawStringCenter(pen, "down  -  toggle gun direction", myGameWidth * 3 / 4, 290 + 40);
@@ -83,10 +82,12 @@ public class QuickInstructions extends GameState {
 
       pen.setColor(new Color(50, 50, 50, 100));
       pen.setFont(myKeyFont);
-      StringDraw.drawStringCenter(pen, "[Press your keys...]", myGameWidth / 2, 450);
+      StringDraw.drawStringCenter(pen, "[Press your keys...]", myGameWidth / 2, 400);
 
       for (InstructRect rect: myInstructRects)
          rect.draw(pen);
+
+      myGUIManager.draw(pen);
    }
 
    public void update() {
@@ -110,6 +111,24 @@ public class QuickInstructions extends GameState {
    }
 
    private class MouseListener extends MouseAdapter {
+      public void mousePressed(MouseEvent event) {
+         myGUIManager.mousePressed(event);
+      }
+      public void mouseMoved(MouseEvent event) {
+         myGUIManager.mouseMoved(event);
+      }
+   }
+
+   public class MainMenuListener implements ActionListener {
+      public void actionPerformed(ActionEvent event) {
+         myGamePanel.setGameMode("mainmenu");
+      }
+   }
+
+   public class SkipListener implements ActionListener {
+      public void actionPerformed(ActionEvent event) {
+         myGamePanel.setGameMode("play");
+      }
    }
 
    private class InstructRect {
@@ -161,6 +180,9 @@ public class QuickInstructions extends GameState {
       }
       public boolean isActivated() {
          return myIsActivated;
+      }
+      public void activate() {
+         myIsActivated = true;
       }
    }
 }
