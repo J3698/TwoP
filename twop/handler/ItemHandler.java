@@ -40,7 +40,7 @@ public class ItemHandler {
             myItems.remove(item);
          else {
             item.update(firstPlayer, secondPlayer);
-            item.getPosition().addY(1);
+            item.getPosition().addY(2);
          }
       }
    }
