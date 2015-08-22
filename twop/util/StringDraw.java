@@ -32,12 +32,6 @@ public class StringDraw {
       return new Font("Ariel", Font.ITALIC, 20);
    }
 
-   public static void drawSmoothStrings(Graphics pen) {
-      Graphics2D pen2D = (Graphics2D) pen;
-      pen2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      pen2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-   }
-
    public static void drawStringCenter(Graphics pen, String string, int x, int y) {
       Graphics2D pen2D = (Graphics2D) pen;
       FontMetrics fontMetrics = pen2D.getFontMetrics();
