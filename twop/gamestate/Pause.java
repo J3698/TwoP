@@ -46,7 +46,6 @@ public class Pause extends GameState {
          fadeOutVeil();
          if (myVeilOpacity == 0) {
             myGamePanel.setGameMode("play");
-            myGamePanel.getPlay().setBackgroundMessage("P to Pause");
          }
       }
    }
@@ -70,8 +69,10 @@ public class Pause extends GameState {
 
    private class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
-         if (event.getKeyCode() == KeyEvent.VK_R)
+         if (event.getKeyCode() == KeyEvent.VK_R) {
             myIsPausing = false;
+            myGamePanel.getPlay().setBackgroundMessage("P to Pause");
+         }
       }
    }
 
