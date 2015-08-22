@@ -13,7 +13,7 @@ public class FireEffect extends Effect {
    private Sound mySound;
 
    public FireEffect(Player player) {
-      super(player, 350);
+      super(player, 200);
       myVisualEffect = new ParticleSystem("fire", getPlayer().getCenter().copy());
       mySound = new Sound("crackling");
       mySound.play();
