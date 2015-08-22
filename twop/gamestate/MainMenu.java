@@ -40,7 +40,6 @@ public class MainMenu extends GameState {
    public void draw(Graphics pen) {
 	  pen.setColor(new Color(100, 100, 100));
 	  pen.fillRect(0, 0, myGameWidth, myGameHeight);
-	  StringDraw.drawSmoothStrings(pen);
 	  myGUIManager.draw(pen);
    }
 
