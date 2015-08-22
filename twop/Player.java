@@ -83,37 +83,17 @@ public class Player extends Circle {
          myEffects.remove(key);
    }
 
-
-   //Can't update speed in keylistener, only update whether
-   //acceleration is occuring, otherwise there will be a
-   //delay.
-   //Note: May fix later, may have nice effect
-   /**
-    *
-    *
-    *
-    */
    public void updateVelocity() {
       myVelocity.addX(mySpeed);
       myVelocity.multiplyX(myInertia);
       myVelocity.addY(gravity);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void updatePosition() {
       getCenter().addX(myVelocity.getX());
       getCenter().subtractY(myVelocity.getY());
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void keepInBounds() {
       if (getCenter().getY() + getRadius() > myGroundY) {
          myVelocity.setY(0);
