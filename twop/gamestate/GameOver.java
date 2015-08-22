@@ -23,9 +23,6 @@ public class GameOver extends GameState {
    private int myGameWidth;
    private int myGameHeight;
 
-   private Player myFirstPlayer;
-   private Player mySecondPlayer;
-
    private GUIManager myGUIManager;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
@@ -33,11 +30,9 @@ public class GameOver extends GameState {
    private int myVeilOpacity = 0;
 
 
-   public GameOver(GamePanel gamePanel, Player firstPlayer, Player secondPlayer, int gameWidth, int gameHeight) {
+   public GameOver(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("gameOver");
       myGamePanel = gamePanel;
-      myFirstPlayer = firstPlayer;
-      mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
@@ -55,7 +50,7 @@ public class GameOver extends GameState {
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(new Font("Sans", 0, 22));
-      pen.setColor(myFirstPlayer.getColor());
+      pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
 
       String firstWinState, secondWinState;
       if (myGamePanel.getPlay().getWinner() == 1) {
@@ -67,7 +62,7 @@ public class GameOver extends GameState {
       }
 
       StringDraw.drawStringCenter(pen, "P L A Y E R  O N E  " + firstWinState , myGameWidth / 2 - 155, myGameHeight / 2 - 60);
-      pen.setColor(mySecondPlayer.getColor());
+      pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
       StringDraw.drawStringCenter(pen, "P L A Y E R  T W O  " + secondWinState, myGameWidth / 2 + 155, myGameHeight / 2 - 60);
 
       myGUIManager.draw(pen);
@@ -79,6 +74,10 @@ public class GameOver extends GameState {
       if (myVeilOpacity <= 150) {
          myVeilOpacity += 5;
       }
+   }
+
+   public void reset() {
+      myVeilOpacity = 0;
    }
 
    public class MainMenuListener implements ActionListener {
@@ -101,14 +100,14 @@ public class GameOver extends GameState {
    private class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
          if (myVeilOpacity < 200) {
-            myFirstPlayer.getControls().keyDown(event);
-            mySecondPlayer.getControls().keyDown(event);
+            myGamePanel.getPlay().getFirstPlayer().getControls().keyDown(event);
+            myGamePanel.getPlay().getSecondPlayer().getControls().keyDown(event);
          }
       }
       public void keyReleased(KeyEvent event) {
          if (myVeilOpacity < 200) {
-            myFirstPlayer.getControls().keyUp(event);
-            mySecondPlayer.getControls().keyUp(event);
+            myGamePanel.getPlay().getFirstPlayer().getControls().keyUp(event);
+            myGamePanel.getPlay().getSecondPlayer().getControls().keyUp(event);
          }
       }
    }
