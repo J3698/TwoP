@@ -1,9 +1,11 @@
 package twop.gamestate;
 
 import twop.GamePanel;
+import twop.Gun;
 import twop.handler.*;
 import twop.Player;
 import twop.util.StringDraw;
+import twop.util.Vector2;
 
 import java.awt.Graphics;
 import java.awt.Font;
@@ -33,27 +35,35 @@ public class Play extends GameState {
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
-   public Play(GamePanel gamePanel, Player firstPlayer, Player secondPlayer,
-                                    int gameWidth, int gameHeight) {
+   public Play(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("play");
       myGamePanel = gamePanel;
-      myFirstPlayer = firstPlayer;
-      mySecondPlayer = secondPlayer;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
+      initPlayers();
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
       myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
       playResumeFont = StringDraw.playResumeFont();
    }
 
+   public void initPlayers() {
+      int radius = 19;
+      Vector2 firstPos = new Vector2(60, 350);
+      Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
+      myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
+      mySecondPlayer = new Player(secondPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
+      mySecondPlayer.getControls().setSecondControls();
+      mySecondPlayer.getGun().setSpinDirection(Gun.LEFT);
+   }
+
    public void draw(Graphics pen) {
       drawBackground(pen);
-      myPlaneHandler.draw(pen);
       myBumperHandler.draw(pen);
       myItemHandler.draw(pen);
+      myPlaneHandler.draw(pen);
       myFirstPlayer.drawSelfAndWeapon(pen);
       mySecondPlayer.drawSelfAndWeapon(pen);
       drawHealth(pen);
@@ -83,11 +93,12 @@ public class Play extends GameState {
 
    public void reset() {
       // stop sounds
-      System.out.println("Game reset");
-      myGamePanel.initPlayers();
+      initPlayers();
+      myBackgroundMessage = "P to Pause";
       myItemHandler.reset();
       myBumperHandler.reset();
       myPlaneHandler.reset();
+      myGamePanel.getGameOver().reset();
    }
 
    public void drawBackground(Graphics pen) {
@@ -120,7 +131,7 @@ public class Play extends GameState {
       myBackgroundMessage = message;
    }
 
-   public int getWinner() { return myWinner; }
+
 
    public KeyAdapter getKeyListener() { return myKeyListener; }
    public MouseAdapter getMouseListener() { return myMouseListener; }
@@ -144,4 +155,8 @@ public class Play extends GameState {
 
    private class MouseListener extends MouseAdapter {
    }
+
+   public Player getFirstPlayer() { return myFirstPlayer; }
+   public Player getSecondPlayer() { return mySecondPlayer; }
+   public int getWinner() { return myWinner; }
 }
