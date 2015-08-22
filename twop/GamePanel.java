@@ -5,6 +5,7 @@ import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.Player;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.Timer;
 
@@ -24,8 +27,6 @@ public class GamePanel extends JPanel {
    private BufferedImage myImage;
    private Graphics myBuffer;
    private Timer timer;
-   private Player myFirstPlayer;
-   private Player mySecondPlayer;
    private MainMenu myMainMenu;
    private Options myOptions;
    private Credits myCredits;
@@ -36,10 +37,13 @@ public class GamePanel extends JPanel {
    private GameOver myGameOver;
    private String myCurrentGameMode;
    private ArrayList<GameState> myGameStates;
+
+   private JFrame myFrame;
    private int myGameWidth;
    private int myGameHeight;
 
-   public GamePanel(int gameWidth, int gameHeight) {
+   public GamePanel(JFrame frame, int gameWidth, int gameHeight) {
+      myFrame = frame;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myCurrentGameMode = "mainmenu";
@@ -47,7 +51,6 @@ public class GamePanel extends JPanel {
       setFocusable(true);
       preparePanelImage();
       addThreadInputs();
-      initPlayers();
       initGameModes();
    }
 
@@ -64,23 +67,13 @@ public class GamePanel extends JPanel {
       timer.start();
    }
 
-   public void initPlayers() {
-      int radius = 19;
-      Vector2 firstPos = new Vector2(60, 350);
-      Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
-      myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight, myGameWidth, 0);
-      mySecondPlayer = new Player(secondPos, radius, 0, myGameHeight, myGameWidth, 0);
-      mySecondPlayer.getControls().setSecondControls();
-      mySecondPlayer.getGun().setSpinDirection(Gun.LEFT);
-   }
-
    public void initGameModes() {
       myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
+      myPlay = new Play(this, myGameWidth, myGameHeight);
       myInstructions = new Instructions(this, myGameWidth, myGameHeight);
-      myQuickInstructions = new QuickInstructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
-      myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myQuickInstructions = new QuickInstructions(this, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
-      myGameOver = new GameOver(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myGameOver = new GameOver(this, myGameWidth, myGameHeight);
       myCredits = new Credits(this, myGameWidth, myGameHeight);
       myOptions = new Options(this, myGameWidth, myGameHeight);
 
@@ -102,6 +95,12 @@ public class GamePanel extends JPanel {
    }
 
    public void draw(Graphics pen) {
+      Graphics2D pen2D = (Graphics2D) pen;
+      pen2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      pen2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      pen2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+      pen2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
       for (GameState gameState : myGameStates) {
          gameState.checkDrawTrigger(myCurrentGameMode, pen);
       }
