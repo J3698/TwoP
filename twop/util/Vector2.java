@@ -1,5 +1,7 @@
 package twop.util;
 
+import java.util.Random;
+
 public class Vector2{                        //Two dimensional vector
    private double x;                         //CVector elements
    private double y;
@@ -8,6 +10,7 @@ public class Vector2{                        //Two dimensional vector
       x = _x;
       y = _y;
    }
+
    public void setX(double _x){              //Setters and getters
       x = _x;
    }
@@ -112,5 +115,13 @@ public class Vector2{                        //Two dimensional vector
 
    public String toString(){
       return "("+x+", "+y+")";
+   }
+
+   public static Vector2 randVector(double xLowerLim, double yLowerLim,
+                                    double xUpperLim, double yUpperLim) {
+      Random rand = new Random();
+      double x = rand.nextDouble() * (xUpperLim - xLowerLim) + xLowerLim;
+      double y = rand.nextDouble() * (yUpperLim - yLowerLim) + yLowerLim;
+      return new Vector2(x, y);
    }
 }
