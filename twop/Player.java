@@ -26,17 +26,19 @@ public class Player extends Circle {
    private double myMaxHealth = myHealth;
 
    private Vector2 myVelocity;
-   private double myAcceleration = 1;
+   private double myAcceleration = 0.2;
    private double mySpeed = 0;
    private double myMaxSpeed = 6;
-   private double myInertia = 0.95;
+   private double myInertia = 0.8;
 
    private double myBallHeight = 130;
 
    private boolean myIsJumpReleased = true;
    private boolean myIsFlipReleased = true;
-   private boolean myIsLeftPressed = false;
-   private boolean myIsRightPressed = false;
+   private boolean myIsGoingLeft = false;
+   private boolean myIsGoingRight = false;
+   private boolean myIsLeftReleased = true;
+   private boolean myIsRightReleased = true;
    private boolean myIsSpinToggleReleased = true;
 
    private int myJumps = 3;
@@ -91,6 +93,29 @@ public class Player extends Circle {
    }
 
    public void updateVelocity() {
+
+//Left
+      if (myIsGoingLeft) {
+         mySpeed -= myAcceleration;
+         if (Math.abs(mySpeed) > myMaxSpeed) {
+            mySpeed = -myMaxSpeed;
+         }
+      } else {
+         if (mySpeed < 0)
+            mySpeed = 0;
+      }
+
+      if (myIsGoingRight) {
+         mySpeed += myAcceleration;
+         if (Math.abs(mySpeed) > myMaxSpeed) {
+            mySpeed = myMaxSpeed;
+         }
+      } else {
+         if (mySpeed > 0)
+            mySpeed = 0;
+      }
+
+
       myVelocity.addX(mySpeed);
       myVelocity.multiplyX(myInertia);
       myVelocity.addY(gravity);
@@ -210,46 +235,21 @@ public class Player extends Circle {
     *
     */
    public void left() {
-      myIsLeftPressed = true;
-      mySpeed -= myAcceleration;
-      if (Math.abs(mySpeed) > myMaxSpeed) {
-         mySpeed = -myMaxSpeed;
-      }
+      myIsGoingLeft = true;
+      myIsGoingRight = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseLeft() {
-      myIsLeftPressed = false;
-      if (mySpeed < 0)
-         mySpeed = 0;
+      myIsGoingLeft = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void right() {
-      myIsRightPressed = true;
-      mySpeed += myAcceleration;
-      if (Math.abs(mySpeed) > myMaxSpeed) {
-         mySpeed = myMaxSpeed;
-      }
+      myIsGoingRight = true;
+      myIsGoingLeft = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseRight() {
-      myIsRightPressed = false;
-      if (mySpeed > 0)
-         mySpeed = 0;
+      myIsGoingRight = false;
    }
 
    /**
