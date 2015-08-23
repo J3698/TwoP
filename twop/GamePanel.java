@@ -1,7 +1,9 @@
 package twop;
 
 import twop.gamestate.*;
+import twop.util.Camera;
 import twop.util.StringDraw;
+import twop.util.Vector2;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,9 +24,19 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel {
    private static final long serialVersionUID = 1069592807236812370L;
+
+   private JFrame myFrame;
+   private Camera myCamera;
+
+   private Timer timer;
    private BufferedImage myImage;
    private Graphics myBuffer;
-   private Timer timer;
+
+   private int myGameWidth;
+   private int myGameHeight;
+
+   private String myCurrentGameMode;
+   private ArrayList<GameState> myGameStates;
    private MainMenu myMainMenu;
    private Options myOptions;
    private Credits myCredits;
@@ -33,12 +45,6 @@ public class GamePanel extends JPanel {
    private Play myPlay;
    private Pause myPause;
    private GameOver myGameOver;
-   private String myCurrentGameMode;
-   private ArrayList<GameState> myGameStates;
-
-   private JFrame myFrame;
-   private int myGameWidth;
-   private int myGameHeight;
 
    public GamePanel(JFrame frame, int gameWidth, int gameHeight) {
       myFrame = frame;
@@ -46,6 +52,7 @@ public class GamePanel extends JPanel {
       myGameHeight = gameHeight;
       myCurrentGameMode = "mainmenu";
       myGameStates = new ArrayList<GameState>();
+      myCamera = new Camera(this);
       setFocusable(true);
       preparePanelImage();
       addThreadInputs();
@@ -86,10 +93,21 @@ public class GamePanel extends JPanel {
    }
 
    public void paintComponent(Graphics pen) {
+      //Clear painting spaces
       pen.clearRect(0, 0, getWidth(), getHeight());
       myBuffer.clearRect(0, 0, myGameWidth, myGameHeight);
+      //Draw painting spaces
       draw(myBuffer);
-      pen.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
+      //Draw camera view to screen
+      int x0 = (int) myCamera.getPos1().getX();
+      int y0 = (int) myCamera.getPos1().getY();
+      int x1 = (int) myCamera.getPos2().getX();
+      int y1 = (int) myCamera.getPos2().getY();
+      pen.drawImage(myImage, x0, y0, x1, y1, null);
+      //Draw version information
+      pen.setFont(StringDraw.versionFont());
+      pen.setColor(new Color(250, 40, 200, 150));
+      pen.drawString("V. 1.2", 5, 20);
    }
 
    public void draw(Graphics pen) {
@@ -102,15 +120,14 @@ public class GamePanel extends JPanel {
       for (GameState gameState : myGameStates) {
          gameState.checkDrawTrigger(myCurrentGameMode, pen);
       }
-
-      pen.setFont(StringDraw.versionFont());
-      pen.setColor(new Color(123, 45, 249));
-      pen.drawString("V. 1.2", 5, 20);
    }
 
    public void update() {
-      for (GameState gameState : myGameStates)
+      myCamera.update();
+
+      for (GameState gameState : myGameStates) {
          gameState.checkUpdateTrigger(myCurrentGameMode);
+      }
    }
 
    public class UpdateListener implements ActionListener {
