@@ -1,7 +1,6 @@
-package twop.handler;
+package twop.bumper;
 
 import twop.Player;
-import twop.bumper.*;
 
 import java.util.ArrayList;
 import java.awt.Graphics;

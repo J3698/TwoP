@@ -1,9 +1,7 @@
-package twop.handler;
+package twop.plane;
 
-import twop.plane.Plane;
 import twop.Player;
 import twop.util.Vector2;
-import twop.plane.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
