@@ -2,8 +2,6 @@ package twop;
 
 import twop.gamestate.*;
 import twop.util.StringDraw;
-import twop.util.Vector2;
-import twop.Player;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
