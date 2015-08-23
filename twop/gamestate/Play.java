@@ -2,7 +2,10 @@ package twop.gamestate;
 
 import twop.GamePanel;
 import twop.Gun;
-import twop.handler.*;
+import twop.plane.PlaneHandler;
+import twop.bumper.BumperHandler;
+import twop.item.ItemHandler;
+import twop.weather.WeatherHandler;
 import twop.Player;
 import twop.util.StringDraw;
 import twop.util.Vector2;
@@ -13,7 +16,6 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Play game state for playing the game.
@@ -21,17 +23,22 @@ import java.awt.event.MouseEvent;
  */
 public class Play extends GameState {
    private GamePanel myGamePanel;
+   private int myGameWidth;
+   private int myGameHeight;
+
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
    private ItemHandler myItemHandler;
+   private WeatherHandler myWeatherHandler;
+
    private Player myFirstPlayer;
    private Player mySecondPlayer;
    private int myWinner = 0;
+
    private Font playResumeFont;
-   private int myGameWidth;
-   private int myGameHeight;
-   private int myTextOpacity = 50;
    private String myBackgroundMessage = "P to Pause";
+   private int myTextOpacity = 50;
+
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
@@ -46,6 +53,7 @@ public class Play extends GameState {
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
       myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
+      myWeatherHandler = new WeatherHandler(myGamePanel);
       playResumeFont = StringDraw.playResumeFont();
    }
 
@@ -67,6 +75,7 @@ public class Play extends GameState {
       myFirstPlayer.drawSelfAndWeapon(pen);
       mySecondPlayer.drawSelfAndWeapon(pen);
       drawHealth(pen);
+      myWeatherHandler.draw(pen);
    }
 
    public void update() {
@@ -77,6 +86,7 @@ public class Play extends GameState {
       myPlaneHandler.update(myFirstPlayer, mySecondPlayer);
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
+      myWeatherHandler.update();
 
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
          myGamePanel.setGameMode("gameOver");
