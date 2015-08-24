@@ -12,8 +12,8 @@ import java.awt.Graphics;
 public class Rain extends Weather {
    private ArrayList<RainParticle> myRainParticles;
 
-   public Rain(GamePanel gamePanel) {
-      super(gamePanel);
+   public Rain(int life, GamePanel gamePanel) {
+      super(life, gamePanel);
       myRainParticles = new ArrayList<RainParticle>();
    }
 
@@ -35,6 +35,8 @@ public class Rain extends Weather {
       if (secondPlayer.hasEffectKey("fire")) {
          secondPlayer.getEffects().get("fire").setLife(0);
       }
+
+      tick();
    }
 
    public void draw(Graphics pen) {
