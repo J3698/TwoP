@@ -16,12 +16,12 @@ public class WeatherHandler {
    public void update() {
       if (myCurrentWeather != null) {
          myCurrentWeather.update();
-         if (new Random().nextDouble() < 0.005) {
+         if (myCurrentWeather.isOver()) {
             myCurrentWeather = null;
          }
       } else {
-         if (new Random().nextDouble() < 0.01) {
-            myCurrentWeather = new Rain(myGamePanel);
+         if (new Random().nextDouble() < 0.005) {
+            myCurrentWeather = new Rain(1000, myGamePanel);
          }
       }
    }
