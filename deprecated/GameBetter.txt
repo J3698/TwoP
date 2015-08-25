@@ -4,18 +4,14 @@ import twop.gamestate.*;
 import twop.util.StringDraw;
 import twop.util.Vector2;
 
-import java.awt.Graphics;
-import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Graphics;
-import javax.swing.Timer;
 import java.awt.Font;
 import java.awt.Color;
-
 
 /**
  * Game class holds game modes and
@@ -28,12 +24,16 @@ public class Game {
    private int myGameHeight;
    private Player myFirstPlayer;
    private Player mySecondPlayer;
-   private Font playAndResumeFont;
    private Font versionFont;
+   private MainMenu myMainMenu;
    private Instructions myInstructions;
+   private QuickInstructions myQuickInstructions;
    private Play myPlay;
    private Pause myPause;
    private GameOver myGameOver;
+   private Credits myCredits;
+   private Options myOptions;
+   private ArrayList<GameState> myGameStates;
 
    /**
     *
@@ -45,6 +45,7 @@ public class Game {
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       versionFont = StringDraw.versionFont();
+      myGameStates = new ArrayList<GameState>();
       initPlayers();
       initGameModes();
    }
@@ -55,7 +56,7 @@ public class Game {
     *
     */
    public void initPlayers() {
-      int radius = 20;
+      int radius = 19;
       Vector2 firstPos = new Vector2(60, 350);
       Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
       myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight, myGameWidth, 0);
@@ -70,10 +71,22 @@ public class Game {
     *
     */
    public void initGameModes() {
-      myInstructions = new Instructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
+      myInstructions = new Instructions(this, myGameWidth, myGameHeight);
+      myQuickInstructions = new QuickInstructions(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPlay = new Play(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
       myPause = new Pause(this, myGameWidth, myGameHeight);
-      myGameOver = new GameOver(this, myGameWidth, myGameHeight);
+      myGameOver = new GameOver(this, myFirstPlayer, mySecondPlayer, myGameWidth, myGameHeight);
+      myCredits = new Credits(this, myGameWidth, myGameHeight);
+      myOptions = new Options(this, myGameWidth, myGameHeight);
+      myGameStates.add(myMainMenu);
+      myGameStates.add(myInstructions);
+      myGameStates.add(myQuickInstructions);
+      myGameStates.add(myPlay);
+      myGameStates.add(myPause);
+      myGameStates.add(myGameOver);
+      myGameStates.add(myCredits);
+      myGameStates.add(myOptions);
    }
 
    /**
@@ -82,10 +95,8 @@ public class Game {
     *
     */
    public void update() {
-      myInstructions.checkUpdateTrigger(myCurrentGameMode);
-      myPlay.checkUpdateTrigger(myCurrentGameMode);
-      myPause.checkUpdateTrigger(myCurrentGameMode);
-      myGameOver.checkUpdateTrigger(myCurrentGameMode);
+      for (GameState gameState : myGameStates)
+         gameState.checkUpdateTrigger(myCurrentGameMode);
    }
 
    /**
@@ -95,40 +106,37 @@ public class Game {
     *
     */
    public void draw(Graphics pen) {
-      myInstructions.checkDrawTrigger(myCurrentGameMode, pen);
-      myPlay.checkDrawTrigger(myCurrentGameMode, pen);
-      myPause.checkDrawTrigger(myCurrentGameMode, pen);
-      myGameOver.checkDrawTrigger(myCurrentGameMode, pen);
+      for (GameState gameState : myGameStates)
+         gameState.checkDrawTrigger(myCurrentGameMode, pen);
       pen.setFont(versionFont);
       pen.setColor(new Color(123, 45, 249));
-      pen.drawString("V. 1.1", 5, 20);
+      pen.drawString("V. 1.2", 5, 20);
    }
 
-   /**
-    * Tell all game states to check if they should
-    * check for key-down events and act accordingly.
-    *
-    */
-   public void keyDownListen(KeyEvent event) {
-       myInstructions.checkKeyListenTrigger(myCurrentGameMode, event);
-       myPlay.checkKeyListenTrigger(myCurrentGameMode, event);
-       myPause.checkKeyListenTrigger(myCurrentGameMode, event);
-       myGameOver.checkKeyListenTrigger(myCurrentGameMode, event);
+   public MouseAdapter getMouseListener() {
+	   for (GameState gameState : myGameStates) {
+		   if (gameState.getGameMode().equals(myCurrentGameMode))
+			   return gameState.getMouseListener();
+	   }
+      System.out.println("Invalid GameState!!");
+	   return null;
    }
 
-   /**
-    * Tell all game states to check if they should
-    * check for key-up events and act accordingly.
-    *
-    */
-   public void keyUpListen(KeyEvent event) {
-       myFirstPlayer.getControls().keyUp(event);
-       mySecondPlayer.getControls().keyUp(event);
+   public KeyAdapter getKeyListener() {
+	   for (GameState gameState : myGameStates) {
+		   if (gameState.getGameMode().equals(myCurrentGameMode))
+			   return gameState.getKeyListener();
+	   }
+	   System.out.println("Invalid GameState!!");
+	   return null;
    }
 
    public void setGameMode(String gameMode) { myCurrentGameMode = gameMode; }
+   public MainMenu getMainMenu() { return myMainMenu; }
    public Play getPlay() { return myPlay; }
    public Pause getPause() { return myPause; }
    public Instructions getInstructions() { return myInstructions; }
+   public QuickInstructions getQuickInstructions() { return myQuickInstructions; }
    public GameOver getGameOver() { return myGameOver; }
+   public Credits getCredits() { return myCredits; }
 }

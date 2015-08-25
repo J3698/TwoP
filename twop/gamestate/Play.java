@@ -1,60 +1,83 @@
 package twop.gamestate;
 
-import twop.Game;
-import twop.handler.*;
+import twop.GamePanel;
+import twop.Gun;
+import twop.plane.PlaneHandler;
+import twop.bumper.BumperHandler;
+import twop.item.ItemHandler;
+import twop.weather.WeatherHandler;
 import twop.Player;
 import twop.util.StringDraw;
+import twop.util.Vector2;
 
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 
 /**
  * Play game state for playing the game.
  *
  */
-public class Play implements GameState {
-   private String myGameMode = "play";
-   private Game myGame;
+public class Play extends GameState {
+   private GamePanel myGamePanel;
+   private int myGameWidth;
+   private int myGameHeight;
+
    private PlaneHandler myPlaneHandler;
    private BumperHandler myBumperHandler;
    private ItemHandler myItemHandler;
+   private WeatherHandler myWeatherHandler;
+
    private Player myFirstPlayer;
    private Player mySecondPlayer;
-   private Font playResumeFont;
-   private int myGameWidth;
-   private int myGameHeight;
-   private int myTextOpacity = 50;
-   private String myBackgroundMessage = "P to Pause";
+   private int myWinner = 0;
 
-   public Play(Game game, Player firstPlayer, Player secondPlayer,
-                                    int gameWidth, int gameHeight) {
-      myGame = game;
-      myFirstPlayer = firstPlayer;
-      mySecondPlayer = secondPlayer;
+   private Font playResumeFont;
+   private String myBackgroundMessage = "P to Pause";
+   private int myTextOpacity = 50;
+
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
+
+   public Play(GamePanel gamePanel, int gameWidth, int gameHeight) {
+      super("play");
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
+      initPlayers();
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
       myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
+      myWeatherHandler = new WeatherHandler(myGamePanel);
       playResumeFont = StringDraw.playResumeFont();
+   }
+
+   public void initPlayers() {
+      int radius = 19;
+      Vector2 firstPos = new Vector2(60, 350);
+      Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
+      myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
+      mySecondPlayer = new Player(secondPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
+      mySecondPlayer.getControls().setSecondControls();
+      mySecondPlayer.getGun().setSpinDirection(Gun.LEFT);
    }
 
    public void draw(Graphics pen) {
       drawBackground(pen);
-      myPlaneHandler.draw(pen);
       myBumperHandler.draw(pen);
       myItemHandler.draw(pen);
+      myPlaneHandler.draw(pen);
       myFirstPlayer.drawSelfAndWeapon(pen);
       mySecondPlayer.drawSelfAndWeapon(pen);
       drawHealth(pen);
+      myWeatherHandler.draw(pen);
    }
 
-   /**
-    * Update the cuurently played game.
-    *
-    */
    public void update() {
       myFirstPlayer.update();
       myFirstPlayer.takeDamage(mySecondPlayer.getGun().getBullets());
@@ -63,39 +86,31 @@ public class Play implements GameState {
       myPlaneHandler.update(myFirstPlayer, mySecondPlayer);
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
+      myWeatherHandler.update();
 
-      if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0)
-         myGame.setGameMode("gameOver");
-   }
-
-   /**
-    * Listen for play key events if current game
-    * state is play.
-    *
-    */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
-   }
-
-   /**
-    * Listen for play key events
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      myFirstPlayer.getControls().keyDown(event);
-      mySecondPlayer.getControls().keyDown(event);
-      if (event.getKeyCode() == KeyEvent.VK_P) {
-         myBackgroundMessage = "R to Resume";
-         myGame.setGameMode("pause");
-         myGame.getPause().setIsPausing(true);
+      if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
+         myGamePanel.setGameMode("gameOver");
+         myBackgroundMessage = "";
+         if (myWinner == 0) {
+            if (myFirstPlayer.getHealth() <= 0) {
+               myWinner = 2;
+            } else if (mySecondPlayer.getHealth() <= 0) {
+               myWinner = 1;
+            }
+         }
       }
    }
 
-   /**
-    * Draw the background for play.
-    *
-    */
+   public void reset() {
+      // stop sounds
+      initPlayers();
+      myBackgroundMessage = "P to Pause";
+      myItemHandler.reset();
+      myBumperHandler.reset();
+      myPlaneHandler.reset();
+      myGamePanel.getGameOver().reset();
+   }
+
    public void drawBackground(Graphics pen) {
       pen.setColor(mySecondPlayer.getColor());
       pen.fillRect(0, 0, myGameWidth / 2, myGameHeight);
@@ -107,7 +122,7 @@ public class Play implements GameState {
    }
 
    /**
-    * Draw the healthbars of the players.
+    * Draw the health bars of the players.
     *
     */
    public void drawHealth(Graphics pen) {
@@ -122,26 +137,36 @@ public class Play implements GameState {
       pen.fillRect(myGameWidth / 2, 10, secondLength, 30);
    }
 
-   /**
-    * Draws the play screen if game state is play.
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
-   }
-
    public void setBackgroundMessage(String message) {
       myBackgroundMessage = message;
    }
+
+
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+	   public void keyPressed(KeyEvent event) {
+		   myFirstPlayer.getControls().keyDown(event);
+		   mySecondPlayer.getControls().keyDown(event);
+
+		   if (event.getKeyCode() == KeyEvent.VK_P) {
+	          myBackgroundMessage = "R to Resume";
+	          myGamePanel.setGameMode("pause");
+	          myGamePanel.getPause().setIsPausing(true);
+ 	       }
+	   }
+	   public void keyReleased(KeyEvent event) {
+		   myFirstPlayer.getControls().keyUp(event);
+		   mySecondPlayer.getControls().keyUp(event);
+	   }
+   }
+
+   private class MouseListener extends MouseAdapter {
+   }
+
+   public Player getFirstPlayer() { return myFirstPlayer; }
+   public Player getSecondPlayer() { return mySecondPlayer; }
+   public int getWinner() { return myWinner; }
 }

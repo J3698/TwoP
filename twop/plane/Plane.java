@@ -6,6 +6,7 @@ import twop.Player;
 import twop.Rect;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public abstract class Plane extends Rect {
    private ColorCross myColorCross;
@@ -39,6 +40,20 @@ public abstract class Plane extends Rect {
          setAllColor(myColorCross.getPercent((1 - (myAge - (myMaturationTime + myMorphTime)) / (double)myMorphTime)));
 
       myAge++;
+   }
+
+   public void draw(Graphics pen) {
+      pen.setColor(getColor());
+      int x = (int) getPosition().getX();
+      int y = (int) getPosition().getY();
+      int width = (int) getWidth();
+      pen.fillRect(x, y, width, (int) getHeight());
+      pen.setColor(ColorCross.alpha(getColor(), 150));
+      pen.fillRect(x, y - (int) getHeight(), width, (int) getHeight());
+      pen.setColor(ColorCross.alpha(getColor(), 100));
+      pen.fillRect(x, y - (int) getHeight() * 2, width, (int) getHeight());
+      pen.setColor(ColorCross.alpha(getColor(), 50));
+      pen.fillRect(x, y - (int) getHeight() * 3, width, (int) getHeight());
    }
 
    public void setMorphTime(int morphTime) {

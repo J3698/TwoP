@@ -6,18 +6,38 @@ import twop.particlesys.particle.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Graphics;
-import java.awt.Color;
 
 public class ParticleSystem {
    private ArrayList<Particle> myParticles;
    private Vector2 mySourcePosition;
+   private Vector2 myInitialVelocity = new Vector2(0, 0);
    private String myParticleType;
-   private int myTick = 0;
+   private int myEmissionRate = 1;
+   private int myLowerAngleLimit = -180;
+   private int myUpperAngleLimit = 180;
 
-   public ParticleSystem(Vector2 sourcePosition, String particleType) {
-      mySourcePosition = sourcePosition;
-      myParticles = new ArrayList<Particle>();
+   public ParticleSystem(String particleType, Vector2 position, Vector2 velocity,
+                                        int lowerAngleLimit, int upperAngleLimit) {
       myParticleType = particleType;
+      mySourcePosition = position;
+      myInitialVelocity = velocity;
+      myLowerAngleLimit = lowerAngleLimit;
+      myUpperAngleLimit = upperAngleLimit;
+      myParticles = new ArrayList<Particle>();
+   }
+
+   public ParticleSystem(String particleType, Vector2 position) {
+      myParticleType = particleType;
+      mySourcePosition = position;
+      if (myParticleType.equals("fire")) {
+         myInitialVelocity = new Vector2(0, -3);
+         myLowerAngleLimit = -40;
+         myUpperAngleLimit = 40;
+      } else if (myParticleType.equals("poison")) {
+      } else {
+         System.out.println("Unknown Particle Type");
+      }
+      myParticles = new ArrayList<Particle>();
    }
 
    public void update() {
@@ -29,8 +49,9 @@ public class ParticleSystem {
          else
             temp.update();
       }
-      createParticles();
-      myTick++;
+      for (int i = 0; i < myEmissionRate; i++) {
+         createParticles();
+      }
    }
 
    public void draw(Graphics pen) {
@@ -39,18 +60,27 @@ public class ParticleSystem {
    }
 
    public void createParticles() {
+      Vector2 position = mySourcePosition.copy();
+      Vector2 velocity = myInitialVelocity.copy();
+      int angle = myLowerAngleLimit + new Random().nextInt(myUpperAngleLimit - myLowerAngleLimit);
+      velocity.rotateDegrees(angle);
       if (myParticleType.equalsIgnoreCase("poison")) {
          if (new Random().nextDouble() < 0.01)
-            myParticles.add(new PoisonParticle(mySourcePosition.copy()));
+            myParticles.add(new PoisonParticle(position, velocity));
       }
       else if (myParticleType.equalsIgnoreCase("fire")) {
-         myParticles.add(new FireParticle(mySourcePosition.copy()));
+         myParticles.add(new FireParticle(position, velocity));
       }
    }
-   public Vector2 getSourcePosition() {
-      return mySourcePosition;
+
+   public Vector2 getSourcePosition() { return mySourcePosition; }
+   public void setSourcePosition(Vector2 position) { mySourcePosition = position; }
+   public void setEmissionRate(int emissionRate) { myEmissionRate = emissionRate; }
+   public void setEmissionAngles(int lowerLimit, int upperLimit) {
+      myLowerAngleLimit = lowerLimit;
+      myUpperAngleLimit = upperLimit;
    }
-   public void setSourcePosition(Vector2 sourcePosition) {
-      mySourcePosition = sourcePosition;
-   }
+   public int[] getEmissionAngles() { return new int[]{myLowerAngleLimit, myUpperAngleLimit}; }
+   public void setInitialVelocity(Vector2 velocity) { myInitialVelocity = velocity; }
+   public Vector2 getInitialVelocity() { return myInitialVelocity; }
 }

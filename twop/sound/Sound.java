@@ -1,22 +1,32 @@
 package twop.sound;
 
 import java.io.*;
-import java.net.URL;
 import javax.sound.sampled.*;
-import javax.swing.*;
 
 public class Sound {
 
-   private URL myFile;
+   private File myFile;
    private AudioInputStream myAudioIn;
    private Clip myClip;
    private FloatControl myGainControl;
   
-   public Sound(String file) {
+   public Sound(String fileName) {
+      if (fileName.equalsIgnoreCase("crackling"))
+         fileName = "twop\\sound\\crackling.wav";
+      else if (fileName.equalsIgnoreCase("healthpackage"))
+         fileName = "twop\\sound\\healthpackage.wav";
+      else if (fileName.equalsIgnoreCase("keytyped"))
+         fileName = "twop\\sound\\keytyped.wav";
+      loadSound(fileName);
+   }
+
+   private void loadSound(String fileName) {
       try {
-         myFile = this.getClass().getClassLoader().getResource(file);
+         myFile = new File(fileName);
          myAudioIn = AudioSystem.getAudioInputStream(myFile);
-         myClip = AudioSystem.getClip();
+         AudioFormat format = myAudioIn.getFormat();
+         DataLine.Info info = new DataLine.Info(Clip.class, format);
+         myClip = (Clip) AudioSystem.getLine(info);
          myClip.open(myAudioIn);
          myGainControl = (FloatControl) myClip.getControl(FloatControl.Type.MASTER_GAIN);
       } catch (UnsupportedAudioFileException exception) {
@@ -41,8 +51,10 @@ public class Sound {
    }
 
    public void stop() {
-      if(myClip.isRunning())
+      if (myClip.isRunning()) {
          myClip.stop();
+         myClip.flush();
+      }
    }
 
    public boolean isRunning() {
@@ -55,8 +67,5 @@ public class Sound {
 
    public void changeVolume(float decibels) {
       myGainControl.setValue(decibels);
-   }
-
-   public static void main(String[] args) {
    }
 }

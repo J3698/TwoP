@@ -20,7 +20,7 @@ public class HealthPlane extends Plane {
    }
    public void onCollision(Player player) {
       int availableID = 0;
-      if (myTick % 5 == 0) {
+      if (myTick % 10 == 0) {
          while (player.hasEffectKey("health" + availableID))
             availableID++;
          player.addEffect("health" + availableID, new HealthEffect(player));

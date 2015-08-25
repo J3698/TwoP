@@ -9,13 +9,10 @@ import java.util.Random;
 public class FireParticle extends Particle {
    private int myDegreeOffset;
 
-   public FireParticle(Vector2 position) {
-      super(position);
+   public FireParticle(Vector2 position, Vector2 velocity) {
+      super(position, velocity);
       Random r = new Random();
       getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
-      setParticleVelocity(new Vector2(0, -3));
-      int myDegreeOffset = new Random().nextInt(80) - 40;
-      getParticleVelocity().rotateDegrees(myDegreeOffset);
       setColor(getRandomColor(100, 256, 0, 10, 0, 10));
    }
 
@@ -31,6 +28,6 @@ public class FireParticle extends Particle {
       pen.setColor(color);
       int x0 = (int) getParticlePosition().getX();
       int y0 = (int) getParticlePosition().getY();
-      pen.fillRect(x0 - 3, y0 - 3, 6, 6);
+      pen.fillOval(x0 - 3, y0 - 3, 6, 6);
    }
 }

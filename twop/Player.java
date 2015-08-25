@@ -6,7 +6,6 @@ import twop.effect.Effect;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,29 +17,38 @@ import java.util.HashMap;
  */
 public class Player extends Circle {
    private static double gravity = -0.5;
+
    private Controls myControls = new Controls(this);
    private HashMap<String, Effect> myEffects = new HashMap<String, Effect>();
+   private Gun myGun = new Gun(this);
+
    private double myHealth = 300;
    private double myMaxHealth = myHealth;
+
    private Vector2 myVelocity;
-   private double myAcceleration = 1;
+   private double myAcceleration = 0.2;
    private double mySpeed = 0;
    private double myMaxSpeed = 6;
-   private Gun myGun = new Gun(this);
+   private double myInertia = 0.8;
+
    private double myBallHeight = 130;
+
    private boolean myIsJumpReleased = true;
    private boolean myIsFlipReleased = true;
-   private boolean myIsLeftPressed = false;
-   private boolean myIsRightPressed = false;
+   private boolean myIsGoingLeft = false;
+   private boolean myIsGoingRight = false;
+   private boolean myIsLeftReleased = true;
+   private boolean myIsRightReleased = true;
    private boolean myIsSpinToggleReleased = true;
+
    private int myJumps = 3;
    private int maxJumps = 3;
    private int myJumpHeight = 7;
-   private double myInertia = 0.95;
-   int myGroundX;
-   int myGroundY;
-   int myCeilingX;
-   int myCeilingY;
+
+   private int myGroundX;
+   private int myGroundY;
+   private int myCeilingX;
+   private int myCeilingY;
 
    /**
     *
@@ -75,44 +83,49 @@ public class Player extends Circle {
       for (String key: myEffects.keySet()) {
          effect = myEffects.get(key);
          effect.update();
-         if (effect.isDead())
+         if (effect.isDead()) {
             toDelete.add(key);
+            effect.onDeath();
+         }
       }
       for (String key: toDelete)
          myEffects.remove(key);
    }
 
-
-   //Can't update speed in keylistener, only update whether
-   //acceleration is occuring, otherwise there will be a
-   //delay.
-   //Note: May fix later, may have nice effect
-   /**
-    *
-    *
-    *
-    */
    public void updateVelocity() {
+
+//Left
+      if (myIsGoingLeft) {
+         mySpeed -= myAcceleration;
+         if (Math.abs(mySpeed) > myMaxSpeed) {
+            mySpeed = -myMaxSpeed;
+         }
+      } else {
+         if (mySpeed < 0)
+            mySpeed = 0;
+      }
+
+      if (myIsGoingRight) {
+         mySpeed += myAcceleration;
+         if (Math.abs(mySpeed) > myMaxSpeed) {
+            mySpeed = myMaxSpeed;
+         }
+      } else {
+         if (mySpeed > 0)
+            mySpeed = 0;
+      }
+
+
       myVelocity.addX(mySpeed);
       myVelocity.multiplyX(myInertia);
       myVelocity.addY(gravity);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void updatePosition() {
       getCenter().addX(myVelocity.getX());
       getCenter().subtractY(myVelocity.getY());
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void keepInBounds() {
       if (getCenter().getY() + getRadius() > myGroundY) {
          myVelocity.setY(0);
@@ -222,46 +235,21 @@ public class Player extends Circle {
     *
     */
    public void left() {
-      myIsLeftPressed = true;
-      mySpeed -= myAcceleration;
-      if (Math.abs(mySpeed) > myMaxSpeed) {
-         mySpeed = -myMaxSpeed;
-      }
+      myIsGoingLeft = true;
+      myIsGoingRight = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseLeft() {
-      myIsLeftPressed = false;
-      if (mySpeed < 0)
-         mySpeed = 0;
+      myIsGoingLeft = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void right() {
-      myIsRightPressed = true;
-      mySpeed += myAcceleration;
-      if (Math.abs(mySpeed) > myMaxSpeed) {
-         mySpeed = myMaxSpeed;
-      }
+      myIsGoingRight = true;
+      myIsGoingLeft = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseRight() {
-      myIsRightPressed = false;
-      if (mySpeed > 0)
-         mySpeed = 0;
+      myIsGoingRight = false;
    }
 
    /**
@@ -320,7 +308,7 @@ public class Player extends Circle {
     */
    public void setRandomColor() {
       Random rand = new Random();
-      int r = rand.nextInt(255);
+      int r = rand.nextInt(100);
       int g = rand.nextInt(255);
       int b = rand.nextInt(255);
       setColor(new Color(r, g, b));

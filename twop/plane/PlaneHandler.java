@@ -1,9 +1,7 @@
-package twop.handler;
+package twop.plane;
 
-import twop.plane.Plane;
 import twop.Player;
 import twop.util.Vector2;
-import twop.plane.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -75,6 +73,11 @@ public class PlaneHandler {
                plane.update(firstPlayer, secondPlayer);
          }
       }
+   }
+
+   public void reset() {
+      for (int index = 0; index < myAvailableSpots.length; index++)
+         myAvailableSpots[index] = null;
    }
 
    public void draw(Graphics pen) {

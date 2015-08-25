@@ -3,6 +3,7 @@ package twop.util;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
@@ -66,6 +67,13 @@ public class ColorCross {
       return (int) color;
    }
 
+   public static Color alpha(Color color, int alpha) {
+	   int red = color.getRed();
+	   int green = color.getGreen();
+	   int blue = color.getBlue();
+	   return new Color(red, green, blue, alpha);
+   }
+
    public static void main(String[] args) {
       Color testStart = new Color(0, 0, 255);
       Color testEnd = new Color(100, 50, 177);
@@ -79,7 +87,10 @@ public class ColorCross {
    }
 
    public static class TestPanel extends JPanel {
+      private static final long serialVersionUID = 7023289628855326869L;
+
       private ColorCross testCross;
+
       public TestPanel(Color start, Color end, int steps) {
          testCross = new ColorCross(start, end, steps);
          Timer timer = new Timer(20, new UpdateListener());

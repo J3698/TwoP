@@ -1,30 +1,34 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 
-public class Pause implements GameState {
-   private String myGameMode = "pause";
-   private Game myGame;
+public class Pause extends GameState {
+   private GamePanel myGamePanel;
    private boolean myIsPausing = true;
    private int myGameWidth;
    private int myGameHeight;
-   private Font playResumeFont;
    private int myVeilOpacity = 0;
    private int myTextOpacity = 0;
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
 
-   public Pause(Game game, int gameWidth, int gameHeight) {
-      myGame = game;
+   public Pause(GamePanel gamePanel, int gameWidth, int gameHeight) {
+      super("pause");
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
    }
 
    public void draw(Graphics pen) {
-      myGame.getPlay().draw(pen);
+      myGamePanel.getPlay().draw(pen);
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(255, 255, 255, myTextOpacity));
@@ -41,50 +45,9 @@ public class Pause implements GameState {
       else {
          fadeOutVeil();
          if (myVeilOpacity == 0) {
-            myGame.setGameMode("play");
-            myGame.getPlay().setBackgroundMessage("P to Play");
+            myGamePanel.setGameMode("play");
          }
       }
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      if (event.getKeyCode() == KeyEvent.VK_R)
-         myIsPausing = false;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
    }
 
    public void fadeOutVeil() {
@@ -99,5 +62,21 @@ public class Pause implements GameState {
 
    public void setIsPausing(boolean isPausing) {
       myIsPausing = isPausing;
+   }
+
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+      public void keyPressed(KeyEvent event) {
+         if (event.getKeyCode() == KeyEvent.VK_R) {
+            myIsPausing = false;
+            myGamePanel.getPlay().setBackgroundMessage("P to Pause");
+         }
+      }
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   
    }
 }

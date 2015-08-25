@@ -1,7 +1,6 @@
-package twop.handler;
+package twop.bumper;
 
 import twop.Player;
-import twop.bumper.*;
 
 import java.util.ArrayList;
 import java.awt.Graphics;
@@ -21,6 +20,11 @@ public class BumperHandler {
       for (Bumper b: bumpers)
          b.update(firstPlayer, secondPlayer);
    }
+
+   public void reset() {
+      bumpers = new ArrayList<Bumper>();
+   }
+
    public void draw(Graphics pen) {
       for (Bumper b: bumpers)
          b.draw(pen);

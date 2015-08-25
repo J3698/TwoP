@@ -1,104 +1,123 @@
 package twop.gamestate;
 
-import twop.Game;
+import twop.GamePanel;
 import twop.util.StringDraw;
+import twop.util.Vector2;
+import twop.Player;
+import twop.gui.GUIManager;
+import twop.gui.GameOverButton;
 
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-/**
- *
- *
- *
- */
-public class GameOver implements GameState {
-   private Game myGame;
+
+public class GameOver extends GameState {
+   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
-   private Font playResumeFont;
-   private int myVeilOpacity = 0;
-   private int myStringOpacity = 0;
-   private double myTextLocation = 175;
-   private String myGameMode = "gameOver";
 
-   public GameOver(Game game, int gameWidth, int gameHeight) {
-      myGame = game;
+   private GUIManager myGUIManager;
+   private KeyAdapter myKeyListener;
+   private MouseAdapter myMouseListener;
+
+   private int myVeilOpacity = 0;
+
+
+   public GameOver(GamePanel gamePanel, int gameWidth, int gameHeight) {
+      super("gameOver");
+      myGamePanel = gamePanel;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      playResumeFont = StringDraw.playResumeFont();
+      myMouseListener = new MouseListener();
+      myKeyListener = new KeyListener();
+      myGUIManager = new GUIManager(myGamePanel);
+      int halfWidth = myGameWidth / 2;
+      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "MAIN MENU", new Vector2(halfWidth - 160, 200), myGameWidth, myGameHeight));
+      myGUIManager.addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void draw(Graphics pen) {
-      if (myVeilOpacity != 255)
-         myGame.getPlay().draw(pen);
-      pen.setColor(new Color(255, 255, 255, myVeilOpacity));
+      myGamePanel.getPlay().draw(pen);
+
+      pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
-      pen.setColor(new Color(0, 0, 0, myStringOpacity));
-      pen.setFont(playResumeFont);
-      StringDraw.drawStringCenter(pen, "Game Over", myGameWidth / 2, (int) myTextLocation);
+
+      pen.setFont(new Font("Sans", 0, 22));
+      pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
+
+      String firstWinState, secondWinState;
+      if (myGamePanel.getPlay().getWinner() == 1) {
+    	  firstWinState = "WINS";
+    	  secondWinState = "LOSES";
+      } else {
+    	  firstWinState = "LOSES";
+    	  secondWinState = "WINS";
+      }
+
+      StringDraw.drawStringCenter(pen, "P L A Y E R  O N E  " + firstWinState , myGameWidth / 2 - 155, myGameHeight / 2 - 60);
+      pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
+      StringDraw.drawStringCenter(pen, "P L A Y E R  T W O  " + secondWinState, myGameWidth / 2 + 155, myGameHeight / 2 - 60);
+
+      myGUIManager.draw(pen);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void update() {
-      if (myVeilOpacity != 255)
-         myGame.getPlay().update();
-      if (myVeilOpacity <= 250)
+      myGamePanel.getPlay().update();
+
+      if (myVeilOpacity <= 150) {
          myVeilOpacity += 5;
-      else if (myVeilOpacity <= 250 || myStringOpacity <= 253) {
-         myStringOpacity += 2;
-         if (myTextLocation >= 150)
-            myTextLocation -= 0.5;
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void checkKeyListenTrigger(String currentGameMode, KeyEvent event) {
-      if (myGameMode == currentGameMode)
-         keyListen(event);
+   public void reset() {
+      myVeilOpacity = 0;
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void keyListen(KeyEvent event) {
-      if (myVeilOpacity != 255)
-         myGame.getPlay().keyListen(event);
+   public class MainMenuListener implements ActionListener {
+	   public void actionPerformed(ActionEvent event) {
+		   myGamePanel.getPlay().reset();
+		   myGamePanel.setGameMode("mainmenu");
+	   }
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode)
-         draw(pen);
+   public class RematchListener implements ActionListener {
+	   public void actionPerformed(ActionEvent event) {
+		   myGamePanel.getPlay().reset();
+		   myGamePanel.setGameMode("play");
+	   }
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
+   public KeyAdapter getKeyListener() { return myKeyListener; }
+   public MouseAdapter getMouseListener() { return myMouseListener; }
+
+   private class KeyListener extends KeyAdapter {
+      public void keyPressed(KeyEvent event) {
+         if (myVeilOpacity < 200) {
+            myGamePanel.getPlay().getFirstPlayer().getControls().keyDown(event);
+            myGamePanel.getPlay().getSecondPlayer().getControls().keyDown(event);
+         }
+      }
+      public void keyReleased(KeyEvent event) {
+         if (myVeilOpacity < 200) {
+            myGamePanel.getPlay().getFirstPlayer().getControls().keyUp(event);
+            myGamePanel.getPlay().getSecondPlayer().getControls().keyUp(event);
+         }
+      }
+   }
+
+   private class MouseListener extends MouseAdapter {
+	   public void mousePressed(MouseEvent event) {
+		   myGUIManager.mousePressed(event);
+	   }
+	   public void mouseMoved(MouseEvent event) {
+		   myGUIManager.mouseMoved(event);
+	   }
    }
 }

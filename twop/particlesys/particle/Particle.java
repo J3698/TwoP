@@ -1,8 +1,6 @@
 package twop.particlesys.particle;
 
 import twop.util.Vector2;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 import java.awt.Graphics;
@@ -14,18 +12,18 @@ public abstract class Particle {
    private int myLife = 255;
    private Color myColor;
 
-   public Particle(Vector2 particlePosition){
-      myParticlePosition = particlePosition;
-      myParticleVelocity = new Vector2(0, 0);
+   public Particle(Vector2 position, Vector2 velocity) {
+      myParticlePosition = position;
+      myParticleVelocity = velocity;
    }
 
-   public void run(Graphics pen){
+   public void run(Graphics pen) {
       update();
       draw(pen);
    }
    public abstract void update();
    public abstract void draw(Graphics pen);
-   public boolean isDead(){
+   public boolean isDead() {
       if (myLife > 0)
          return false;
       return true;

@@ -1,28 +1,25 @@
 package twop.item.container;
 
 import twop.item.*;
+import twop.Player;
 import twop.util.Vector2;
 
 import java.awt.Graphics;
 
-public class ItemContainer {
+public abstract class ItemContainer {
    private Item myItem;
    private Vector2 myPosition;
 
-   public ItemContainer(Item item, Vector2 position) {
+   public ItemContainer(Item item) {
       myItem = item;
-      myPosition = position;
+      myPosition = item.getPosition();
    }
 
-   public void update() {
-      
-   }
+   public abstract void update(Player firstPlayer, Player secondPlayer);
+   public abstract void draw(Graphics pen);
 
-   public void draw() {
-      // myItem.draw(), this block
-      // may have condititionals
-      // to draw a different effect,
-      // e.g. if a meteor shower is
-      // occuring, or something else
-   }
+   public Item getItem() { return myItem; }
+   public boolean isDead() { return myItem.isDead(); }
+   public Vector2 getPosition() { return myPosition; }
+   public void setPosition(Vector2 position) { myPosition = position; }
 }

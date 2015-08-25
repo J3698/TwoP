@@ -1,19 +1,34 @@
 package twop.gamestate;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
 
+public abstract class GameState {
+   private String myGameMode;
 
-/**
- * Interface that different game states should
- * implement.
- *
- */
-public interface GameState {
-   void checkDrawTrigger(String myCurrentGameMode, Graphics pen);
-   void draw(Graphics pen);
-   void checkUpdateTrigger(String myCurrentGameMode);
-   void update();
-   void checkKeyListenTrigger(String currentGameMode, KeyEvent event);
-   void keyListen(KeyEvent event);
+   public GameState(String gameMode) {
+      myGameMode = gameMode;
+   }
+
+   public abstract void draw(Graphics pen);
+   public abstract void update();
+
+   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
+      if (myGameMode == currentGameMode) {
+         draw(pen);
+      }
+   }
+
+   public void checkUpdateTrigger(String currentGameMode) {
+      if (myGameMode == currentGameMode)
+         update();
+   }
+
+   public String getGameMode() {
+	   return myGameMode;
+   }
+
+   public abstract KeyAdapter getKeyListener();
+   public abstract MouseAdapter getMouseListener();
 }

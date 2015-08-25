@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 public class StringDraw {
@@ -18,6 +19,17 @@ public class StringDraw {
    }
    public static Font versionFont() {
       return new Font("Sans", 1, 14);
+   }
+   public static Font healthPlaneFont() {
+      return new Font("Sans", Font.BOLD, 25);
+   }
+
+   public static Font menuFont() {
+      return new Font("Ariel", Font.BOLD, 40);
+   }
+
+   public static Font instructionsButtonsFont() {
+      return new Font("Ariel", Font.ITALIC, 20);
    }
 
    public static void drawStringCenter(Graphics pen, String string, int x, int y) {
