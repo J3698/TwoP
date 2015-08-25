@@ -21,7 +21,7 @@ public class WeatherHandler {
          }
       } else {
          if (new Random().nextDouble() < 0.005) {
-            myCurrentWeather = new Rain(1000, myGamePanel);
+            myCurrentWeather = new Rain(1200, myGamePanel);
          }
       }
    }
