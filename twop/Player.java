@@ -308,7 +308,7 @@ public class Player extends Circle {
     */
    public void setRandomColor() {
       Random rand = new Random();
-      int r = rand.nextInt(255);
+      int r = rand.nextInt(100);
       int g = rand.nextInt(255);
       int b = rand.nextInt(255);
       setColor(new Color(r, g, b));
