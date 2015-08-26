@@ -11,8 +11,8 @@ def remove_class_files(dir):
            if os.path.isdir(f):
                remove_class_files(dir + "/" + f)
                continue
-#           if f[-6:] == ".class":
-#               os.remove(dir + "/" + f)
+           if f[-6:] == ".class":
+               os.remove(dir + "/" + f)
            if f[-5:] == ".java":
               total_lines += len(open(dir + "/" + f, "r").readlines())
        except IndexError:
