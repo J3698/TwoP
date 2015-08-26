@@ -3,6 +3,7 @@ package twop.item;
 import twop.Player;
 import twop.Rect;
 import twop.effect.HealthPackEffect;
+import twop.util.ColorCross;
 import twop.util.Vector2;
 import twop.sound.Sound;
 
@@ -17,8 +18,7 @@ public class HealthPack extends Rect implements Item {
 
    public HealthPack(Vector2 position) {
       super(position, 30, 30);
-      setColor(Color.red);
-      setOutline(Color.pink);
+      setColor(Color.white);
    }
 
    public void update(Player firstPlayer, Player secondPlayer) {
@@ -45,11 +45,12 @@ public class HealthPack extends Rect implements Item {
       int y = (int) getPosition().getY();
       int w = (int) getWidth();
       int h = (int) getHeight();
-      pen.setColor(getColor());
+      pen.setColor(ColorCross.alpha(getColor(), 45));
       pen.fillRect(x, y, w, h);
-      pen.setColor(getOutline());
-      pen.fillRect(x + 3 * w / 7, y, w / 7, h);
-      pen.fillRect(x, y + 3 * h / 7, w, h / 7);
+      pen.setColor(ColorCross.alpha(getColor(), 45));
+      pen.fillRect(x + 5 , y + 5, w - 10, h - 10);
+      pen.setColor(ColorCross.alpha(getColor(), 45));
+      pen.fillRect(x + 10, y + 10, w - 20, h - 20);
    }
 
    public boolean isDead() {

@@ -23,8 +23,8 @@ public class HealthPackEffect extends Effect {
 		myPosition = position;
 		firstRadius = 20;
 		secondRadius = 10;
-		myColor = Color.pink;
-		myOpacity = 200;
+		myColor = Color.white;
+		myOpacity = 150;
 		myOpacityIncrement = 10;
    }
 
