@@ -9,8 +9,6 @@ import java.awt.Graphics;
 public class GUIManager {
    private GamePanel myGamePanel;
    private ArrayList<Button> myButtons;
-   private double scaleFactorX;
-   private double scaleFactorY;
 
    public GUIManager(GamePanel gamePanel) {
       myGamePanel = gamePanel;
