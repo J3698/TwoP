@@ -1,3 +1,0 @@
-Bumper circles which are in air, bump player
-If bumper rect straddles line, funtions as one bumper, drawn as two (so one half is diff color)
-Next: Shooting/weapon is too boring
