@@ -6,10 +6,10 @@ import java.awt.event.KeyEvent;
 
 public class Controls {
    private Player myPlayer;
-   private int myUpKey = KeyEvent.VK_W;
-   private int myDownKey = KeyEvent.VK_S;
-   private int myLeftKey = KeyEvent.VK_A;
-   private int myRightKey = KeyEvent.VK_D;
+   private int myUpKey = KeyEvent.VK_E;
+   private int myDownKey = KeyEvent.VK_D;
+   private int myLeftKey = KeyEvent.VK_S;
+   private int myRightKey = KeyEvent.VK_F;
    private int myFirstActionKey = KeyEvent.VK_1;
    private int mySecondActionKey = KeyEvent.VK_2;
 

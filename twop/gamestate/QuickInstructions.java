@@ -48,10 +48,10 @@ public class QuickInstructions extends GameState {
       Color c2 = myGamePanel.getPlay().getSecondPlayer().getColor();
       Font f = myKeyFont;
       Font f2 = myKeyFont2;
-      myInstructRects[0] = new InstructRect("s", c, f, KeyEvent.VK_S, 150, 150, 50, 50);
-      myInstructRects[1] = new InstructRect("d", c, f, KeyEvent.VK_D, 210, 150, 50, 50);
-      myInstructRects[2] = new InstructRect("a", c, f, KeyEvent.VK_A, 90, 150, 50, 50);
-      myInstructRects[3] = new InstructRect("w", c, f, KeyEvent.VK_W, 150, 90, 50, 50);
+      myInstructRects[0] = new InstructRect("d", c, f, KeyEvent.VK_D, 150, 150, 50, 50);
+      myInstructRects[1] = new InstructRect("f", c, f, KeyEvent.VK_F, 210, 150, 50, 50);
+      myInstructRects[2] = new InstructRect("s", c, f, KeyEvent.VK_S, 90, 150, 50, 50);
+      myInstructRects[3] = new InstructRect("e", c, f, KeyEvent.VK_E, 150, 90, 50, 50);
       myInstructRects[4] = new InstructRect("1", c, f, KeyEvent.VK_1, 30, 65, 50, 50);
       myInstructRects[5] = new InstructRect("2", c, f, KeyEvent.VK_2, 90, 65, 50, 50);
       myInstructRects[6] = new InstructRect("down", c2, f2, KeyEvent.VK_DOWN, 470, 150, 50, 50);
@@ -71,8 +71,8 @@ public class QuickInstructions extends GameState {
       pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
       StringDraw.drawStringCenter(pen, "1  -  shoot", myGameWidth / 4, 230 + 40);
       StringDraw.drawStringCenter(pen, "2  -  toggle gun spinning", myGameWidth / 4, 260 + 40);
-      StringDraw.drawStringCenter(pen, "s  -  toggle gun direction", myGameWidth / 4, 290 + 40);
-      StringDraw.drawStringCenter(pen, "w, a, d  -  movement", myGameWidth / 4, 320 + 40);
+      StringDraw.drawStringCenter(pen, "d  -  toggle gun direction", myGameWidth / 4, 290 + 40);
+      StringDraw.drawStringCenter(pen, "e, s, f  -  movement", myGameWidth / 4, 320 + 40);
 
       pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
       StringDraw.drawStringCenter(pen, ",  -  shoot", myGameWidth * 3 / 4, 230 + 40);
