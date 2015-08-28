@@ -1,6 +1,7 @@
 package twop.plane;
 
 import twop.Player;
+import twop.effect.FireEffect;
 import twop.util.Vector2;
 
 import java.awt.Graphics;
@@ -106,4 +107,7 @@ public class PlaneHandler {
          return new FirePlane(position, width, height, background, spot);
       }
    }
+
+   public void disableFire() { FireEffect.disable(); }
+   public void enableFire() { FireEffect.enable(); }
 }
