@@ -2,6 +2,7 @@ package twop.weather;
 
 import twop.GamePanel;
 import twop.Player;
+import twop.sound.Sound;
 import twop.util.Vector2;
 
 import java.util.ArrayList;
@@ -10,18 +11,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rain extends Weather {
+   private static int myDarkness = 100;
    private ArrayList<RainParticle> myRainParticles;
+   private int myIntensity;
+   private boolean myLightning;
+   private int myLightningTick;
 
    public Rain(int life, GamePanel gamePanel) {
       super(life, gamePanel);
       myRainParticles = new ArrayList<RainParticle>();
+      myIntensity = 3;
+      myLightning = false;
+      myLightningTick = 0;
    }
 
    public void update() {
-      if (getTick() < 2 * 150) {
-      } else if (getTick() < getLife() - 2 * 150) {
+      if (getTick() < 2 * myDarkness) {
+      } else if (getTick() < getLife() - 2 * myDarkness) {
          int xPos;
-         for (int i = 0; i < 7; i++) {
+         for (int i = 0; i < myIntensity; i++) {
             xPos = new Random().nextInt(getGamePanel().getGameWidth());
             myRainParticles.add(new RainParticle(new Vector2(xPos, 0)));
          }
@@ -37,20 +45,38 @@ public class Rain extends Weather {
          if (secondPlayer.hasEffectKey("fire")) {
             secondPlayer.getEffects().get("fire").setLife(0);
          }
+
+         if (new Random().nextInt(300) == 0 && myLightning == false) {
+            myLightning = true;
+            myLightningTick = getTick();
+            new Sound("thunder").play();
+         }
+         if (getTick() - myLightningTick == 20) {
+            myLightning = false;
+         }
       } else {}
       tick();
    }
 
    public void draw(Graphics pen) {
-      if (getTick() < 2 * 150) {
+      if (getTick() < 2 * myDarkness) {
          pen.setColor(new Color(0, 0, 0, getTick() / 2));
          pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
-      } else if (getTick() < getLife() - 2 * 150) {
-         pen.setColor(new Color(0, 0, 0, 150));
+      } else if (getTick() < getLife() - 2 * myDarkness) {
+         pen.setColor(new Color(0, 0, 0, myDarkness));
          pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
          for (int i = 0; i < myRainParticles.size(); i++) {
             myRainParticles.get(i).draw(pen);
          }
+
+         if (getTick() - myLightningTick < 10) {
+            pen.setColor(Color.white);
+            pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
+         } else if (getTick() - myLightningTick < 20) {
+            pen.setColor(new Color(255, 255, 255, 150));
+            pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
+         }
+
       } else {
          pen.setColor(new Color(0, 0, 0, (getLife() - getTick()) / 2));
          pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
