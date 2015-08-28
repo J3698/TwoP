@@ -1,29 +1,35 @@
 package twop.sound;
 
 import java.io.*;
+import java.net.URL;
+
 import javax.sound.sampled.*;
 
 public class Sound {
 
-   private File myFile;
    private AudioInputStream myAudioIn;
    private Clip myClip;
    private FloatControl myGainControl;
   
    public Sound(String fileName) {
-      if (fileName.equalsIgnoreCase("crackling"))
-         fileName = "twop\\sound\\crackling.wav";
-      else if (fileName.equalsIgnoreCase("healthpackage"))
-         fileName = "twop\\sound\\healthpackage.wav";
-      else if (fileName.equalsIgnoreCase("keytyped"))
-         fileName = "twop\\sound\\keytyped.wav";
+      if (fileName.equalsIgnoreCase("crackling")) {
+         fileName = "crackling.wav";
+      } else if (fileName.equalsIgnoreCase("healthpackage")) {
+         fileName = "healthpackage.wav";
+      } else if (fileName.equalsIgnoreCase("keytyped")) {
+         fileName = "keytyped.wav";
+      } else if (fileName.equalsIgnoreCase("rain")) {
+         fileName = "rain.wav";
+      } else if (fileName.equalsIgnoreCase("thunder")) {
+         fileName = "thunder.wav";
+      }
       loadSound(fileName);
    }
 
    private void loadSound(String fileName) {
       try {
-         myFile = new File(fileName);
-         myAudioIn = AudioSystem.getAudioInputStream(myFile);
+         URL url = this.getClass().getResource(fileName);
+         myAudioIn = AudioSystem.getAudioInputStream(url);
          AudioFormat format = myAudioIn.getFormat();
          DataLine.Info info = new DataLine.Info(Clip.class, format);
          myClip = (Clip) AudioSystem.getLine(info);
