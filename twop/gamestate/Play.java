@@ -108,6 +108,7 @@ public class Play extends GameState {
       myItemHandler.reset();
       myBumperHandler.reset();
       myPlaneHandler.reset();
+      myWeatherHandler.reset();
       myGamePanel.getGameOver().reset();
    }
 
@@ -169,4 +170,5 @@ public class Play extends GameState {
    public Player getFirstPlayer() { return myFirstPlayer; }
    public Player getSecondPlayer() { return mySecondPlayer; }
    public int getWinner() { return myWinner; }
+   public PlaneHandler getPlaneHandler() { return myPlaneHandler; }
 }
