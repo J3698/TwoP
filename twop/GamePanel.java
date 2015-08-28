@@ -25,6 +25,8 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel {
    private static final long serialVersionUID = 1069592807236812370L;
 
+   private static final float version = 1.3f;
+
    private JFrame myFrame;
    private Camera myCamera;
 
@@ -107,7 +109,7 @@ public class GamePanel extends JPanel {
       //Draw version information
       pen.setFont(StringDraw.versionFont());
       pen.setColor(new Color(250, 40, 200, 150));
-      pen.drawString("V. 1.2", 5, 20);
+      pen.drawString("V. " + version, 5, 20);
    }
 
    public void draw(Graphics pen) {
