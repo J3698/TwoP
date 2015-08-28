@@ -118,7 +118,10 @@ public class GamePanel extends JPanel {
       pen2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
       for (GameState gameState : myGameStates) {
-         gameState.checkDrawTrigger(myCurrentGameMode, pen);
+         if (gameState.getGameMode().equals(myCurrentGameMode)) {
+            gameState.draw(pen);
+            break;
+         }
       }
    }
 
@@ -126,7 +129,10 @@ public class GamePanel extends JPanel {
       myCamera.update();
 
       for (GameState gameState : myGameStates) {
-         gameState.checkUpdateTrigger(myCurrentGameMode);
+         if (gameState.getGameMode().equals(myCurrentGameMode)) {
+            gameState.update();
+            break;
+         }
       }
    }
 
@@ -140,20 +146,26 @@ public class GamePanel extends JPanel {
    public class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getKeyListener().keyPressed(event);
+               break;
+            }
          }
       }
       public void keyReleased(KeyEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getKeyListener().keyReleased(event);
+               break;
+            }
          }
       }
       public void keyTyped(KeyEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getKeyListener().keyTyped(event);
+               break;
+            }
          }
       }
    }
@@ -161,50 +173,66 @@ public class GamePanel extends JPanel {
    public class MouseListener extends MouseAdapter {
       public void mouseClicked(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseClicked(event);
+               break;
+            }
          }
       }
       public void mouseDragged(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseDragged(event);
+               break;
+            }
          }
       }
       public void mouseEntered(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseEntered(event);
+               break;
+            }
          }
       }
       public void mouseExited(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseExited(event);
+               break;
+            }
          }
       }
       public void mouseMoved(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseMoved(event);
+               break;
+            }
          }
       }
       public void mousePressed(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mousePressed(event);
+               break;
+            }
          }
       }
       public void mouseReleased(MouseEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseReleased(event);
+               break;
+            }
          }
       }
       public void mouseWheelMoved(MouseWheelEvent event) {
          for (GameState gameState : myGameStates) {
-            if (gameState.getGameMode().equals(myCurrentGameMode))
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
                gameState.getMouseListener().mouseWheelMoved(event);
+               break;
+            }
          }
       }
    }

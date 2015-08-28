@@ -14,17 +14,6 @@ public abstract class GameState {
    public abstract void draw(Graphics pen);
    public abstract void update();
 
-   public void checkDrawTrigger(String currentGameMode, Graphics pen) {
-      if (myGameMode == currentGameMode) {
-         draw(pen);
-      }
-   }
-
-   public void checkUpdateTrigger(String currentGameMode) {
-      if (myGameMode == currentGameMode)
-         update();
-   }
-
    public String getGameMode() {
 	   return myGameMode;
    }
