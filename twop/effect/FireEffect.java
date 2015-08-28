@@ -8,6 +8,7 @@ import java.awt.Graphics;
 
 public class FireEffect extends Effect {
    private static int maxIntensity = 20;
+   private static boolean disabled = false;
    private static double damageCurve =  1.3;
    private ParticleSystem myVisualEffect;
    private Sound mySound;
@@ -16,7 +17,8 @@ public class FireEffect extends Effect {
       super(player, 200);
       myVisualEffect = new ParticleSystem("fire", getPlayer().getCenter().copy());
       mySound = new Sound("crackling");
-      mySound.play();
+      if (! disabled)
+         mySound.play();
    }
 
    public void update() {
@@ -37,5 +39,13 @@ public class FireEffect extends Effect {
    }
    public void onDeath() {
       mySound.stop();
+   }
+
+   public static void disable() {
+      disabled = true;
+   }
+
+   public static void enable() {
+      disabled = false;
    }
 }
