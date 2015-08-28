@@ -63,7 +63,7 @@ public class MainMenu extends GameState {
    
    private class PlayListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGamePanel.setGameMode("quickinstructions");
+         myGamePanel.setGameMode("typeselector");
       }
    }
 
