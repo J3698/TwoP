@@ -18,7 +18,7 @@ public class StringDraw {
       return new Font("Roboto", Font.BOLD, 18);
    }
    public static Font versionFont() {
-      return new Font("Sans", 1, 14);
+      return new Font("Sans", 1, 15);
    }
    public static Font healthPlaneFont() {
       return new Font("Sans", Font.BOLD, 25);
