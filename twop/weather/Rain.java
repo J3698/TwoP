@@ -33,8 +33,13 @@ public class Rain extends Weather {
             xPos = new Random().nextInt(getGamePanel().getGameWidth());
             myRainParticles.add(new RainParticle(new Vector2(xPos, 0)));
          }
-         for (int i = 0; i < myRainParticles.size(); i++) {
-            myRainParticles.get(i).update();
+
+         for (int i = myRainParticles.size() - 1; i >= 0; i--) {
+            if (myRainParticles.get(i).isExpired()) {
+               myRainParticles.remove(i);
+            } else {
+               myRainParticles.get(i).update();
+            }
          }
 
          Player firstPlayer = getGamePanel().getPlay().getFirstPlayer();
@@ -102,6 +107,12 @@ public class Rain extends Weather {
             pen.setColor(new Color(0, 0, 255, 50 * (i + 1)));
             pen.drawLine(x, y + 2 * i, x, y + 2 * i + 2);
          }
+      }
+      public boolean isExpired() {
+         if (myPosition.getY() > getGamePanel().getGameHeight()) {
+            return true;
+         }
+         return false;
       }
    }
 }
