@@ -40,7 +40,8 @@ public class GamePanel extends JPanel {
    private String myCurrentGameMode;
    private ArrayList<GameState> myGameStates;
    private MainMenu myMainMenu;
-   public TypeSelector myTypeSelector;
+   private TypeSelector myTypeSelector;
+   private LevelSelector myLevelSelector;
    private Options myOptions;
    private Credits myCredits;
    private Instructions myInstructions;
@@ -78,6 +79,7 @@ public class GamePanel extends JPanel {
    public void initGameModes() {
       myMainMenu = new MainMenu(this, myGameWidth, myGameHeight);
       myTypeSelector = new TypeSelector(this, myGameWidth, myGameHeight);
+      myLevelSelector = new LevelSelector(this, myGameWidth, myGameHeight);
       myPlay = new Play(this, myGameWidth, myGameHeight);
       myInstructions = new Instructions(this, myGameWidth, myGameHeight);
       myQuickInstructions = new QuickInstructions(this, myGameWidth, myGameHeight);
@@ -88,6 +90,7 @@ public class GamePanel extends JPanel {
 
       myGameStates.add(myMainMenu);
       myGameStates.add(myTypeSelector);
+      myGameStates.add(myLevelSelector);
       myGameStates.add(myInstructions);
       myGameStates.add(myQuickInstructions);
       myGameStates.add(myPlay);
@@ -249,6 +252,7 @@ public class GamePanel extends JPanel {
 
    public MainMenu getMainMenu() { return myMainMenu; }
    public TypeSelector getTypeSelector() { return myTypeSelector; }
+   public LevelSelector getLevelSelector() { return myLevelSelector; }
    public Play getPlay() { return myPlay; }
    public Pause getPause() { return myPause; }
    public Instructions getInstructions() { return myInstructions; }
