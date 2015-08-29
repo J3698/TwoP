@@ -7,6 +7,14 @@ import javax.sound.sampled.*;
 
 public class Sound {
 
+/* Error:
+   Exception in thread "AWT-EventQueue-0" java.lang.OutOfMemoryError: Java heap space
+   at com.sun.media.sound.DirectAudioDevice$DirectClip.open(Unknown Source)
+   at twop.sound.Sound.loadSound(Sound.java:36)
+   at twop.sound.Sound.<init>(Sound.java:26)
+   at twop.effect.FireEffect.<init>(FireEffect.java:19)
+*/
+
    private AudioInputStream myAudioIn;
    private Clip myClip;
    private FloatControl myGainControl;
