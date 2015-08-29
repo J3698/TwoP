@@ -37,7 +37,7 @@ public class StringDraw {
       FontMetrics fontMetrics = pen2D.getFontMetrics();
       Rectangle2D stringRect = fontMetrics.getStringBounds(string, pen2D);
       x = (int) (x - stringRect.getWidth() / 2);
-      y = (int) (y + stringRect.getHeight() / 2);
+      y = (int) (y + stringRect.getHeight() / 2 - fontMetrics.getAscent() / 5);
       pen.drawString(string, x, y);
    }
 }
