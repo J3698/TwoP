@@ -72,8 +72,8 @@ public class Play extends GameState {
       myBumperHandler.draw(pen);
       myItemHandler.draw(pen);
       myPlaneHandler.draw(pen);
-      myFirstPlayer.drawSelfAndWeapon(pen);
-      mySecondPlayer.drawSelfAndWeapon(pen);
+      myFirstPlayer.draw(pen);
+      mySecondPlayer.draw(pen);
       drawHealth(pen);
       myWeatherHandler.draw(pen);
    }

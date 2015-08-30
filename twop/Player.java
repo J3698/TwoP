@@ -174,23 +174,13 @@ public class Player extends Circle {
          a.remove(b);
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public void drawSelfAndWeapon(Graphics pen) {
+   public void draw(Graphics pen) {
       myGun.draw(pen);
-      draw(pen);
+      super.draw(pen);
       for (Effect effect: myEffects.values())
          effect.draw(pen);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
          myVelocity.addY(myJumpHeight);
@@ -199,20 +189,10 @@ public class Player extends Circle {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseUp() {
       myIsJumpReleased = true;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void down() {
       if (myIsFlipReleased) {
          myGun.flipSpinDirection();
@@ -220,20 +200,10 @@ public class Player extends Circle {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseDown() {
       myIsFlipReleased = true;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void left() {
       myIsGoingLeft = true;
       myIsGoingRight = false;
@@ -252,29 +222,14 @@ public class Player extends Circle {
       myIsGoingRight = false;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void firstAction() {
       myGun.setShooting(true);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseFirstAction() {
       myGun.setShooting(false);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void secondAction() {
       if (myIsSpinToggleReleased) {
          myGun.flipIsSpinning();
@@ -282,11 +237,6 @@ public class Player extends Circle {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void releaseSecondAction() {
       myIsSpinToggleReleased = true;
    }
