@@ -23,9 +23,7 @@ public class Camera {
    }
 
    public void update() {
-      reset();
-      myPos1.addVector(Vector2.randVector(0, 0, 0, 0));
-      myPos2.addVector(Vector2.randVector(0, 0, 0, 0));
+
    }
 
    public void reset() {
@@ -46,4 +44,6 @@ public class Camera {
       pos2.divideY(myGamePanel.getGameHeight() / (double) myGamePanel.getHeight());
       return pos2;
    }
+   public void setPos1(Vector2 pos1) { myPos1 = pos1; }
+   public void setPos2(Vector2 pos2) { myPos2 = pos2; }
 }

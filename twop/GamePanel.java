@@ -260,4 +260,6 @@ public class GamePanel extends JPanel {
    public GameOver getGameOver() { return myGameOver; }
    public Credits getCredits() { return myCredits; }
    public Options getOptions() { return myOptions; }
+
+   public Camera getCamera() { return myCamera; }
 }
