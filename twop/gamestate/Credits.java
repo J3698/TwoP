@@ -47,7 +47,7 @@ public class Credits extends GameState {
       int halfWidth = myGameWidth / 2;
       int quarterHeight = myGameHeight / 4;
       pen.setFont(new Font("Ariel", Font.BOLD, 25));
-      StringDraw.drawStringCenter(pen, "Sound: www.freesfx.co.uk", halfWidth, quarterHeight);
+      StringDraw.drawStringCenter(pen, "Sound: www.freesfx.co.uk / freesound.org", halfWidth, quarterHeight);
       StringDraw.drawStringCenter(pen, "Support: All of TwoP's players!", halfWidth, 2 * quarterHeight);
       StringDraw.drawStringCenter(pen, "Other stuff: Antioch Sanders", halfWidth, 3 * quarterHeight);
       myGUIManager.draw(pen);
