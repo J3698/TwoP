@@ -48,6 +48,12 @@ public class GUIManager {
          }
       }
    }
+   
+   public void resetInputs() {
+      for (Button button: myButtons) {
+         button.setMouseHovering(false);
+      }
+   }
 
    public void addButton(Button button) {
       myButtons.add(button);

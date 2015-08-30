@@ -96,8 +96,10 @@ public class QuickInstructions extends GameState {
          if (rect.isActivated() == false)
             readyToStart = false;
       }
-      if (readyToStart)
+      if (readyToStart) {
          myGamePanel.setGameMode("play");
+         myGUIManager.resetInputs();
+      }
    }
 
    public KeyAdapter getKeyListener() { return myKeyListener; }
@@ -122,12 +124,14 @@ public class QuickInstructions extends GameState {
    public class MainMenuListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          myGamePanel.setGameMode("mainmenu");
+         myGUIManager.resetInputs();
       }
    }
 
    public class SkipListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          myGamePanel.setGameMode("play");
+         myGUIManager.resetInputs();
       }
    }
 
@@ -180,9 +184,6 @@ public class QuickInstructions extends GameState {
       }
       public boolean isActivated() {
          return myIsActivated;
-      }
-      public void activate() {
-         myIsActivated = true;
       }
    }
 }

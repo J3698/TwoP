@@ -84,6 +84,7 @@ public class GameOver extends GameState {
 	   public void actionPerformed(ActionEvent event) {
 		   myGamePanel.getPlay().reset();
 		   myGamePanel.setGameMode("mainmenu");
+         myGUIManager.resetInputs();
 	   }
    }
 
@@ -91,6 +92,7 @@ public class GameOver extends GameState {
 	   public void actionPerformed(ActionEvent event) {
 		   myGamePanel.getPlay().reset();
 		   myGamePanel.setGameMode("play");
+         myGUIManager.resetInputs();
 	   }
    }
 

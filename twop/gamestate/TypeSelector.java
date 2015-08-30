@@ -59,6 +59,7 @@ public class TypeSelector extends GameState {
    public class TwoPlayerListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          myGamePanel.setGameMode("quickinstructions");
+         myGUIManager.resetInputs();
       }
    }
 

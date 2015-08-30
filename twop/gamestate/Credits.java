@@ -59,6 +59,7 @@ public class Credits extends GameState {
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
 		   myGamePanel.setGameMode("mainmenu");
+         myGUIManager.resetInputs();
 	   }
    }
 

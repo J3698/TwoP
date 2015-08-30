@@ -75,6 +75,7 @@ public class Instructions extends GameState {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 1) {
             myGamePanel.setGameMode("mainmenu");
+            myGUIManager.resetInputs();
             myCurrentPage = 1;
          } else
             myCurrentPage--;
@@ -85,6 +86,7 @@ public class Instructions extends GameState {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 3) {
             myGamePanel.setGameMode("mainmenu");
+            myGUIManager.resetInputs();
             myCurrentPage = 1;
          } else
             myCurrentPage++;
@@ -94,6 +96,7 @@ public class Instructions extends GameState {
    public class MainMenuListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          myGamePanel.setGameMode("mainmenu");
+         myGUIManager.resetInputs();
          myCurrentPage = 1;
       }
    }
