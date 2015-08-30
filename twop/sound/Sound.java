@@ -82,4 +82,14 @@ public class Sound {
    public void changeVolume(float decibels) {
       myGainControl.setValue(decibels);
    }
+
+   public void close() {
+      myClip.close();
+   }
+
+   public void closeIfFinished() {
+      if (! isRunning()) {
+         close();
+      }
+   }
 }

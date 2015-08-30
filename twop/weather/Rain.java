@@ -16,6 +16,8 @@ public class Rain extends Weather {
    private int myIntensity;
    private boolean myLightning;
    private int myLightningTick;
+   private Sound mySound;
+   private boolean soundStarted;
 
    public Rain(int life, GamePanel gamePanel) {
       super(life, gamePanel);
@@ -23,6 +25,8 @@ public class Rain extends Weather {
       myIntensity = 3;
       myLightning = false;
       myLightningTick = 0;
+      mySound = new Sound("rain");
+      soundStarted = false;
    }
 
    public void update() {
@@ -59,7 +63,17 @@ public class Rain extends Weather {
          if (getTick() - myLightningTick == 20) {
             myLightning = false;
          }
-      } else {}
+
+         if (! soundStarted) {
+            mySound.loop();
+            soundStarted = true;
+         }
+      } else {
+         if (soundStarted) {
+            mySound.close();
+            soundStarted = false;
+         }
+      }
       tick();
    }
 
