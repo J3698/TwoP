@@ -3,11 +3,15 @@ package twop.gamestate;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import twop.GamePanel;
+import twop.Player;
+import twop.effect.FireEffect;
 import twop.gui.GUIManager;
+import twop.util.Vector2;
 
 public class LevelSelector extends GameState {
    private GamePanel myGamePanel;
@@ -18,7 +22,7 @@ public class LevelSelector extends GameState {
    private KeyListener myKeyListener;
    private MouseListener myMouseListener;
 
-   private GUIManager myGUIManager;
+   private Player myPlayer;
 
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super("levelselector");
@@ -27,21 +31,52 @@ public class LevelSelector extends GameState {
       myGameHeight = gameHeight;
       myKeyListener = new KeyListener();
       myMouseListener = new MouseListener();
-      myGUIManager = new GUIManager(myGamePanel);
+      myPlayer = new Player(new Vector2(100, 50), 19, 0, myGameHeight - 1, myGameWidth, 0);
+      myPlayer.getControls().setSecondControls();
    }
 
    @Override
    public void draw(Graphics pen) {
-      pen.setColor(Color.red);
-      pen.fillRect(0, 0, myGameWidth, myGameHeight);
+      myPlayer.draw(pen);
    }
 
    @Override
    public void update() {
-      // TODO Auto-generated method stub
+      myPlayer.update();
 
+      //Center Camera
+      Vector2 camPos1 = myPlayer.getCenter().copy();
+      Vector2 camPos2 = myPlayer.getCenter().copy();
+      Vector2 halfScreen = new Vector2(myGameWidth / 2, myGameHeight / 2);
+      camPos1.subtractVector(halfScreen);
+      camPos2.addVector(halfScreen);
+      myGamePanel.getCamera().setPos1(camPos1);
+      myGamePanel.getCamera().setPos2(camPos2);
    }
 
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    @Override
    public KeyAdapter getKeyListener() {
       return myKeyListener;
@@ -53,14 +88,14 @@ public class LevelSelector extends GameState {
    }
 
    private class KeyListener extends KeyAdapter {
+      public void keyPressed(KeyEvent event) {
+         myPlayer.getControls().keyDown(event);
+      }
+      public void keyReleased(KeyEvent event) {
+         myPlayer.getControls().keyUp(event);
+      }
    }
 
    private class MouseListener extends MouseAdapter {
-      public void mousePressed(MouseEvent event) {
-         myGUIManager.mousePressed(event);
-      }
-      public void mouseMoved(MouseEvent event) {
-         myGUIManager.mouseMoved(event);
-      }
    }
 }

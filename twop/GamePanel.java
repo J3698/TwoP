@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
       myFrame = frame;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myCurrentGameMode = "mainmenu";
+      myCurrentGameMode = "levelselector";
       myGameStates = new ArrayList<GameState>();
       myCamera = new Camera(this);
       setFocusable(true);
