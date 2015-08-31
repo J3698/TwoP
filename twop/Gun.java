@@ -6,11 +6,6 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.util.ArrayList;
 
-/**
-*
-*
-*
-*/
 public class Gun {
    public static int RIGHT = 1;
    public static int LEFT = -1;
@@ -20,26 +15,19 @@ public class Gun {
    private double myOldPlayerX;
    private double myOldPlayerY;
    private double mySpeed = 7;
+   private double myAngle = 0;
    private double[] myXPoints = new double[4];
    private double[] myYPoints = new double[4];
    private ArrayList<Bullet> myBullets = new ArrayList<Bullet>();
    private boolean myIsShooting = false;
 
-   /**
-    *
-    *
-    *
-    */
    public Gun (Player p) {
       myPlayer = p;
+      myOldPlayerX = myPlayer.getCenter().getX();
+      myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
       initializePoints();
    }
 
-   /**
-    *
-    *
-    *
-    */
    private void shoot() {
       double x = (myXPoints[0] + myXPoints[2]) / 2;
       double y = (myYPoints[0] + myYPoints[1]) / 2;
@@ -50,15 +38,12 @@ public class Gun {
       myBullets.add(new Bullet(center, velocity));
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void update() {
       fixPosition();
-      if (myIsSpinning)
-         rotatePoints(mySpinDirection * mySpeed);
+      if (myIsSpinning) {
+         myAngle += mySpinDirection * mySpeed;
+         rotatePoints(myAngle);
+      }
       for (Bullet b: myBullets)
          b.update();
       if (myIsShooting)
@@ -66,14 +51,11 @@ public class Gun {
       garbageCollectBullets();
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void draw(Graphics pen) {
       for (Bullet b: myBullets)
          b.draw(pen);
+      initializePoints();
+      rotatePoints(myAngle);
       int[] tempXPoints = new int[4];
       int[] tempYPoints = new int[4];
       for (int i = 0; i < 4; i++)
@@ -86,11 +68,6 @@ public class Gun {
       pen.fillPolygon(tempXPoints, tempYPoints, 4);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
       for (Bullet b: myBullets) {
@@ -105,15 +82,10 @@ public class Gun {
          myBullets.remove(b);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void rotatePoints(double angle) {
       angle = Math.toRadians(angle);
-      while(Math.abs(angle)>2*Math.PI){
-         angle -= Math.abs(angle)/angle * 2*Math.PI;
+      while(Math.abs(angle) > 2 * Math.PI){
+         angle -= Math.abs(angle) / angle * 2 * Math.PI;
       }
       double sin = Math.sin(angle);
       double cos = Math.cos(angle);
@@ -128,14 +100,7 @@ public class Gun {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void initializePoints() {
-      myOldPlayerX = myPlayer.getCenter().getX();
-      myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
       myXPoints[0] = myPlayer.getCenter().getX() - 6;
       myXPoints[1] = myXPoints[0];
       myXPoints[2] = myPlayer.getCenter().getX() + 6;
@@ -146,11 +111,6 @@ public class Gun {
       myYPoints[3] = myYPoints[0];
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void fixPosition() {
       double xDiff = myPlayer.getCenter().getX() - myOldPlayerX;
       double yDiff = myPlayer.getCenter().getY() - myPlayer.getRadius() - myOldPlayerY;
@@ -162,83 +122,21 @@ public class Gun {
       myOldPlayerY = myPlayer.getCenter().getY() - myPlayer.getRadius();
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public ArrayList<Bullet> getBullets() {
-      return myBullets;
-   }
+   public ArrayList<Bullet> getBullets() { return myBullets; }
+   public void setIsSpinning(boolean isSpinning) { myIsSpinning = isSpinning; }
+   public void flipIsSpinning() { myIsSpinning = !myIsSpinning; }
+   public void setSpinDirection(int spinDirection) { mySpinDirection = spinDirection; }
+   public void flipSpinDirection() { mySpinDirection *= -1; }
+   public void setShooting(boolean isShooting) { myIsShooting = isShooting; }
 
-   /**
-    *
-    *
-    *
-    */
-   public void setIsSpinning(boolean isSpinning) {
-      myIsSpinning = isSpinning;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void flipIsSpinning() {
-      myIsSpinning = !myIsSpinning;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void setSpinDirection(int spinDirection) {
-      mySpinDirection = spinDirection;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void flipSpinDirection() {
-      mySpinDirection *= -1;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public void setShooting(boolean isShooting) {
-      myIsShooting = isShooting;
-   }
-
-   /**
-    *
-    *
-    *
-    */
    public class Bullet extends Circle {
       private Vector2 myVelocity;
 
-      /**
-       *
-       *
-       *
-       */
       public Bullet(Vector2 center, Vector2 velocity) {
          super(center, 3);
          myVelocity = velocity;
       }
 
-      /**
-       *
-       *
-       *
-       */
       public void update() {
          getCenter().addX(myVelocity.getX());
          getCenter().addY(myVelocity.getY());
