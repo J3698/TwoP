@@ -1,13 +1,15 @@
 package twop.Physics;
 
-import java.util.ArrayList;
+import java.awt.Rectangle;
 
-public class Physics {
-   private ArrayList<PhysObject> myObjects;
+public interface Physics {
 
-   public Physics() {
-      myObjects = new ArrayList<PhysObject>();
+   public static enum CollisionType {
+      CIRCLE, RECTANGLE, NONE
    }
 
-
+   public Rectangle getBounds();
+   public CollisionType getCollisionType();
+   public boolean isSolid();
+   public boolean isSolidFromBelow();
 }
