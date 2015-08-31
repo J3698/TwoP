@@ -23,7 +23,7 @@ public class TwoP {
       frame.setResizable(true);
       frame.setMinimumSize(new Dimension(gameWidth, gameHeight));
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setContentPane(new GamePanel(frame, gameWidth, gameHeight));
+      frame.setContentPane(new GamePanel(gameWidth, gameHeight));
       frame.setVisible(true);
    }
 }

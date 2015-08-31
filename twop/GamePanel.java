@@ -27,7 +27,6 @@ public class GamePanel extends JPanel {
 
    private static final float version = 1.3f;
 
-   private JFrame myFrame;
    private Camera myCamera;
 
    private Timer timer;
@@ -50,8 +49,6 @@ public class GamePanel extends JPanel {
    private Pause myPause;
    private GameOver myGameOver;
 
-   public GamePanel(JFrame frame, int gameWidth, int gameHeight) {
-      myFrame = frame;
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myCurrentGameMode = "levelselector";
