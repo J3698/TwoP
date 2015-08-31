@@ -94,8 +94,8 @@ public class Vector2{                        //Two dimensional vector
       return Math.toDegrees(asRadians());
    }
    public void rotateRadians(double angle){  //Rotate the vector
-      while(Math.abs(angle)>2*Math.PI){
-         angle -= Math.abs(angle)/angle * 2*Math.PI;
+      while(Math.abs(angle) > 2 * Math.PI){
+         angle -= Math.abs(angle) / angle * 2 * Math.PI;
       }
       double tempX = x;
       x = x * Math.cos(angle) - y * Math.sin(angle);
@@ -114,7 +114,7 @@ public class Vector2{                        //Two dimensional vector
    }
 
    public String toString(){
-      return "("+x+", "+y+")";
+      return "(" + x + ", " + y + ")";
    }
 
    public static Vector2 randVector(double xLowerLim, double yLowerLim,
