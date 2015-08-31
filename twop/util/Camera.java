@@ -72,4 +72,11 @@ public class Camera {
       myImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
       myPen = myImage.getGraphics();
    }
+   public void setPerspective(Vector2 startPos, Vector2 endPos) {
+      Vector2 diff = endPos.copy();
+      diff.subtractVector(startPos);
+      double xRatio = myGamePanel.getGameWidth() / diff.getX();
+      double yRatio = myGamePanel.getGameHeight() / diff.getY();
+      
+   }
 }
