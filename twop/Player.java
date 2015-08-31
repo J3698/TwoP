@@ -10,11 +10,6 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- *
- *
- *
- */
 public class Player extends Circle {
    private static double gravity = -0.5;
 
@@ -50,11 +45,6 @@ public class Player extends Circle {
    private int myCeilingX;
    private int myCeilingY;
 
-   /**
-    *
-    *
-    *
-    */
    public Player(Vector2 center, double radius, int groundX,
                   int groundY, int ceilingX, int ceilingY) {
       super(center, radius);
@@ -66,11 +56,6 @@ public class Player extends Circle {
       myVelocity = new Vector2(0, 10);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void update() {
       updateVelocity();
       updatePosition();
@@ -94,15 +79,15 @@ public class Player extends Circle {
 
    public void updateVelocity() {
 
-//Left
       if (myIsGoingLeft) {
          mySpeed -= myAcceleration;
          if (Math.abs(mySpeed) > myMaxSpeed) {
             mySpeed = -myMaxSpeed;
          }
       } else {
-         if (mySpeed < 0)
+         if (mySpeed < 0) {
             mySpeed = 0;
+         }
       }
 
       if (myIsGoingRight) {
@@ -111,8 +96,9 @@ public class Player extends Circle {
             mySpeed = myMaxSpeed;
          }
       } else {
-         if (mySpeed > 0)
+         if (mySpeed > 0) {
             mySpeed = 0;
+         }
       }
 
 
@@ -147,38 +133,40 @@ public class Player extends Circle {
       }
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void updateJumpAbility() {
       if (getCenter().getY() + getRadius() == myGroundY)
          myJumps = 0;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void takeDamage(ArrayList<Gun.Bullet> a) {
       ArrayList<Gun.Bullet> toDelete = new ArrayList<Gun.Bullet>();
-      for (Gun.Bullet b: a) {
+      for (Gun.Bullet b : a) {
          if (collidesCircle(b)) {
             myHealth -= 1;
             toDelete.add(b);
          }
       }
-      for (Gun.Bullet b: toDelete)
+      for (Gun.Bullet b : toDelete)
          a.remove(b);
    }
 
    public void draw(Graphics pen) {
       myGun.draw(pen);
       super.draw(pen);
-      for (Effect effect: myEffects.values())
+      for (Effect effect: myEffects.values()) {
          effect.draw(pen);
+      }
+   }
+
+   public void draw(Graphics pen, Vector2 position) {
+      Vector2 oldCenter = getCenter().copy();
+      setCenter(position);
+      myGun.draw(pen);
+      super.draw(pen);
+      for (Effect effect: myEffects.values()) {
+         effect.draw(pen);
+      }
+      setCenter(oldCenter);
    }
 
    public void up() {
@@ -241,21 +229,10 @@ public class Player extends Circle {
       myIsSpinToggleReleased = true;
    }
 
-
-   /**
-    *
-    *
-    *
-    */
    public Controls getControls() {
       return myControls;
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void setRandomColor() {
       Random rand = new Random();
       int r = rand.nextInt(100);
@@ -276,11 +253,6 @@ public class Player extends Circle {
       return myEffects.containsKey(key);
    }
 
-   /**
-    *
-    *
-    *
-    */
    public void applyForce(Vector2 force) {
       getCenter().addVector(force);
    }
@@ -296,66 +268,11 @@ public class Player extends Circle {
       myHealth -= damage;
    }
 
-   /**
-    *
-    *
-    *
-    */
-   public double getBallHeight() {
-      return myBallHeight;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public Gun getGun() {
-      return myGun;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public int getGroundX() {
-      return myGroundX;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public int getGroundY() {
-      return myGroundY;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public int getCeilingX() {
-      return myCeilingX;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public int getCeilingY() {
-      return myCeilingY;
-   }
-
-   /**
-    *
-    *
-    *
-    */
-   public double getHealth() {
-      return myHealth;
-   }
+   public double getBallHeight() { return myBallHeight; }
+   public Gun getGun() { return myGun; }
+   public int getGroundX() { return myGroundX; }
+   public int getGroundY() { return myGroundY; }
+   public int getCeilingX() { return myCeilingX; }
+   public int getCeilingY() { return myCeilingY; }
+   public double getHealth() { return myHealth; }
 }
