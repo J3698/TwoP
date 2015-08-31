@@ -30,8 +30,6 @@ public class GamePanel extends JPanel {
    private Camera myCamera;
 
    private Timer timer;
-   private BufferedImage myImage;
-   private Graphics myBuffer;
 
    private int myGameWidth;
    private int myGameHeight;
@@ -49,20 +47,15 @@ public class GamePanel extends JPanel {
    private Pause myPause;
    private GameOver myGameOver;
 
+   public GamePanel(int gameWidth, int gameHeight) {
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myCurrentGameMode = "levelselector";
+      myCurrentGameMode = "mainmenu";
       myGameStates = new ArrayList<GameState>();
       myCamera = new Camera(this);
       setFocusable(true);
-      preparePanelImage();
       addThreadInputs();
       initGameModes();
-   }
-
-   public void preparePanelImage() {
-      myImage = new BufferedImage(myGameWidth, myGameHeight, BufferedImage.TYPE_INT_ARGB);
-      myBuffer = myImage.getGraphics();
    }
 
    public void addThreadInputs() {
@@ -100,15 +93,15 @@ public class GamePanel extends JPanel {
    public void paintComponent(Graphics pen) {
       //Clear painting spaces
       pen.clearRect(0, 0, getWidth(), getHeight());
-      myBuffer.clearRect(0, 0, myGameWidth, myGameHeight);
+      myCamera.clearImage();
       //Draw painting spaces
-      draw(myBuffer);
+      draw(myCamera.getPen());
       //Draw camera view to screen
-      int x0 = (int) myCamera.getPos1().getX();
-      int y0 = (int) myCamera.getPos1().getY();
-      int x1 = (int) myCamera.getPos2().getX();
-      int y1 = (int) myCamera.getPos2().getY();
-      pen.drawImage(myImage, x0, y0, x1, y1, null);
+      int x0 = (int) myCamera.getScaledPos1().getX();
+      int y0 = (int) myCamera.getScaledPos1().getY();
+      int x1 = (int) myCamera.getScaledPos2().getX();
+      int y1 = (int) myCamera.getScaledPos2().getY();
+      pen.drawImage(myCamera.getImage(), x0, y0, x1, y1, null);
       //Draw version information
       pen.setFont(StringDraw.versionFont());
       pen.setColor(new Color(250, 40, 200, 150));
@@ -259,4 +252,7 @@ public class GamePanel extends JPanel {
    public Options getOptions() { return myOptions; }
 
    public Camera getCamera() { return myCamera; }
+
+   public void setGameWidth(int gameWidth) { myGameWidth = gameWidth; }
+   public void setGameHeight(int gameHeight) { myGameHeight = gameHeight; }
 }
