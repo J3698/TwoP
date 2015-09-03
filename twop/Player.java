@@ -166,51 +166,29 @@ public class Player extends Circle {
          myIsFlipReleased = false;
       }
    }
-
-   public void releaseDown() {
-      myIsFlipReleased = true;
-   }
-
+   public void releaseDown() { myIsFlipReleased = true; }
    public void left() {
       myIsGoingLeft = true;
       myIsGoingRight = false;
    }
-
-   public void releaseLeft() {
-      myIsGoingLeft = false;
-   }
-
+   public void releaseLeft() { myIsGoingLeft = false; }
    public void right() {
       myIsGoingRight = true;
       myIsGoingLeft = false;
    }
-
-   public void releaseRight() {
-      myIsGoingRight = false;
-   }
-
-   public void firstAction() {
-      myGun.setShooting(true);
-   }
-
-   public void releaseFirstAction() {
-      myGun.setShooting(false);
-   }
-
+   public void releaseRight() { myIsGoingRight = false; }
+   public void firstAction() { myGun.setShooting(true); }
+   public void releaseFirstAction() { myGun.setShooting(false); }
    public void secondAction() {
       if (myIsSpinToggleReleased) {
          myGun.flipIsSpinning();
          myIsSpinToggleReleased = false;
       }
    }
-
-   public void releaseSecondAction() {
-      myIsSpinToggleReleased = true;
-   }
-
-   public Controls getControls() {
-      return myControls;
-   }
+   public void releaseSecondAction() { myIsSpinToggleReleased = true; }
+   public void thirdAction() {}
+   public void releaseThirdAction() {}
+   public Controls getControls() { return myControls; }
 
    public void setRandomColor() {
       Random rand = new Random();
