@@ -71,10 +71,10 @@ public class Gun {
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
       for (Bullet b: myBullets) {
-         boolean outLeft = (myPlayer.getGroundX() > b.getCenter().getX());
-         boolean outBottom = (myPlayer.getGroundY() < b.getCenter().getY());
-         boolean outRight = (myPlayer.getCeilingX() < b.getCenter().getX());
-         boolean outTop = (myPlayer.getCeilingY() > b.getCenter().getY());
+         boolean outLeft = (myPlayer.getBounds().getX() > b.getCenter().getX());
+         boolean outBottom = (myPlayer.getBounds().getHeight() < b.getCenter().getY());
+         boolean outRight = (myPlayer.getBounds().getWidth() < b.getCenter().getX());
+         boolean outTop = (myPlayer.getBounds().getY() > b.getCenter().getY());
          if (outLeft || outBottom || outRight || outTop)
             toTrash.add(b);
       }

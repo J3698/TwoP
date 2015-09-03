@@ -5,6 +5,7 @@ import twop.util.Vector2;
 import twop.effect.Effect;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Color;
 import java.util.Random;
 import java.util.ArrayList;
@@ -40,18 +41,11 @@ public class Player extends Circle {
    private int maxJumps = 3;
    private int myJumpHeight = 7;
 
-   private int myGroundX;
-   private int myGroundY;
-   private int myCeilingX;
-   private int myCeilingY;
+   private Rectangle myBounds;
 
-   public Player(Vector2 center, double radius, int groundX,
-                  int groundY, int ceilingX, int ceilingY) {
+   public Player(Vector2 center, double radius, Rectangle bounds) {
       super(center, radius);
-      myGroundX = groundX;
-      myGroundY =  groundY;
-      myCeilingX = ceilingX;
-      myCeilingY = ceilingY;
+      myBounds = bounds;
       setRandomColor();
       myVelocity = new Vector2(0, 10);
    }
@@ -113,28 +107,28 @@ public class Player extends Circle {
    }
 
    public void keepInBounds() {
-      if (getCenter().getY() + getRadius() > myGroundY) {
+      if (getCenter().getY() + getRadius() > myBounds.getY() + myBounds.getHeight()) {
          myVelocity.setY(0);
-         getCenter().setY(myGroundY - getRadius());
+         getCenter().setY(myBounds.getY() + myBounds.getHeight() - getRadius());
       }
-      if (getCenter().getY() - getRadius() < myCeilingY) {
+      if (getCenter().getY() - getRadius() < myBounds.getY()) {
          myVelocity.setY(0);
-         getCenter().setY(myCeilingY + getRadius());
+         getCenter().setY(myBounds.getY() + getRadius());
       }
-      if (getCenter().getX() + getRadius() > myCeilingX) {
+      if (getCenter().getX() + getRadius() > myBounds.getX() + myBounds.getWidth()) {
          myVelocity.setX(0);
          mySpeed = 0;
-         getCenter().setX(myCeilingX - getRadius());
+         getCenter().setX(myBounds.getX() + myBounds.getWidth() - getRadius());
       }
-      if (getCenter().getX() - getRadius() < myGroundX) {
+      if (getCenter().getX() - getRadius() < myBounds.getX()) {
          myVelocity.setX(0);
          mySpeed = 0;
-         getCenter().setX(getRadius() + myGroundX);
+         getCenter().setX(getRadius() + myBounds.getX());
       }
    }
 
    public void updateJumpAbility() {
-      if (getCenter().getY() + getRadius() == myGroundY)
+      if (getCenter().getY() + getRadius() == myBounds.getY() + myBounds.getHeight())
          myJumps = 0;
    }
 
@@ -268,6 +262,8 @@ public class Player extends Circle {
       myHealth -= damage;
    }
 
+   public Rectangle getBounds() { return myBounds; }
+   public void setBounds(Rectangle bounds) { myBounds = bounds; }
    public double getBallHeight() { return myBallHeight; }
    public Gun getGun() { return myGun; }
    public int getGroundX() { return myGroundX; }

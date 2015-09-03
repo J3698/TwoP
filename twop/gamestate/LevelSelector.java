@@ -29,7 +29,9 @@ public class LevelSelector extends GameState {
       myGameHeight = gameHeight;
       myKeyListener = new KeyListener();
       myMouseListener = new MouseListener();
-      myPlayer = new Player(new Vector2(100, 50), 19, 0, myGameHeight - 1, myGameWidth, 0);
+      myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
+   }
+
    public void init() {
       myPlayer.getControls().setSecondControls();
       myGamePanel.getCamera().setImageSize(1000, 1000);

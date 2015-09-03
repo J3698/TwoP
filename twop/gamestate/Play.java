@@ -61,8 +61,8 @@ public class Play extends GameState {
       int radius = 19;
       Vector2 firstPos = new Vector2(60, 350);
       Vector2 secondPos = new Vector2(myGameWidth - 60, 350);
-      myFirstPlayer = new Player(firstPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
-      mySecondPlayer = new Player(secondPos, radius, 0, myGameHeight - 1, myGameWidth, 0);
+      myFirstPlayer = new Player(firstPos, radius, new Rectangle(0, 0, myGameWidth, myGameHeight - 1));
+      mySecondPlayer = new Player(secondPos, radius, new Rectangle(0, 0, myGameWidth, myGameHeight - 1));
       mySecondPlayer.getControls().setSecondControls();
       mySecondPlayer.getGun().setSpinDirection(Gun.LEFT);
    }
