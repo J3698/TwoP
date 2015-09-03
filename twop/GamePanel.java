@@ -59,6 +59,21 @@ public class GamePanel extends JPanel {
       addKeyListener(new KeyListener());
       addMouseListener(new MouseListener());
       addMouseMotionListener(new MouseListener());
+      addFocusListener(new FocusListener() {
+         @Override
+         public void focusLost(FocusEvent e) {
+            myCredits.getGUIManager().resetInputs();
+            myGameOver.getGUIManager().resetInputs();
+            myInstructions.getGUIManager().resetInputs();
+            myLevelSelector.getGUIManager().resetInputs();
+            myMainMenu.getGUIManager().resetInputs();
+            myOptions.getGUIManager().resetInputs();
+            myQuickInstructions.getGUIManager().resetInputs();
+            myTypeSelector.getGUIManager().resetInputs();
+         }
+         @Override
+         public void focusGained(FocusEvent e) {}
+      });
       timer = new Timer(20, new UpdateListener());
       timer.start();
    }
@@ -106,12 +121,6 @@ public class GamePanel extends JPanel {
    }
 
    public void draw(Graphics pen) {
-      Graphics2D pen2D = (Graphics2D) pen;
-      pen2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      pen2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-      pen2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-      pen2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
       for (GameState gameState : myGameStates) {
          if (gameState.getGameMode().equals(myCurrentGameMode)) {
             gameState.draw(pen);
@@ -135,6 +144,21 @@ public class GamePanel extends JPanel {
       public void actionPerformed(ActionEvent event) {
          update();
          repaint();
+      }
+   }
+
+   public class FocusListener extends FocusAdapter {
+      public void focusLost() {
+         for (GameState gameState : myGameStates) {
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
+            }
+         }
+      }
+      public void focusGained() {
+         for (GameState gameState : myGameStates) {
+            if (gameState.getGameMode().equals(myCurrentGameMode)) {
+            }
+         }
       }
    }
 
