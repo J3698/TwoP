@@ -17,11 +17,9 @@ import java.awt.event.MouseEvent;
 
 
 public class GameOver extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
 
-   private GUIManager myGUIManager;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
@@ -29,29 +27,27 @@ public class GameOver extends GameState {
 
 
    public GameOver(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("gameOver");
-      myGamePanel = gamePanel;
+      super(gamePanel, "gameOver");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myGUIManager = new GUIManager(myGamePanel);
       int halfWidth = myGameWidth / 2;
-      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "MAIN MENU", new Vector2(halfWidth - 160, 200), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new GameOverButton(new MainMenuListener(), "MAIN MENU", new Vector2(halfWidth - 160, 200), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new GameOverButton(new RematchListener(), "REMATCH", new Vector2(halfWidth + 50, 200), myGameWidth, myGameHeight));
    }
 
    public void draw(Graphics pen) {
-      myGamePanel.getPlay().draw(pen);
+      getGamePanel().getPlay().draw(pen);
 
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(new Font("Sans", 0, 22));
-      pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
+      pen.setColor(getGamePanel().getPlay().getFirstPlayer().getColor());
 
       String firstWinState, secondWinState;
-      if (myGamePanel.getPlay().getWinner() == 1) {
+      if (getGamePanel().getPlay().getWinner() == 1) {
     	  firstWinState = "WINS";
     	  secondWinState = "LOSES";
       } else {
@@ -60,14 +56,14 @@ public class GameOver extends GameState {
       }
 
       StringDraw.drawStringCenter(pen, "P L A Y E R  O N E  " + firstWinState , myGameWidth / 2 - 155, myGameHeight / 2 - 60);
-      pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
+      pen.setColor(getGamePanel().getPlay().getSecondPlayer().getColor());
       StringDraw.drawStringCenter(pen, "P L A Y E R  T W O  " + secondWinState, myGameWidth / 2 + 155, myGameHeight / 2 - 60);
 
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
    }
 
    public void update() {
-      myGamePanel.getPlay().update();
+      getGamePanel().getPlay().update();
 
       if (myVeilOpacity <= 150) {
          myVeilOpacity += 5;
@@ -80,17 +76,17 @@ public class GameOver extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGamePanel.getPlay().reset();
-		   myGamePanel.setGameMode("mainmenu");
-         myGUIManager.resetInputs();
+	      getGamePanel().getPlay().reset();
+		   getGamePanel().setGameMode("mainmenu");
+		   getGUIManager().resetInputs();
 	   }
    }
 
    public class RematchListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGamePanel.getPlay().reset();
-		   myGamePanel.setGameMode("play");
-         myGUIManager.resetInputs();
+	      getGamePanel().getPlay().reset();
+		   getGamePanel().setGameMode("play");
+		   getGUIManager().resetInputs();
 	   }
    }
 
@@ -100,24 +96,24 @@ public class GameOver extends GameState {
    private class KeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
          if (myVeilOpacity < 200) {
-            myGamePanel.getPlay().getFirstPlayer().getControls().keyDown(event);
-            myGamePanel.getPlay().getSecondPlayer().getControls().keyDown(event);
+            getGamePanel().getPlay().getFirstPlayer().getControls().keyDown(event);
+            getGamePanel().getPlay().getSecondPlayer().getControls().keyDown(event);
          }
       }
       public void keyReleased(KeyEvent event) {
          if (myVeilOpacity < 200) {
-            myGamePanel.getPlay().getFirstPlayer().getControls().keyUp(event);
-            myGamePanel.getPlay().getSecondPlayer().getControls().keyUp(event);
+            getGamePanel().getPlay().getFirstPlayer().getControls().keyUp(event);
+            getGamePanel().getPlay().getSecondPlayer().getControls().keyUp(event);
          }
       }
    }
 
    private class MouseListener extends MouseAdapter {
 	   public void mousePressed(MouseEvent event) {
-		   myGUIManager.mousePressed(event);
+		   getGUIManager().mousePressed(event);
 	   }
 	   public void mouseMoved(MouseEvent event) {
-		   myGUIManager.mouseMoved(event);
+		   getGUIManager().mouseMoved(event);
 	   }
    }
 }

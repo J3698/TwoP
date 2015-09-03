@@ -16,25 +16,21 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Options extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
    private Color myColor;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
-   private GUIManager myGUIManager;
 
    public Options(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("options");
-      myGamePanel = gamePanel;
+      super(gamePanel, "options");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       Random r = new Random();
       myColor = new Color(150 + r.nextInt(50), 150 + r.nextInt(50), 150 + r.nextInt(50));
-      myGUIManager = new GUIManager(myGamePanel);
-      myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
    }
 
    public void draw(Graphics pen) {
@@ -43,7 +39,7 @@ public class Options extends GameState {
       pen.setColor(myColor);
       pen.setFont(new Font("Ariel", Font.BOLD, 25));
       StringDraw.drawStringCenter(pen, "No Options to Show", myGameWidth / 2, myGameHeight / 2);
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
    }
 
    public void update() {
@@ -51,8 +47,8 @@ public class Options extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGamePanel.setGameMode("mainmenu");
-         myGUIManager.resetInputs();
+	      getGamePanel().setGameMode("mainmenu");
+	      getGUIManager().resetInputs();
 	   }
    }
 
@@ -64,10 +60,10 @@ public class Options extends GameState {
 
    private class MouseListener extends MouseAdapter {
 	   public void mousePressed(MouseEvent event) {
-		   myGUIManager.mousePressed(event);
+	      getGUIManager().mousePressed(event);
 	   }
 	   public void mouseMoved(MouseEvent event) {
-		   myGUIManager.mouseMoved(event);
+	      getGUIManager().mouseMoved(event);
 	   }
    }
 }

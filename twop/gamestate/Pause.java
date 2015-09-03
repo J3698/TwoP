@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 
 public class Pause extends GameState {
-   private GamePanel myGamePanel;
    private boolean myIsPausing = true;
    private int myGameWidth;
    private int myGameHeight;
@@ -19,8 +18,7 @@ public class Pause extends GameState {
    private MouseAdapter myMouseListener;
 
    public Pause(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("pause");
-      myGamePanel = gamePanel;
+      super(gamePanel, "pause");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
@@ -28,7 +26,7 @@ public class Pause extends GameState {
    }
 
    public void draw(Graphics pen) {
-      myGamePanel.getPlay().draw(pen);
+      getGamePanel().getPlay().draw(pen);
       pen.setColor(new Color(0, 0, 0, myVeilOpacity));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(new Color(255, 255, 255, myTextOpacity));
@@ -45,7 +43,7 @@ public class Pause extends GameState {
       else {
          fadeOutVeil();
          if (myVeilOpacity == 0) {
-            myGamePanel.setGameMode("play");
+            getGamePanel().setGameMode("play");
          }
       }
    }
@@ -71,7 +69,7 @@ public class Pause extends GameState {
       public void keyPressed(KeyEvent event) {
          if (event.getKeyCode() == KeyEvent.VK_R) {
             myIsPausing = false;
-            myGamePanel.getPlay().setBackgroundMessage("P to Pause");
+            getGamePanel().getPlay().setBackgroundMessage("P to Pause");
          }
       }
    }

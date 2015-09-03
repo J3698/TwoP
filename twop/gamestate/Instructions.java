@@ -15,26 +15,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Instructions extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
-   private GUIManager myGUIManager;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
    private int myCurrentPage;
 
    public Instructions(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("instructions");
-      myGamePanel = gamePanel;
+      super(gamePanel, "instructions");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
-      myGUIManager = new GUIManager(myGamePanel);
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       myCurrentPage = 1;
-      myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "MainMenu", new Vector2(20, 420), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new InstructionsButton(new BackListener(), "Back", new Vector2(250, 420), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new InstructionsButton(new NextListener(), "Next", new Vector2(480, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new InstructionsButton(new MainMenuListener(), "MainMenu", new Vector2(20, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new InstructionsButton(new BackListener(), "Back", new Vector2(250, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new InstructionsButton(new NextListener(), "Next", new Vector2(480, 420), myGameWidth, myGameHeight));
    }
 
    public void update() {}
@@ -52,7 +48,7 @@ public class Instructions extends GameState {
             break;
       }
 
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
    }
 
    public void firstPage(Graphics pen) {
@@ -73,8 +69,8 @@ public class Instructions extends GameState {
    public class BackListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 1) {
-            myGamePanel.setGameMode("mainmenu");
-            myGUIManager.resetInputs();
+            getGamePanel().setGameMode("mainmenu");
+            getGUIManager().resetInputs();
             myCurrentPage = 1;
          } else
             myCurrentPage--;
@@ -84,8 +80,8 @@ public class Instructions extends GameState {
    public class NextListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 3) {
-            myGamePanel.setGameMode("mainmenu");
-            myGUIManager.resetInputs();
+            getGamePanel().setGameMode("mainmenu");
+            getGUIManager().resetInputs();
             myCurrentPage = 1;
          } else
             myCurrentPage++;
@@ -94,8 +90,8 @@ public class Instructions extends GameState {
 
    public class MainMenuListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGamePanel.setGameMode("mainmenu");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("mainmenu");
+         getGUIManager().resetInputs();
          myCurrentPage = 1;
       }
    }
@@ -108,10 +104,10 @@ public class Instructions extends GameState {
 
    private class MouseListener extends MouseAdapter {
       public void mousePressed(MouseEvent event) {
-         myGUIManager.mousePressed(event);
+         getGUIManager().mousePressed(event);
       }
 	  public void mouseMoved(MouseEvent event) {
-	         myGUIManager.mouseMoved(event);
+	     getGUIManager().mouseMoved(event);
 	  }
    }
 }

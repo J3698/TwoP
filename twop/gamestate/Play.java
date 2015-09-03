@@ -23,7 +23,6 @@ import java.awt.event.MouseAdapter;
  *
  */
 public class Play extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
 
@@ -44,8 +43,7 @@ public class Play extends GameState {
    private MouseAdapter myMouseListener;
 
    public Play(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("play");
-      myGamePanel = gamePanel;
+      super(gamePanel, "play");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
@@ -54,7 +52,7 @@ public class Play extends GameState {
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
       myItemHandler = new ItemHandler(myGameWidth, myGameHeight);
-      myWeatherHandler = new WeatherHandler(myGamePanel);
+      myWeatherHandler = new WeatherHandler(getGamePanel());
       playResumeFont = StringDraw.playResumeFont();
    }
 
@@ -90,7 +88,7 @@ public class Play extends GameState {
       myWeatherHandler.update();
 
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
-         myGamePanel.setGameMode("gameOver");
+         getGamePanel().setGameMode("gameOver");
          myBackgroundMessage = "";
          if (myWinner == 0) {
             if (myFirstPlayer.getHealth() <= 0) {
@@ -110,7 +108,7 @@ public class Play extends GameState {
       myBumperHandler.reset();
       myPlaneHandler.reset();
       myWeatherHandler.reset();
-      myGamePanel.getGameOver().reset();
+      getGamePanel().getGameOver().reset();
    }
 
    public void drawBackground(Graphics pen) {
@@ -155,8 +153,8 @@ public class Play extends GameState {
 
 		   if (event.getKeyCode() == KeyEvent.VK_P) {
 	          myBackgroundMessage = "R to Resume";
-	          myGamePanel.setGameMode("pause");
-	          myGamePanel.getPause().setIsPausing(true);
+	          getGamePanel().setGameMode("pause");
+	          getGamePanel().getPause().setIsPausing(true);
  	       }
 	   }
 	   public void keyReleased(KeyEvent event) {

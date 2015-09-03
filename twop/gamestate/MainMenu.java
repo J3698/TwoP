@@ -13,31 +13,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainMenu extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
-   private GUIManager myGUIManager;
+
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
    public MainMenu(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("mainmenu");
-      myGamePanel = gamePanel;
+      super(gamePanel, "mainmenu");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myGUIManager = new GUIManager(myGamePanel);
-      myGUIManager.addButton(new MenuButton(new PlayListener(), "PLAY", new Vector2(200, 20), new Vector2(240, 100), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new MenuButton(new InstructionsListener(), "HOW-TO", new Vector2(200, 130), new Vector2(240, 100), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new MenuButton(new OptionsListener(), "OPTIONS", new Vector2(200, 240), new Vector2(240, 100), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new MenuButton(new CreditsListener(), "CREDITS", new Vector2(200, 350), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new PlayListener(), "PLAY", new Vector2(200, 20), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new InstructionsListener(), "HOW-TO", new Vector2(200, 130), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new OptionsListener(), "OPTIONS", new Vector2(200, 240), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new CreditsListener(), "CREDITS", new Vector2(200, 350), new Vector2(240, 100), myGameWidth, myGameHeight));
    }
 
    public void draw(Graphics pen) {
 	  pen.setColor(new Color(100, 100, 100));
 	  pen.fillRect(0, 0, myGameWidth, myGameHeight);
-	  myGUIManager.draw(pen);
+	  getGUIManager().draw(pen);
    }
 
    public void update() {
@@ -51,38 +48,38 @@ public class MainMenu extends GameState {
 
    private class MouseListener extends MouseAdapter {
 	  public void mousePressed(MouseEvent event) {
-         myGUIManager.mousePressed(event);
+	     getGUIManager().mousePressed(event);
 	  }
 	  public void mouseMoved(MouseEvent event) {
-         myGUIManager.mouseMoved(event);
+	     getGUIManager().mouseMoved(event);
 	  }
    }
    
    private class PlayListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGamePanel.setGameMode("typeselector");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("typeselector");
+         getGUIManager().resetInputs();
       }
    }
 
    private class InstructionsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGamePanel.setGameMode("instructions");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("instructions");
+         getGUIManager().resetInputs();
       }
    }
 
    private class OptionsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGamePanel.setGameMode("options");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("options");
+         getGUIManager().resetInputs();
       }
    }
 
    private class CreditsListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-         myGamePanel.setGameMode("credits");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("credits");
+         getGUIManager().resetInputs();
       }
    }
 }

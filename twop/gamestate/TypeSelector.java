@@ -14,33 +14,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TypeSelector extends GameState {
-   private GamePanel myGamePanel;
-
    private int myGameWidth;
    private int myGameHeight;
 
    private KeyListener myKeyListener;
    private MouseListener myMouseListener;
 
-   private GUIManager myGUIManager;
-
    public TypeSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("typeselector");
-      myGamePanel = gamePanel;
+      super(gamePanel, "typeselector");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myKeyListener = new KeyListener();
       myMouseListener = new MouseListener();
-      myGUIManager = new GUIManager(myGamePanel);
-      myGUIManager.addButton(new MenuButton(new CampaignListener(), "Campaign", new Vector2(200, 100), new Vector2(240, 100), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new MenuButton(new TwoPlayerListener(), "Two Players", new Vector2(200, 210), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new CampaignListener(), "Campaign", new Vector2(200, 100), new Vector2(240, 100), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new MenuButton(new TwoPlayerListener(), "Two Players", new Vector2(200, 210), new Vector2(240, 100), myGameWidth, myGameHeight));
    }
 
    @Override
    public void draw(Graphics pen) {
       pen.setColor(new Color(100, 100, 100));
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
       pen.setColor(Color.white);
       pen.setFont(new Font("sans", Font.ITALIC, 20));
       pen.drawString("Coming soon!", 440, 165);
@@ -52,15 +46,15 @@ public class TypeSelector extends GameState {
 
    private class CampaignListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGamePanel.setGameMode("levelselector");
-         myGamePanel.getLevelSelector().init();
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("levelselector");
+         getGamePanel().getLevelSelector().init();
+         getGUIManager().resetInputs();
       }
    }
    public class TwoPlayerListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGamePanel.setGameMode("quickinstructions");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("quickinstructions");
+         getGUIManager().resetInputs();
       }
    }
 
@@ -69,10 +63,10 @@ public class TypeSelector extends GameState {
 
    private class MouseListener extends MouseAdapter {
       public void mousePressed(MouseEvent event) {
-         myGUIManager.mousePressed(event);
+         getGUIManager().mousePressed(event);
       }
       public void mouseMoved(MouseEvent event) {
-         myGUIManager.mouseMoved(event);
+         getGUIManager().mouseMoved(event);
       }
    }
 

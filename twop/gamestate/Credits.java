@@ -16,25 +16,21 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Credits extends GameState {
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
    private Color myColor;
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
-   private GUIManager myGUIManager;
 
    public Credits(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("credits");
-      myGamePanel = gamePanel;
+      super(gamePanel, "credits");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
       Random r = new Random();
       myColor = new Color(150 + r.nextInt(50), 150 + r.nextInt(50), 150 + r.nextInt(50));
-      myGUIManager = new GUIManager(myGamePanel);
-      myGUIManager.addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
    }
 
    public void draw(Graphics pen) {
@@ -47,7 +43,7 @@ public class Credits extends GameState {
       StringDraw.drawStringCenter(pen, "Sound: www.freesfx.co.uk / freesound.org", halfWidth, quarterHeight);
       StringDraw.drawStringCenter(pen, "Support: All of TwoP's players!", halfWidth, 2 * quarterHeight);
       StringDraw.drawStringCenter(pen, "Other stuff: Antioch Sanders", halfWidth, 3 * quarterHeight);
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
    }
 
    public void update() {
@@ -55,8 +51,8 @@ public class Credits extends GameState {
 
    public class MainMenuListener implements ActionListener {
 	   public void actionPerformed(ActionEvent event) {
-		   myGamePanel.setGameMode("mainmenu");
-         myGUIManager.resetInputs();
+		   getGamePanel().setGameMode("mainmenu");
+		   getGUIManager().resetInputs();
 	   }
    }
 
@@ -68,10 +64,10 @@ public class Credits extends GameState {
 
    private class MouseListener extends MouseAdapter {
 	   public void mousePressed(MouseEvent event) {
-		   myGUIManager.mousePressed(event);
+	      getGUIManager().mousePressed(event);
 	   }
 	   public void mouseMoved(MouseEvent event) {
-		   myGUIManager.mouseMoved(event);
+	      getGUIManager().mouseMoved(event);
 	   }
    }
 }

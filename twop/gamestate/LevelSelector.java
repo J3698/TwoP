@@ -12,8 +12,6 @@ import twop.Player;
 import twop.util.Vector2;
 
 public class LevelSelector extends GameState {
-   private GamePanel myGamePanel;
-
    private int myGameWidth;
    private int myGameHeight;
 
@@ -23,8 +21,7 @@ public class LevelSelector extends GameState {
    private Player myPlayer;
 
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("levelselector");
-      myGamePanel = gamePanel;
+      super(gamePanel, "levelselector");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myKeyListener = new KeyListener();
@@ -34,7 +31,7 @@ public class LevelSelector extends GameState {
 
    public void init() {
       myPlayer.getControls().setSecondControls();
-      myGamePanel.getCamera().setImageSize(1000, 1000);
+      getGamePanel().getCamera().setImageSize(1000, 1000);
    }
 
    @Override
@@ -63,10 +60,10 @@ public class LevelSelector extends GameState {
    public void fixCamera() {
       Vector2 newPos1 = myPlayer.getCenter().copy();
       Vector2 newPos2 = myPlayer.getCenter().copy();
-      Vector2 half = new Vector2(myGamePanel.getGameWidth() / 2, myGamePanel.getGameHeight() / 2);
+      Vector2 half = new Vector2(getGamePanel().getGameWidth() / 2, getGamePanel().getGameHeight() / 2);
       newPos1.subtractVector(half);
       newPos2.addVector(half);
-      myGamePanel.getCamera().setPerspective(newPos1, newPos2);
+      getGamePanel().getCamera().setPerspective(newPos1, newPos2);
    }
    
    

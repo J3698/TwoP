@@ -2,7 +2,6 @@ package twop.gamestate;
 
 import twop.GamePanel;
 import twop.gui.GameOverButton;
-import twop.gui.InstructionsButton;
 import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.sound.Sound;
@@ -21,7 +20,6 @@ public class QuickInstructions extends GameState {
    private static Font myKeyFont = StringDraw.keyFont();
    private static Font myKeyFont2 = StringDraw.keyFont2();
 
-   private GamePanel myGamePanel;
    private int myGameWidth;
    private int myGameHeight;
 
@@ -29,21 +27,18 @@ public class QuickInstructions extends GameState {
 
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
-   private GUIManager myGUIManager;
 
    public QuickInstructions(GamePanel gamePanel, int gameWidth, int gameHeight) {
-      super("quickinstructions");
-      myGamePanel = gamePanel;
+      super(gamePanel, "quickinstructions");
       myGameWidth = gameWidth;
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myGUIManager = new GUIManager(myGamePanel);
-      myGUIManager.addButton(new GameOverButton(new MainMenuListener(), "Back", new Vector2(10, 420), myGameWidth, myGameHeight));
-      myGUIManager.addButton(new GameOverButton(new SkipListener(), "Skip", new Vector2(500, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new GameOverButton(new MainMenuListener(), "Back", new Vector2(10, 420), myGameWidth, myGameHeight));
+      getGUIManager().addButton(new GameOverButton(new SkipListener(), "Skip", new Vector2(500, 420), myGameWidth, myGameHeight));
 
-      Color c = myGamePanel.getPlay().getFirstPlayer().getColor();
-      Color c2 = myGamePanel.getPlay().getSecondPlayer().getColor();
+      Color c = getGamePanel().getPlay().getFirstPlayer().getColor();
+      Color c2 = getGamePanel().getPlay().getSecondPlayer().getColor();
       Font f = myKeyFont;
       Font f2 = myKeyFont2;
       myInstructRects[0] = new InstructRect("d", c, f, KeyEvent.VK_D, 150, 150, 50, 50);
@@ -66,13 +61,13 @@ public class QuickInstructions extends GameState {
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(myKeyFont2);
-      pen.setColor(myGamePanel.getPlay().getFirstPlayer().getColor());
+      pen.setColor(getGamePanel().getPlay().getFirstPlayer().getColor());
       StringDraw.drawStringCenter(pen, "1  -  shoot", myGameWidth / 4, 230 + 40);
       StringDraw.drawStringCenter(pen, "2  -  toggle gun spinning", myGameWidth / 4, 260 + 40);
       StringDraw.drawStringCenter(pen, "d  -  toggle gun direction", myGameWidth / 4, 290 + 40);
       StringDraw.drawStringCenter(pen, "e, s, f  -  movement", myGameWidth / 4, 320 + 40);
 
-      pen.setColor(myGamePanel.getPlay().getSecondPlayer().getColor());
+      pen.setColor(getGamePanel().getPlay().getSecondPlayer().getColor());
       StringDraw.drawStringCenter(pen, ",  -  shoot", myGameWidth * 3 / 4, 230 + 40);
       StringDraw.drawStringCenter(pen, ".  -  toggle gun spinning", myGameWidth * 3 / 4, 260 + 40);
       StringDraw.drawStringCenter(pen, "down  -  toggle gun direction", myGameWidth * 3 / 4, 290 + 40);
@@ -85,7 +80,7 @@ public class QuickInstructions extends GameState {
       for (InstructRect rect: myInstructRects)
          rect.draw(pen);
 
-      myGUIManager.draw(pen);
+      getGUIManager().draw(pen);
    }
 
    public void update() {
@@ -95,8 +90,8 @@ public class QuickInstructions extends GameState {
             readyToStart = false;
       }
       if (readyToStart) {
-         myGamePanel.setGameMode("play");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("play");
+         getGUIManager().resetInputs();
       }
    }
 
@@ -112,24 +107,24 @@ public class QuickInstructions extends GameState {
 
    private class MouseListener extends MouseAdapter {
       public void mousePressed(MouseEvent event) {
-         myGUIManager.mousePressed(event);
+         getGUIManager().mousePressed(event);
       }
       public void mouseMoved(MouseEvent event) {
-         myGUIManager.mouseMoved(event);
+         getGUIManager().mouseMoved(event);
       }
    }
 
    public class MainMenuListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGamePanel.setGameMode("mainmenu");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("mainmenu");
+         getGUIManager().resetInputs();
       }
    }
 
    public class SkipListener implements ActionListener {
       public void actionPerformed(ActionEvent event) {
-         myGamePanel.setGameMode("play");
-         myGUIManager.resetInputs();
+         getGamePanel().setGameMode("play");
+         getGUIManager().resetInputs();
       }
    }
 
