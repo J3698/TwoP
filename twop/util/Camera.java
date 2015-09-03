@@ -75,8 +75,16 @@ public class Camera {
    public void setPerspective(Vector2 startPos, Vector2 endPos) {
       Vector2 diff = endPos.copy();
       diff.subtractVector(startPos);
-      double xRatio = myGamePanel.getGameWidth() / diff.getX();
-      double yRatio = myGamePanel.getGameHeight() / diff.getY();
-      
+      double xRatio = 1 / (diff.getX() / myGamePanel.getGameWidth());
+      double yRatio = 1 / (diff.getY() / myGamePanel.getGameHeight());
+
+      myPos1 = startPos.copy();
+      myPos1.multiply(-1);
+      myPos1.multiplyX(xRatio);
+      myPos1.multiplyY(yRatio);
+      myPos2 = new Vector2(myImage.getWidth(), myImage.getHeight());
+      myPos2.multiplyX(xRatio);
+      myPos2.multiplyY(yRatio);
+      myPos2.addVector(myPos1);
    }
 }
