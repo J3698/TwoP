@@ -59,9 +59,9 @@ public class Gun {
       int[] tempXPoints = new int[4];
       int[] tempYPoints = new int[4];
       for (int i = 0; i < 4; i++)
-         tempXPoints[i] = (int)myXPoints[i];
+         tempXPoints[i] = (int) myXPoints[i];
       for (int i = 0; i < 4; i++)
-         tempYPoints[i] = (int)myYPoints[i];
+         tempYPoints[i] = (int) myYPoints[i];
       pen.setColor(Color.black);
       pen.drawPolygon(tempXPoints, tempYPoints, 4);
       pen.setColor(myPlayer.getColor());

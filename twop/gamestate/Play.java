@@ -11,6 +11,7 @@ import twop.util.StringDraw;
 import twop.util.Vector2;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;

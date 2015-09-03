@@ -33,8 +33,6 @@ public class Player extends Circle {
    private boolean myIsFlipReleased = true;
    private boolean myIsGoingLeft = false;
    private boolean myIsGoingRight = false;
-   private boolean myIsLeftReleased = true;
-   private boolean myIsRightReleased = true;
    private boolean myIsSpinToggleReleased = true;
 
    private int myJumps = 3;
@@ -95,7 +93,6 @@ public class Player extends Circle {
          }
       }
 
-
       myVelocity.addX(mySpeed);
       myVelocity.multiplyX(myInertia);
       myVelocity.addY(gravity);
@@ -140,8 +137,9 @@ public class Player extends Circle {
             toDelete.add(b);
          }
       }
-      for (Gun.Bullet b : toDelete)
+      for (Gun.Bullet b : toDelete) {
          a.remove(b);
+      }
    }
 
    public void draw(Graphics pen) {
@@ -152,17 +150,6 @@ public class Player extends Circle {
       }
    }
 
-   public void draw(Graphics pen, Vector2 position) {
-      Vector2 oldCenter = getCenter().copy();
-      setCenter(position);
-      myGun.draw(pen);
-      super.draw(pen);
-      for (Effect effect: myEffects.values()) {
-         effect.draw(pen);
-      }
-      setCenter(oldCenter);
-   }
-
    public void up() {
       if (myJumps < maxJumps && myIsJumpReleased) {
          myVelocity.addY(myJumpHeight);
@@ -170,11 +157,9 @@ public class Player extends Circle {
          myIsJumpReleased = false;
       }
    }
-
    public void releaseUp() {
       myIsJumpReleased = true;
    }
-
    public void down() {
       if (myIsFlipReleased) {
          myGun.flipSpinDirection();
@@ -252,10 +237,12 @@ public class Player extends Circle {
    }
 
    public void applyHealing(double healing) {
-      if (myHealth + healing > myMaxHealth)
+      if (myHealth + healing > myMaxHealth) {
          myHealth = myMaxHealth;
-      else
+      }
+      else {
          myHealth += healing;
+      }
    }
 
    public void applyDamage(double damage) {
@@ -266,9 +253,5 @@ public class Player extends Circle {
    public void setBounds(Rectangle bounds) { myBounds = bounds; }
    public double getBallHeight() { return myBallHeight; }
    public Gun getGun() { return myGun; }
-   public int getGroundX() { return myGroundX; }
-   public int getGroundY() { return myGroundY; }
-   public int getCeilingX() { return myCeilingX; }
-   public int getCeilingY() { return myCeilingY; }
    public double getHealth() { return myHealth; }
 }
