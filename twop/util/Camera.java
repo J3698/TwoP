@@ -2,10 +2,9 @@ package twop.util;
 
 import twop.GamePanel;
 
-import java.util.Random;
-
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 public class Camera {

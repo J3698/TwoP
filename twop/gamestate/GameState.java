@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 
+import twop.GamePanel;
+import twop.gui.GUIManager;
+
 public abstract class GameState {
    private String myGameMode;
 

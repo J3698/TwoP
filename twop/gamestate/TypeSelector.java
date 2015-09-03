@@ -1,7 +1,6 @@
 package twop.gamestate;
 
 import twop.GamePanel;
-import twop.gui.GUIManager;
 import twop.gui.MenuButton;
 import twop.util.Vector2;
 

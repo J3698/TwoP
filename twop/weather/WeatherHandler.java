@@ -1,7 +1,6 @@
 package twop.weather;
 
 import twop.GamePanel;
-import twop.sound.Sound;
 
 import java.awt.Graphics;
 import java.util.Random;

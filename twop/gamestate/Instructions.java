@@ -3,7 +3,6 @@ package twop.gamestate;
 import twop.GamePanel;
 import twop.util.StringDraw;
 import twop.util.Vector2;
-import twop.gui.GUIManager;
 import twop.gui.InstructionsButton;
 
 

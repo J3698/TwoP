@@ -1,17 +1,14 @@
 package twop.gamestate;
 
 import twop.GamePanel;
-import twop.util.StringDraw;
 import twop.util.Vector2;
 import twop.gui.MenuButton;
-import twop.gui.GUIManager;
 
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

@@ -3,8 +3,6 @@ package twop.gamestate;
 import twop.GamePanel;
 import twop.util.StringDraw;
 import twop.util.Vector2;
-import twop.Player;
-import twop.gui.GUIManager;
 import twop.gui.GameOverButton;
 
 import java.awt.Graphics;

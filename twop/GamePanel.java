@@ -3,12 +3,11 @@ package twop;
 import twop.gamestate.*;
 import twop.util.Camera;
 import twop.util.StringDraw;
-import twop.util.Vector2;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,8 +16,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.Timer;
 

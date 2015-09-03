@@ -1,8 +1,6 @@
 package twop.gamestate;
 
 import twop.GamePanel;
-import twop.Player;
-import twop.gui.GUIManager;
 import twop.gui.GameOverButton;
 import twop.gui.InstructionsButton;
 import twop.util.StringDraw;
