@@ -20,12 +20,9 @@ public class Camera {
 
    public Camera(GamePanel gamePanel) {
       myGamePanel = gamePanel;
-      myImage = new BufferedImage(myGamePanel.getGameWidth(), myGamePanel.getGameHeight(),
-                                                              BufferedImage.TYPE_INT_ARGB);
-      myPen = myImage.getGraphics();
+      setImageSize(myGamePanel.getGameWidth(), myGamePanel.getGameHeight());
       myDefaultPos1 = new Vector2(0, 0);
-      myDefaultPos2 = new Vector2(myGamePanel.getGameWidth(),
-                                  myGamePanel.getGameHeight());
+      myDefaultPos2 = new Vector2(myGamePanel.getGameWidth(), myGamePanel.getGameHeight());
       myPos1 = myDefaultPos1.copy();
       myPos2 = myDefaultPos2.copy();
    }
@@ -70,12 +67,17 @@ public class Camera {
    public void setImageSize(int x, int y) {
       myImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
       myPen = myImage.getGraphics();
+      Graphics2D pen2D = (Graphics2D) myPen;
+      pen2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      pen2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      pen2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+      pen2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
    }
    public void setPerspective(Vector2 startPos, Vector2 endPos) {
       Vector2 diff = endPos.copy();
       diff.subtractVector(startPos);
-      double xRatio = 1 / (diff.getX() / myGamePanel.getGameWidth());
-      double yRatio = 1 / (diff.getY() / myGamePanel.getGameHeight());
+      double xRatio = myGamePanel.getGameWidth() / diff.getX();
+      double yRatio = myGamePanel.getGameHeight() / diff.getY();
 
       myPos1 = startPos.copy();
       myPos1.multiply(-1);
