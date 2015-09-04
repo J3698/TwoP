@@ -1,15 +1,17 @@
 package twop;
 
-import twop.util.Controls;
-import twop.util.Vector2;
-import twop.effect.Effect;
-
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Color;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+
+import twop.effect.Effect;
+import twop.physics.PhysicsCircle;
+import twop.physics.PhysicsObject;
+import twop.util.Controls;
+import twop.util.Vector2;
 
 public class Player extends Circle {
    private static double gravity = -0.5;
@@ -39,11 +41,11 @@ public class Player extends Circle {
    private int maxJumps = 3;
    private int myJumpHeight = 7;
 
-   private Rectangle myBounds;
+   private PhysicsCircle myPhysics;
 
    public Player(Vector2 center, double radius, Rectangle bounds) {
       super(center, radius);
-      myBounds = bounds;
+      myPhysics.setBounds(bounds);
       setRandomColor();
       myVelocity = new Vector2(0, 10);
    }
@@ -104,24 +106,6 @@ public class Player extends Circle {
    }
 
    public void keepInBounds() {
-      if (getCenter().getY() + getRadius() > myBounds.getY() + myBounds.getHeight()) {
-         myVelocity.setY(0);
-         getCenter().setY(myBounds.getY() + myBounds.getHeight() - getRadius());
-      }
-      if (getCenter().getY() - getRadius() < myBounds.getY()) {
-         myVelocity.setY(0);
-         getCenter().setY(myBounds.getY() + getRadius());
-      }
-      if (getCenter().getX() + getRadius() > myBounds.getX() + myBounds.getWidth()) {
-         myVelocity.setX(0);
-         mySpeed = 0;
-         getCenter().setX(myBounds.getX() + myBounds.getWidth() - getRadius());
-      }
-      if (getCenter().getX() - getRadius() < myBounds.getX()) {
-         myVelocity.setX(0);
-         mySpeed = 0;
-         getCenter().setX(getRadius() + myBounds.getX());
-      }
    }
 
    public void updateJumpAbility() {
@@ -142,6 +126,7 @@ public class Player extends Circle {
       }
    }
 
+   @Override
    public void draw(Graphics pen) {
       myGun.draw(pen);
       super.draw(pen);
@@ -227,8 +212,7 @@ public class Player extends Circle {
       myHealth -= damage;
    }
 
-   public Rectangle getBounds() { return myBounds; }
-   public void setBounds(Rectangle bounds) { myBounds = bounds; }
+   public PhysicsObject getPhysics() { return myPhysics; }
    public double getBallHeight() { return myBallHeight; }
    public Gun getGun() { return myGun; }
    public double getHealth() { return myHealth; }
