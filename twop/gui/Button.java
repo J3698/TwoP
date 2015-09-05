@@ -47,13 +47,21 @@ public abstract class Button {
    }
 
    public void drawHovered(Graphics pen) {
+      //shrink
+      myPosition.addVector(new Vector2(1, 1));
+      mySize.subtractVector(new Vector2(2, 2));
+      //draw normal
       draw(pen);
+      //draw veil
       pen.setColor(new Color(0, 0, 0, 100));
       int x = (int) myPosition.getX();
       int y = (int) myPosition.getY();
       int width = (int) mySize.getX();
       int height = (int) mySize.getY();
       pen.fillRect(x, y, width, height);
+      //undo shrink
+      myPosition.subtractVector(new Vector2(1, 1));
+      mySize.addVector(new Vector2(2, 2));
    }
 
    public void doAction() {
