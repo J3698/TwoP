@@ -1,14 +1,14 @@
 package twop.item;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import twop.Player;
 import twop.Rect;
 import twop.effect.HealthPackEffect;
+import twop.sound.Sound;
 import twop.util.ColorCross;
 import twop.util.Vector2;
-import twop.sound.Sound;
-
-import java.awt.Graphics;
-import java.awt.Color;
 
 public class HealthPack extends Rect implements Item {
    private static int availableID = 0;
@@ -21,6 +21,7 @@ public class HealthPack extends Rect implements Item {
       setColor(Color.white);
    }
 
+   @Override
    public void update(Player firstPlayer, Player secondPlayer) {
       if (collidesCircle(firstPlayer)) {
          onCollision(firstPlayer);
@@ -36,10 +37,11 @@ public class HealthPack extends Rect implements Item {
       effectPosition.addVector(new Vector2(getWidth(), getHeight()));
       effectPosition.subtractVector(new Vector2(getWidth() / 2, getHeight() / 2));
       player.addEffect("" + availableID, new HealthPackEffect(player, effectPosition));
-      new Sound("healthpackage").play();
+      new Sound("healthpackage", true).play();
       availableID++;
    }
 
+   @Override
    public void draw(Graphics pen) {
       int x = (int) getPosition().getX();
       int y = (int) getPosition().getY();
@@ -53,6 +55,7 @@ public class HealthPack extends Rect implements Item {
       pen.fillRect(x + 10, y + 10, w - 20, h - 20);
    }
 
+   @Override
    public boolean isDead() {
       return myIsDead;
    }

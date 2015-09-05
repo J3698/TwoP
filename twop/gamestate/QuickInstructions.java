@@ -180,7 +180,7 @@ public class QuickInstructions extends GameState {
       public void keyPressed(KeyEvent event) {
          if (event.getKeyCode() == myKeyCode && myIsActivated == false) {
             myIsActivated = true;
-            new Sound("keytyped").play();
+            new Sound("keytyped", true).play();
          }
       }
       public boolean isActivated() {

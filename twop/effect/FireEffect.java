@@ -1,10 +1,10 @@
 package twop.effect;
 
-import twop.particlesys.ParticleSystem;
-import twop.Player;
-import twop.sound.Sound;
-
 import java.awt.Graphics;
+
+import twop.Player;
+import twop.particlesys.ParticleSystem;
+import twop.sound.Sound;
 
 public class FireEffect extends Effect {
    private static int maxIntensity = 20;
@@ -16,27 +16,31 @@ public class FireEffect extends Effect {
    public FireEffect(Player player) {
       super(player, 200);
       myVisualEffect = new ParticleSystem("fire", getPlayer().getCenter().copy());
-      mySound = new Sound("crackling");
+      mySound = new Sound("crackling", true);
       if (! disabled)
          mySound.play();
    }
 
+   @Override
    public void update() {
       getPlayer().applyDamage(0.01 * Math.pow(getIntensity(), damageCurve));
       myVisualEffect.setSourcePosition(getPlayer().getCenter().copy());
       myVisualEffect.update();
       loseLife(1);
    }
+   @Override
    public void draw(Graphics pen) {
       myVisualEffect.draw(pen);
    }
 
+   @Override
    public void increaseIntensity() {
       if (getIntensity() < maxIntensity) {
          super.increaseIntensity();
          myVisualEffect.setEmissionRate(getIntensity());
       }
    }
+   @Override
    public void onDeath() {
       mySound.stop();
    }

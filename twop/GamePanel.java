@@ -1,23 +1,34 @@
 package twop;
 
-import twop.gamestate.*;
-import twop.util.Camera;
-import twop.util.StringDraw;
-
-import javax.swing.JPanel;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import twop.gamestate.Credits;
+import twop.gamestate.GameOver;
+import twop.gamestate.GameState;
+import twop.gamestate.Instructions;
+import twop.gamestate.LevelSelector;
+import twop.gamestate.MainMenu;
+import twop.gamestate.Options;
+import twop.gamestate.Pause;
+import twop.gamestate.Play;
+import twop.gamestate.QuickInstructions;
+import twop.gamestate.TypeSelector;
+import twop.util.Camera;
+import twop.util.StringDraw;
 
 public class GamePanel extends JPanel {
    private static final long serialVersionUID = 1069592807236812370L;
@@ -102,6 +113,7 @@ public class GamePanel extends JPanel {
       myGameStates.add(myOptions);
    }
 
+   @Override
    public void paintComponent(Graphics pen) {
       //Clear painting spaces
       pen.clearRect(0, 0, getWidth(), getHeight());
@@ -141,6 +153,7 @@ public class GamePanel extends JPanel {
    }
 
    public class UpdateListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          update();
          repaint();
@@ -163,6 +176,7 @@ public class GamePanel extends JPanel {
    }
 
    public class KeyListener extends KeyAdapter {
+      @Override
       public void keyPressed(KeyEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -171,6 +185,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void keyReleased(KeyEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -179,6 +194,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void keyTyped(KeyEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -190,6 +206,7 @@ public class GamePanel extends JPanel {
    }
 
    public class MouseListener extends MouseAdapter {
+      @Override
       public void mouseClicked(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -198,6 +215,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseDragged(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -206,6 +224,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseEntered(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -214,6 +233,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseExited(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -222,6 +242,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseMoved(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -230,6 +251,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mousePressed(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -238,6 +260,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseReleased(MouseEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {
@@ -246,6 +269,7 @@ public class GamePanel extends JPanel {
             }
          }
       }
+      @Override
       public void mouseWheelMoved(MouseWheelEvent event) {
          for (GameState gameState : myGameStates) {
             if (gameState.getGameMode().equals(myCurrentGameMode)) {

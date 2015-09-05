@@ -1,14 +1,14 @@
 package twop.weather;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Random;
+
 import twop.GamePanel;
 import twop.Player;
 import twop.sound.Sound;
 import twop.util.Vector2;
-
-import java.util.ArrayList;
-import java.util.Random;
-import java.awt.Color;
-import java.awt.Graphics;
 
 public class Rain extends Weather {
    private static int myDarkness = 100;
@@ -22,13 +22,14 @@ public class Rain extends Weather {
    public Rain(int life, GamePanel gamePanel) {
       super(life, gamePanel);
       myRainParticles = new ArrayList<RainParticle>();
-      myIntensity = 3;
+      myIntensity = 7;
       myLightning = false;
       myLightningTick = 0;
-      mySound = new Sound("rain");
+      mySound = new Sound("rain", false);
       soundStarted = false;
    }
 
+   @Override
    public void update() {
       if (getTick() < 2 * myDarkness) {
       } else if (getTick() < getLife() - 2 * myDarkness) {
@@ -58,7 +59,7 @@ public class Rain extends Weather {
          if (new Random().nextInt(300) == 0 && myLightning == false) {
             myLightning = true;
             myLightningTick = getTick();
-            new Sound("thunder").play();
+            new Sound("thunder", true).play();
          }
          if (getTick() - myLightningTick == 20) {
             myLightning = false;
@@ -77,6 +78,7 @@ public class Rain extends Weather {
       tick();
    }
 
+   @Override
    public void draw(Graphics pen) {
       if (getTick() < 2 * myDarkness) {
          pen.setColor(new Color(0, 0, 0, getTick() / 2));
