@@ -1,18 +1,17 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.util.StringDraw;
-import twop.util.Vector2;
-import twop.gui.InstructionsButton;
-
-
-import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.event.ActionListener;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import twop.GamePanel;
+import twop.gui.InstructionsButton;
+import twop.util.StringDraw;
+import twop.util.Vector2;
 
 public class Instructions extends GameState {
    private int myGameWidth;
@@ -33,19 +32,21 @@ public class Instructions extends GameState {
       getGUIManager().addButton(new InstructionsButton(new NextListener(), "Next", new Vector2(480, 420), myGameWidth, myGameHeight));
    }
 
+   @Override
    public void update() {}
 
+   @Override
    public void draw(Graphics pen) {
-      pen.setColor(new Color(100, 100, 100));
+      pen.setColor(bg);
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       switch (myCurrentPage){
-         case 1: firstPage(pen);
-            break;
-         case 2: secondPage(pen);
-            break;
-         case 3: thirdPage(pen);
-            break;
+      case 1: firstPage(pen);
+      break;
+      case 2: secondPage(pen);
+      break;
+      case 3: thirdPage(pen);
+      break;
       }
 
       getGUIManager().draw(pen);
@@ -67,6 +68,7 @@ public class Instructions extends GameState {
    }
 
    public class BackListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 1) {
             getGamePanel().setGameMode("mainmenu");
@@ -78,6 +80,7 @@ public class Instructions extends GameState {
    }
 
    public class NextListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          if (myCurrentPage == 3) {
             getGamePanel().setGameMode("mainmenu");
@@ -89,6 +92,7 @@ public class Instructions extends GameState {
    }
 
    public class MainMenuListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          getGamePanel().setGameMode("mainmenu");
          getGUIManager().resetInputs();
@@ -96,18 +100,22 @@ public class Instructions extends GameState {
       }
    }
 
+   @Override
    public KeyAdapter getKeyListener() { return myKeyListener; }
+   @Override
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
    }
 
    private class MouseListener extends MouseAdapter {
+      @Override
       public void mousePressed(MouseEvent event) {
          getGUIManager().mousePressed(event);
       }
-	  public void mouseMoved(MouseEvent event) {
-	     getGUIManager().mouseMoved(event);
-	  }
+      @Override
+      public void mouseMoved(MouseEvent event) {
+         getGUIManager().mouseMoved(event);
+      }
    }
 }

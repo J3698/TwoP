@@ -1,16 +1,15 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.util.Vector2;
-import twop.gui.MenuButton;
-
 import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import twop.GamePanel;
+import twop.gui.MenuButton;
+import twop.util.Vector2;
 
 public class MainMenu extends GameState {
    private int myGameWidth;
@@ -31,31 +30,38 @@ public class MainMenu extends GameState {
       getGUIManager().addButton(new MenuButton(new CreditsListener(), "CREDITS", new Vector2(200, 350), new Vector2(240, 100), myGameWidth, myGameHeight));
    }
 
+   @Override
    public void draw(Graphics pen) {
-	  pen.setColor(new Color(100, 100, 100));
-	  pen.fillRect(0, 0, myGameWidth, myGameHeight);
-	  getGUIManager().draw(pen);
+      pen.setColor(bg);
+      pen.fillRect(0, 0, myGameWidth, myGameHeight);
+      getGUIManager().draw(pen);
    }
 
+   @Override
    public void update() {
    }
 
+   @Override
    public KeyAdapter getKeyListener() { return myKeyListener; }
+   @Override
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
    }
 
    private class MouseListener extends MouseAdapter {
-	  public void mousePressed(MouseEvent event) {
-	     getGUIManager().mousePressed(event);
-	  }
-	  public void mouseMoved(MouseEvent event) {
-	     getGUIManager().mouseMoved(event);
-	  }
+      @Override
+      public void mousePressed(MouseEvent event) {
+         getGUIManager().mousePressed(event);
+      }
+      @Override
+      public void mouseMoved(MouseEvent event) {
+         getGUIManager().mouseMoved(event);
+      }
    }
-   
+
    private class PlayListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
          getGamePanel().setGameMode("typeselector");
          getGUIManager().resetInputs();
@@ -63,6 +69,7 @@ public class MainMenu extends GameState {
    }
 
    private class InstructionsListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
          getGamePanel().setGameMode("instructions");
          getGUIManager().resetInputs();
@@ -70,6 +77,7 @@ public class MainMenu extends GameState {
    }
 
    private class OptionsListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
          getGamePanel().setGameMode("options");
          getGUIManager().resetInputs();
@@ -77,6 +85,7 @@ public class MainMenu extends GameState {
    }
 
    private class CreditsListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
          getGamePanel().setGameMode("credits");
          getGUIManager().resetInputs();

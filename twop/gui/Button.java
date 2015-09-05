@@ -1,12 +1,12 @@
 package twop.gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionListener;
+
 import twop.util.StringDraw;
 import twop.util.Vector2;
-
-import java.awt.event.ActionListener;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.Color;
 
 public abstract class Button {
    private ActionListener myListener;
@@ -21,7 +21,7 @@ public abstract class Button {
    private Font myFont;
 
    public Button(ActionListener listener, String text, Color bodyColor, Color textColor, Font font,
-                                     Vector2 position, Vector2 size, int gameWidth, int gameHeight) {
+         Vector2 position, Vector2 size, int gameWidth, int gameHeight) {
       myListener = listener;
       myText = text;
       myFont = font;
@@ -47,13 +47,13 @@ public abstract class Button {
    }
 
    public void drawHovered(Graphics pen) {
-	   draw(pen);
-	   pen.setColor(new Color(0, 0, 0, 100));
-	   int x = (int) myPosition.getX();
-	   int y = (int) myPosition.getY();
-	   int width = (int) mySize.getX();
-	   int height = (int) mySize.getY();
-	   pen.fillRect(x, y, width, height);
+      draw(pen);
+      pen.setColor(new Color(0, 0, 0, 100));
+      int x = (int) myPosition.getX();
+      int y = (int) myPosition.getY();
+      int width = (int) mySize.getX();
+      int height = (int) mySize.getY();
+      pen.fillRect(x, y, width, height);
    }
 
    public void doAction() {

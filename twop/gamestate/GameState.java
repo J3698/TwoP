@@ -1,5 +1,6 @@
 package twop.gamestate;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
@@ -8,6 +9,7 @@ import twop.GamePanel;
 import twop.gui.GUIManager;
 
 public abstract class GameState {
+   public static Color bg = new Color(0, 0, 0);
    private GamePanel myGamePanel;
    private String myGameMode;
    private GUIManager myGUIManager;

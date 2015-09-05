@@ -1,19 +1,19 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.gui.InstructionsButton;
-import twop.util.StringDraw;
-import twop.util.Vector2;
-
-import java.util.Random;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.Color;
+import java.util.Random;
+
+import twop.GamePanel;
+import twop.gui.InstructionsButton;
+import twop.util.StringDraw;
+import twop.util.Vector2;
 
 public class Credits extends GameState {
    private int myGameWidth;
@@ -33,8 +33,9 @@ public class Credits extends GameState {
       getGUIManager().addButton(new InstructionsButton(new MainMenuListener(), "Main menu", new Vector2(20, 420), myGameWidth, myGameHeight));
    }
 
+   @Override
    public void draw(Graphics pen) {
-      pen.setColor(new Color(100, 100, 100));
+      pen.setColor(bg);
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       pen.setColor(myColor);
       int halfWidth = myGameWidth / 2;
@@ -46,29 +47,35 @@ public class Credits extends GameState {
       getGUIManager().draw(pen);
    }
 
+   @Override
    public void update() {
    }
 
    public class MainMenuListener implements ActionListener {
-	   public void actionPerformed(ActionEvent event) {
-		   getGamePanel().setGameMode("mainmenu");
-		   getGUIManager().resetInputs();
-	   }
+      @Override
+      public void actionPerformed(ActionEvent event) {
+         getGamePanel().setGameMode("mainmenu");
+         getGUIManager().resetInputs();
+      }
    }
 
+   @Override
    public KeyAdapter getKeyListener() { return myKeyListener; }
+   @Override
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
    }
 
    private class MouseListener extends MouseAdapter {
-	   public void mousePressed(MouseEvent event) {
-	      getGUIManager().mousePressed(event);
-	   }
-	   public void mouseMoved(MouseEvent event) {
-	      getGUIManager().mouseMoved(event);
-	   }
+      @Override
+      public void mousePressed(MouseEvent event) {
+         getGUIManager().mousePressed(event);
+      }
+      @Override
+      public void mouseMoved(MouseEvent event) {
+         getGUIManager().mouseMoved(event);
+      }
    }
 }
 

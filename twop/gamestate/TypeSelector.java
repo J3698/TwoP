@@ -1,17 +1,17 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.gui.MenuButton;
-import twop.util.Vector2;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import twop.GamePanel;
+import twop.gui.MenuButton;
+import twop.util.Vector2;
 
 public class TypeSelector extends GameState {
    private int myGameWidth;
@@ -32,7 +32,7 @@ public class TypeSelector extends GameState {
 
    @Override
    public void draw(Graphics pen) {
-      pen.setColor(new Color(100, 100, 100));
+      pen.setColor(bg);
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
       getGUIManager().draw(pen);
       pen.setColor(Color.white);
@@ -45,6 +45,7 @@ public class TypeSelector extends GameState {
    }
 
    private class CampaignListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          getGamePanel().setGameMode("levelselector");
          getGamePanel().getLevelSelector().init();
@@ -52,6 +53,7 @@ public class TypeSelector extends GameState {
       }
    }
    public class TwoPlayerListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          getGamePanel().setGameMode("quickinstructions");
          getGUIManager().resetInputs();
@@ -62,9 +64,11 @@ public class TypeSelector extends GameState {
    }
 
    private class MouseListener extends MouseAdapter {
+      @Override
       public void mousePressed(MouseEvent event) {
          getGUIManager().mousePressed(event);
       }
+      @Override
       public void mouseMoved(MouseEvent event) {
          getGUIManager().mouseMoved(event);
       }

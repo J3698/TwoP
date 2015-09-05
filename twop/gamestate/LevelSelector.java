@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 
 import twop.GamePanel;
 import twop.Player;
+import twop.physics.PhysicsManager;
 import twop.util.Vector2;
 
 public class LevelSelector extends GameState {
@@ -19,6 +20,7 @@ public class LevelSelector extends GameState {
    private MouseListener myMouseListener;
 
    private Player myPlayer;
+   private PhysicsManager myPhysicsManager;
 
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "levelselector");
@@ -26,7 +28,9 @@ public class LevelSelector extends GameState {
       myGameHeight = gameHeight;
       myKeyListener = new KeyListener();
       myMouseListener = new MouseListener();
+      myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
+      myPhysicsManager.resgister(myPlayer.getPhysics());
    }
 
    public void init() {
@@ -55,6 +59,7 @@ public class LevelSelector extends GameState {
    @Override
    public void update() {
       myPlayer.update();
+      myPhysicsManager.update();
    }
 
    public void fixCamera() {
@@ -65,28 +70,28 @@ public class LevelSelector extends GameState {
       newPos2.addVector(half);
       getGamePanel().getCamera().setPerspective(newPos1, newPos2);
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    @Override
    public KeyAdapter getKeyListener() {
       return myKeyListener;
@@ -98,9 +103,11 @@ public class LevelSelector extends GameState {
    }
 
    private class KeyListener extends KeyAdapter {
+      @Override
       public void keyPressed(KeyEvent event) {
          myPlayer.getControls().keyDown(event);
       }
+      @Override
       public void keyReleased(KeyEvent event) {
          myPlayer.getControls().keyUp(event);
       }

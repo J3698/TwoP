@@ -1,20 +1,20 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.gui.GameOverButton;
-import twop.util.StringDraw;
-import twop.util.Vector2;
-import twop.sound.Sound;
-
-import java.awt.Graphics;
-import java.awt.Font;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import twop.GamePanel;
+import twop.gui.GameOverButton;
+import twop.sound.Sound;
+import twop.util.StringDraw;
+import twop.util.Vector2;
 
 public class QuickInstructions extends GameState {
    private static Font myKeyFont = StringDraw.keyFont();
@@ -55,9 +55,9 @@ public class QuickInstructions extends GameState {
       myInstructRects[11] = new InstructRect(".", c2, f, KeyEvent.VK_PERIOD, 410, 65, 50, 50);
    }
 
+   @Override
    public void draw(Graphics pen) {
-
-      pen.setColor(new Color(100, 100, 100));
+      pen.setColor(bg);
       pen.fillRect(0, 0, myGameWidth, myGameHeight);
 
       pen.setFont(myKeyFont2);
@@ -83,6 +83,7 @@ public class QuickInstructions extends GameState {
       getGUIManager().draw(pen);
    }
 
+   @Override
    public void update() {
       boolean readyToStart = true;
       for (InstructRect rect: myInstructRects) {
@@ -95,26 +96,32 @@ public class QuickInstructions extends GameState {
       }
    }
 
+   @Override
    public KeyAdapter getKeyListener() { return myKeyListener; }
+   @Override
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
-	   public void keyPressed(KeyEvent event) {
-	      for (InstructRect rect: myInstructRects)
-	         rect.keyPressed(event);
-	   }
+      @Override
+      public void keyPressed(KeyEvent event) {
+         for (InstructRect rect: myInstructRects)
+            rect.keyPressed(event);
+      }
    }
 
    private class MouseListener extends MouseAdapter {
+      @Override
       public void mousePressed(MouseEvent event) {
          getGUIManager().mousePressed(event);
       }
+      @Override
       public void mouseMoved(MouseEvent event) {
          getGUIManager().mouseMoved(event);
       }
    }
 
    public class MainMenuListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          getGamePanel().setGameMode("mainmenu");
          getGUIManager().resetInputs();
@@ -122,6 +129,7 @@ public class QuickInstructions extends GameState {
    }
 
    public class SkipListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent event) {
          getGamePanel().setGameMode("play");
          getGUIManager().resetInputs();
@@ -142,7 +150,7 @@ public class QuickInstructions extends GameState {
       private int myBlinkDelay;
 
       public InstructRect(String text, Color color, Font font, int keyCode, int positionX,
-                                                     int positionY, int width, int height) {
+            int positionY, int width, int height) {
 
          myText = text;
          myColor = color;

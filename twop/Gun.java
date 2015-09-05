@@ -1,10 +1,10 @@
 package twop;
 
-import twop.util.Vector2;
-
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
+
+import twop.util.Vector2;
 
 public class Gun {
    public static int RIGHT = 1;
@@ -71,10 +71,10 @@ public class Gun {
    public void garbageCollectBullets() {
       ArrayList<Bullet> toTrash = new ArrayList<Bullet>();
       for (Bullet b: myBullets) {
-         boolean outLeft = (myPlayer.getBounds().getX() > b.getCenter().getX());
-         boolean outBottom = (myPlayer.getBounds().getHeight() < b.getCenter().getY());
-         boolean outRight = (myPlayer.getBounds().getWidth() < b.getCenter().getX());
-         boolean outTop = (myPlayer.getBounds().getY() > b.getCenter().getY());
+         boolean outLeft = (myPlayer.getPhysics().getBounds().getX() > b.getCenter().getX());
+         boolean outBottom = (myPlayer.getPhysics().getBounds().getHeight() < b.getCenter().getY());
+         boolean outRight = (myPlayer.getPhysics().getBounds().getWidth() < b.getCenter().getX());
+         boolean outTop = (myPlayer.getPhysics().getBounds().getY() > b.getCenter().getY());
          if (outLeft || outBottom || outRight || outTop)
             toTrash.add(b);
       }
