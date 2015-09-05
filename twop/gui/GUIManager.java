@@ -1,10 +1,11 @@
 package twop.gui;
 
-import twop.GamePanel;
-
-import java.util.ArrayList;
-import java.awt.event.MouseEvent;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import twop.GamePanel;
+import twop.sound.Sound;
 
 public class GUIManager {
    private GamePanel myGamePanel;
@@ -18,9 +19,9 @@ public class GUIManager {
    public void draw(Graphics pen) {
       for (Button button: myButtons) {
          if (button.getMouseHovering()) {
-    		   button.drawHovered(pen);
+            button.drawHovered(pen);
          } else {
-    	      button.draw(pen);
+            button.draw(pen);
          }
       }
    }
@@ -31,6 +32,7 @@ public class GUIManager {
          double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
          for (Button button: myButtons) {
             if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
+               new Sound("buttonclick", true).play();
                button.doAction();
             }
          }
@@ -42,13 +44,16 @@ public class GUIManager {
       double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
       for (Button button: myButtons) {
          if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
-        	   button.setMouseHovering(true);
+            if (button.getMouseHovering() == false) {
+               new Sound("buttonhover", true).play();
+               button.setMouseHovering(true);
+            }
          } else {
-        	   button.setMouseHovering(false);
+            button.setMouseHovering(false);
          }
       }
    }
-   
+
    public void resetInputs() {
       for (Button button: myButtons) {
          button.setMouseHovering(false);
