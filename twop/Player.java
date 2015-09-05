@@ -41,8 +41,6 @@ public class Player extends Circle {
    private int maxJumps = 3;
    private int myJumpHeight = 7;
 
-   private PhysicsCircle myPhysics;
-
    public Player(Vector2 center, double radius, Rectangle bounds) {
       super(center, radius);
       myPhysics.setBounds(bounds);
@@ -105,6 +103,7 @@ public class Player extends Circle {
       getCenter().subtractY(myVelocity.getY());
    }
 
+   @Override
    public void keepInBounds() {
    }
 
