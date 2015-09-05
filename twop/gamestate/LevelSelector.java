@@ -30,7 +30,7 @@ public class LevelSelector extends GameState {
       myMouseListener = new MouseListener();
       myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
-      myPhysicsManager.resgister(myPlayer.getPhysics());
+      myPhysicsManager.add(myPlayer.getPhysics());
    }
 
    public void init() {

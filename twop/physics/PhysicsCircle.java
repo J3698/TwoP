@@ -6,6 +6,7 @@ import twop.Circle;
 
 public class PhysicsCircle implements PhysicsObject {
    private Circle myCircle;
+   private Rectangle myBounds;
 
    public PhysicsCircle(Circle circle) {
       myCircle = circle;
@@ -25,6 +26,7 @@ public class PhysicsCircle implements PhysicsObject {
 
    @Override
    public void keepInBounds() {
+      /*
       if (myCircle.getCenter().getY() + myCircle.getRadius() > myBounds.getY() + myBounds.getHeight()) {
          myVelocity.setY(0);
          getCenter().setY(myBounds.getY() + myBounds.getHeight() - getRadius());
@@ -43,18 +45,17 @@ public class PhysicsCircle implements PhysicsObject {
          mySpeed = 0;
          getCenter().setX(getRadius() + myBounds.getX());
       }
+       */
    }
 
    @Override
    public Rectangle getBounds() {
-      // TODO Auto-generated method stub
-      return null;
+      return myBounds;
    }
 
    @Override
    public void setBounds(Rectangle bounds) {
-      // TODO Auto-generated method stub
-
+      myBounds = bounds;
    }
 
    @Override
@@ -65,7 +66,6 @@ public class PhysicsCircle implements PhysicsObject {
 
    @Override
    public int getHeight() {
-      // TODO Auto-generated method stub
       return 0;
    }
 

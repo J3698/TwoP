@@ -1,22 +1,23 @@
 package twop.gamestate;
 
-import twop.GamePanel;
-import twop.Gun;
-import twop.plane.PlaneHandler;
-import twop.bumper.BumperHandler;
-import twop.item.ItemHandler;
-import twop.weather.WeatherHandler;
-import twop.Player;
-import twop.util.StringDraw;
-import twop.util.Vector2;
-
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Font;
-import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
+
+import twop.GamePanel;
+import twop.Gun;
+import twop.Player;
+import twop.bumper.BumperHandler;
+import twop.item.ItemHandler;
+import twop.physics.PhysicsManager;
+import twop.plane.PlaneHandler;
+import twop.util.StringDraw;
+import twop.util.Vector2;
+import twop.weather.WeatherHandler;
 
 /**
  * Play game state for playing the game.
@@ -35,6 +36,8 @@ public class Play extends GameState {
    private Player mySecondPlayer;
    private int myWinner = 0;
 
+   private PhysicsManager myPhysicsManager;
+
    private Font playResumeFont;
    private String myBackgroundMessage = "P to Pause";
    private int myTextOpacity = 50;
@@ -48,6 +51,7 @@ public class Play extends GameState {
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
+      myPhysicsManager = new PhysicsManager();
       initPlayers();
       myPlaneHandler = new PlaneHandler(myGameWidth, myGameHeight);
       myBumperHandler = new BumperHandler(myGameWidth, myGameHeight);
@@ -64,8 +68,11 @@ public class Play extends GameState {
       mySecondPlayer = new Player(secondPos, radius, new Rectangle(0, 0, myGameWidth, myGameHeight - 1));
       mySecondPlayer.getControls().setSecondControls();
       mySecondPlayer.getGun().setSpinDirection(Gun.LEFT);
+      myPhysicsManager.add(myFirstPlayer.getPhysics());
+      myPhysicsManager.add(mySecondPlayer.getPhysics());
    }
 
+   @Override
    public void draw(Graphics pen) {
       drawBackground(pen);
       myBumperHandler.draw(pen);
@@ -77,6 +84,7 @@ public class Play extends GameState {
       myWeatherHandler.draw(pen);
    }
 
+   @Override
    public void update() {
       myFirstPlayer.update();
       myFirstPlayer.takeDamage(mySecondPlayer.getGun().getBullets());
@@ -86,6 +94,7 @@ public class Play extends GameState {
       myBumperHandler.update(myFirstPlayer, mySecondPlayer);
       myItemHandler.update(myFirstPlayer, mySecondPlayer);
       myWeatherHandler.update();
+      myPhysicsManager.update();
 
       if (myFirstPlayer.getHealth() <= 0 || mySecondPlayer.getHealth() <= 0) {
          getGamePanel().setGameMode("gameOver");
@@ -143,24 +152,28 @@ public class Play extends GameState {
 
 
 
+   @Override
    public KeyAdapter getKeyListener() { return myKeyListener; }
+   @Override
    public MouseAdapter getMouseListener() { return myMouseListener; }
 
    private class KeyListener extends KeyAdapter {
-	   public void keyPressed(KeyEvent event) {
-		   myFirstPlayer.getControls().keyDown(event);
-		   mySecondPlayer.getControls().keyDown(event);
+      @Override
+      public void keyPressed(KeyEvent event) {
+         myFirstPlayer.getControls().keyDown(event);
+         mySecondPlayer.getControls().keyDown(event);
 
-		   if (event.getKeyCode() == KeyEvent.VK_P) {
-	          myBackgroundMessage = "R to Resume";
-	          getGamePanel().setGameMode("pause");
-	          getGamePanel().getPause().setIsPausing(true);
- 	       }
-	   }
-	   public void keyReleased(KeyEvent event) {
-		   myFirstPlayer.getControls().keyUp(event);
-		   mySecondPlayer.getControls().keyUp(event);
-	   }
+         if (event.getKeyCode() == KeyEvent.VK_P) {
+            myBackgroundMessage = "R to Resume";
+            getGamePanel().setGameMode("pause");
+            getGamePanel().getPause().setIsPausing(true);
+         }
+      }
+      @Override
+      public void keyReleased(KeyEvent event) {
+         myFirstPlayer.getControls().keyUp(event);
+         mySecondPlayer.getControls().keyUp(event);
+      }
    }
 
    private class MouseListener extends MouseAdapter {

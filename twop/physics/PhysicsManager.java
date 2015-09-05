@@ -13,7 +13,7 @@ public class PhysicsManager {
          object.keepInBounds();
       }
    }
-   public void resgister(PhysicsObject object) {
+   public void add(PhysicsObject object) {
       myObjects.add(object);
    }
 }

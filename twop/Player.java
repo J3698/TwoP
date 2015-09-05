@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import twop.effect.Effect;
-import twop.physics.PhysicsCircle;
-import twop.physics.PhysicsObject;
+import twop.physics.PhysicsPlayer;
 import twop.util.Controls;
 import twop.util.Vector2;
 
@@ -41,8 +40,11 @@ public class Player extends Circle {
    private int maxJumps = 3;
    private int myJumpHeight = 7;
 
+   private PhysicsPlayer myPhysics;
+
    public Player(Vector2 center, double radius, Rectangle bounds) {
       super(center, radius);
+      myPhysics = new PhysicsPlayer(this);
       myPhysics.setBounds(bounds);
       setRandomColor();
       myVelocity = new Vector2(0, 10);
@@ -51,7 +53,6 @@ public class Player extends Circle {
    public void update() {
       updateVelocity();
       updatePosition();
-      keepInBounds();
       updateJumpAbility();
       myGun.update();
 
@@ -103,13 +104,13 @@ public class Player extends Circle {
       getCenter().subtractY(myVelocity.getY());
    }
 
-   @Override
-   public void keepInBounds() {
-   }
-
    public void updateJumpAbility() {
-      if (getCenter().getY() + getRadius() == myBounds.getY() + myBounds.getHeight())
+      double tempFeet = getCenter().getY() + getRadius();
+      double tempFloor = myPhysics.getBounds().getY() + myPhysics.getBounds().getHeight();
+      //if feet touching the floor
+      if (tempFeet - tempFloor >= 1) {
          myJumps = 0;
+      }
    }
 
    public void takeDamage(ArrayList<Gun.Bullet> a) {
@@ -211,7 +212,9 @@ public class Player extends Circle {
       myHealth -= damage;
    }
 
-   public PhysicsObject getPhysics() { return myPhysics; }
+   public PhysicsPlayer getPhysics() { return myPhysics; }
+   public Vector2 getVelocity() { return myVelocity; }
+   public void setSpeed(double speed) { mySpeed = speed; }
    public double getBallHeight() { return myBallHeight; }
    public Gun getGun() { return myGun; }
    public double getHealth() { return myHealth; }
