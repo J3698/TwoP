@@ -1,37 +1,41 @@
 package twop.sound;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound {
-
-/* Error:
-   Exception in thread "AWT-EventQueue-0" java.lang.OutOfMemoryError: Java heap space
-   at com.sun.media.sound.DirectAudioDevice$DirectClip.open(Unknown Source)
-   at twop.sound.Sound.loadSound(Sound.java:36)
-   at twop.sound.Sound.<init>(Sound.java:26)
-   at twop.effect.FireEffect.<init>(FireEffect.java:19)
-*/
 
    private AudioInputStream myAudioIn;
    private Clip myClip;
    private FloatControl myGainControl;
-  
-   public Sound(String fileName) {
-      if (fileName.equalsIgnoreCase("crackling")) {
-         fileName = "crackling.wav";
-      } else if (fileName.equalsIgnoreCase("healthpackage")) {
-         fileName = "healthpackage.wav";
-      } else if (fileName.equalsIgnoreCase("keytyped")) {
-         fileName = "keytyped.wav";
-      } else if (fileName.equalsIgnoreCase("rain")) {
-         fileName = "rain.wav";
-      } else if (fileName.equalsIgnoreCase("thunder")) {
-         fileName = "thunder.wav";
+
+   public Sound(String fileName, boolean autoClose) {
+      if (! fileName.contains(".wav")) {
+         fileName += ".wav";
       }
+
       loadSound(fileName);
+
+      if (autoClose) {
+         myClip.addLineListener(new LineListener() {
+            @Override
+            public void update(LineEvent myLineEvent) {
+               if (myLineEvent.getType() == LineEvent.Type.STOP)
+                  myClip.close();
+            }
+         });
+      }
    }
 
    private void loadSound(String fileName) {
