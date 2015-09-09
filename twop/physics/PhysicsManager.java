@@ -10,7 +10,18 @@ public class PhysicsManager {
 
    public void update() {
       for (PhysicsObject object : myObjects) {
+         //keep in bounds
          object.keepInBounds();
+         //compare animate objects to solid objects
+         if (object.isAnimate()) {
+            //check solids against animate object
+            for (PhysicsObject solid : myObjects) {
+               if (solid.isSolid() && ! solid.isAnimate()) {
+                  if (solid.collides(object)) {
+                  }
+               }
+            }
+         }
       }
    }
    public void add(PhysicsObject object) {
