@@ -1,9 +1,9 @@
 package twop.weather;
 
-import twop.GamePanel;
-
 import java.awt.Graphics;
 import java.util.Random;
+
+import twop.GamePanel;
 
 public class WeatherHandler {
    private GamePanel myGamePanel;
@@ -29,11 +29,12 @@ public class WeatherHandler {
    }
    public void draw(Graphics pen) {
       if (myCurrentWeather != null) {
-        myCurrentWeather.draw(pen);
+         myCurrentWeather.draw(pen);
       }
    }
 
    public void reset() {
+      myCurrentWeather.close();
       myCurrentWeather = null;
    }
 }

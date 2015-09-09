@@ -1,10 +1,10 @@
 package twop.particlesys.particle;
 
-import twop.util.Vector2;
-
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Random;
+
+import twop.util.Vector2;
 
 public class PoisonParticle extends Particle {
    private double myRadius = 10;
@@ -13,14 +13,15 @@ public class PoisonParticle extends Particle {
       super(position, velocity);
       setLife(150);
       Random r = new Random();
-      getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
    }
 
+   @Override
    public void update() {
       myRadius += 0.1;
       loseLife(5);
    }
 
+   @Override
    public void draw(Graphics pen) {
       pen.setColor(new Color(0, 100, 0, getLife()));
       int r = (int) myRadius;

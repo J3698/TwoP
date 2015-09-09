@@ -1,10 +1,10 @@
 package twop.particlesys.particle;
 
-import twop.util.Vector2;
-
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Random;
+
+import twop.util.Vector2;
 
 public class FireParticle extends Particle {
    private int myDegreeOffset;
@@ -12,14 +12,15 @@ public class FireParticle extends Particle {
    public FireParticle(Vector2 position, Vector2 velocity) {
       super(position, velocity);
       Random r = new Random();
-      getParticlePosition().addVector(new Vector2(r.nextInt(30) - 15, r.nextInt(30) - 15));
       setColor(getRandomColor(100, 256, 0, 10, 0, 10));
    }
 
+   @Override
    public void update() {
       getParticlePosition().addVector(getParticleVelocity());
       loseLife(15);
    }
+   @Override
    public void draw(Graphics pen) {
       int red = getColor().getRed();
       int green = getColor().getGreen();

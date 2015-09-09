@@ -2,50 +2,43 @@ package twop.weather;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Random;
 
 import twop.GamePanel;
 import twop.Player;
+import twop.particlesys.ParticleSystem;
 import twop.sound.Sound;
 import twop.util.Vector2;
 
 public class Rain extends Weather {
    private static int myDarkness = 100;
-   private ArrayList<RainParticle> myRainParticles;
    private int myIntensity;
+
    private boolean myLightning;
    private int myLightningTick;
+
    private Sound mySound;
    private boolean soundStarted;
 
+   private ParticleSystem myRain;
+
    public Rain(int life, GamePanel gamePanel) {
       super(life, gamePanel);
-      myRainParticles = new ArrayList<RainParticle>();
       myIntensity = 7;
       myLightning = false;
       myLightningTick = 0;
       mySound = new Sound("rain", false);
       soundStarted = false;
+      Vector2 rainPos = new Vector2(getGamePanel().getGameWidth() / 2, 0);
+      myRain = new ParticleSystem("rain", rainPos);
+      myRain.setEmissionRate(myIntensity);
    }
 
    @Override
    public void update() {
       if (getTick() < 2 * myDarkness) {
       } else if (getTick() < getLife() - 2 * myDarkness) {
-         int xPos;
-         for (int i = 0; i < myIntensity; i++) {
-            xPos = new Random().nextInt(getGamePanel().getGameWidth());
-            myRainParticles.add(new RainParticle(new Vector2(xPos, 0)));
-         }
-
-         for (int i = myRainParticles.size() - 1; i >= 0; i--) {
-            if (myRainParticles.get(i).isExpired()) {
-               myRainParticles.remove(i);
-            } else {
-               myRainParticles.get(i).update();
-            }
-         }
+         myRain.update();
 
          Player firstPlayer = getGamePanel().getPlay().getFirstPlayer();
          Player secondPlayer = getGamePanel().getPlay().getSecondPlayer();
@@ -86,9 +79,10 @@ public class Rain extends Weather {
       } else if (getTick() < getLife() - 2 * myDarkness) {
          pen.setColor(new Color(0, 0, 0, myDarkness));
          pen.fillRect(0, 0, getGamePanel().getGameWidth(), getGamePanel().getGameHeight());
-         for (int i = 0; i < myRainParticles.size(); i++) {
-            myRainParticles.get(i).draw(pen);
-         }
+         //         for (int i = 0; i < myRainParticles.size(); i++) {
+         //            myRainParticles.get(i).draw(pen);
+         myRain.draw(pen);
+         //      }
 
          if (getTick() - myLightningTick < 10) {
             pen.setColor(Color.white);
@@ -104,31 +98,8 @@ public class Rain extends Weather {
       }
    }
 
-   public class RainParticle {
-      private Vector2 myPosition;
-      private Vector2 myVelocity;
-
-      public RainParticle(Vector2 position) {
-         myPosition = position;
-         myVelocity = new Vector2(0, 10);
-      }
-
-      public void update() {
-         myPosition.addVector(myVelocity);
-      }
-      public void draw(Graphics pen) {
-         int x = (int) myPosition.getX();
-         int y = (int) myPosition.getY();
-         for (int i = 0; i < 5; i++) {
-            pen.setColor(new Color(0, 0, 255, 50 * (i + 1)));
-            pen.drawLine(x, y + 2 * i, x, y + 2 * i + 2);
-         }
-      }
-      public boolean isExpired() {
-         if (myPosition.getY() > getGamePanel().getGameHeight()) {
-            return true;
-         }
-         return false;
-      }
+   @Override
+   public void close(){
+      mySound.close();
    }
 }

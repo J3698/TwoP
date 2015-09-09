@@ -1,8 +1,8 @@
 package twop.weather;
 
-import twop.GamePanel;
-
 import java.awt.Graphics;
+
+import twop.GamePanel;
 
 public abstract class Weather {
    private int myLife;
@@ -16,6 +16,7 @@ public abstract class Weather {
 
    public abstract void update();
    public abstract void draw(Graphics pen);
+   public abstract void close();
 
    public GamePanel getGamePanel() { return myGamePanel; }
    public int getLife() { return myLife; }

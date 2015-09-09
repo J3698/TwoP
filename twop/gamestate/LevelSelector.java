@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 
 import twop.GamePanel;
 import twop.Player;
+import twop.campaign.Platform;
 import twop.physics.PhysicsManager;
 import twop.util.Vector2;
 
@@ -19,8 +20,9 @@ public class LevelSelector extends GameState {
    private KeyListener myKeyListener;
    private MouseListener myMouseListener;
 
-   private Player myPlayer;
    private PhysicsManager myPhysicsManager;
+   private Player myPlayer;
+   private Platform myPlatform;
 
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "levelselector");
@@ -30,7 +32,9 @@ public class LevelSelector extends GameState {
       myMouseListener = new MouseListener();
       myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
+      myPlatform = new Platform(new Vector2(300, 900), 200, 30);
       myPhysicsManager.add(myPlayer.getPhysics());
+      myPhysicsManager.add(myPlatform.getPhysics());
    }
 
    public void init() {
@@ -41,19 +45,20 @@ public class LevelSelector extends GameState {
    @Override
    public void draw(Graphics pen) {
       fixCamera();
-      pen.setColor(Color.white);
+      pen.setColor(Color.black);
       pen.fillRect(0, 0, 1000, 1000);
 
-      pen.setColor(Color.CYAN);
+      pen.setColor(Color.red);
       for (int x = 0; x < 10; x++) {
          pen.fillRect(x * 100, 0, 50, 1000);
       }
-      pen.setColor(Color.BLUE);
+      pen.setColor(Color.blue);
       for (int y = 0; y < 100; y++) {
          pen.fillRect(0, y * 100, 1000, 50);
       }
 
       myPlayer.draw(pen);
+      myPlatform.draw(pen);
    }
 
    @Override

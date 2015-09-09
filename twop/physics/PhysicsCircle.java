@@ -12,13 +12,11 @@ public class PhysicsCircle implements PhysicsObject {
       myCircle = circle;
    }
 
-   @Override
    public boolean collides(PhysicsCircle circle) {
       // TODO Auto-generated method stub
       return false;
    }
 
-   @Override
    public boolean collides(PhysicsRect rect) {
       // TODO Auto-generated method stub
       return false;
@@ -71,6 +69,30 @@ public class PhysicsCircle implements PhysicsObject {
 
    @Override
    public boolean isSolid() {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   @Override
+   public boolean isAnimate() {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   @Override
+   public void setAnimate(boolean isAnimate) {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void setSolid(boolean isSolid) {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public boolean collides(PhysicsObject object) {
       // TODO Auto-generated method stub
       return false;
    }

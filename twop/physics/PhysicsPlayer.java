@@ -8,6 +8,7 @@ public class PhysicsPlayer extends PhysicsCircle {
    public PhysicsPlayer(Player player) {
       super(player);
       myPlayer = player;
+      setAnimate(true);
    }
 
    @Override
