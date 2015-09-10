@@ -1,14 +1,14 @@
 
 package twop.gui;
 
-import twop.util.Vector2;
-import twop.util.StringDraw;
-
-import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class InstructionsButton extends Button {
+import twop.util.StringDraw;
+import twop.util.Vector2;
+
+public class InstructionsButton extends BasicButton {
    public InstructionsButton(ActionListener listener, String text, Vector2 position, int gameWidth, int gameHeight) {
       super(listener, text, Color.black, Color.black, StringDraw.instructionsButtonsFont(), position, new Vector2(140, 50), gameWidth, gameHeight);
       Random r = new Random();

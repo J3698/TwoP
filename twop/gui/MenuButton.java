@@ -1,13 +1,13 @@
 package twop.gui;
 
-import twop.util.Vector2;
-import twop.util.StringDraw;
-
-import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class MenuButton extends Button {
+import twop.util.StringDraw;
+import twop.util.Vector2;
+
+public class MenuButton extends BasicButton {
    public MenuButton(ActionListener listener, String text, Vector2 position, Vector2 size, int gameWidth, int gameHeight) {
       super(listener, text, Color.black, Color.black, StringDraw.menuFont(), position, size, gameWidth, gameHeight);
       Random r = new Random();

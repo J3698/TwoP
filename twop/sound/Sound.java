@@ -15,6 +15,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound {
+   private static boolean myEnabled = true;
 
    private AudioInputStream myAudioIn;
    private Clip myClip;
@@ -57,7 +58,9 @@ public class Sound {
    }
 
    public void play() {
-      myClip.start();
+      if (myEnabled) {
+         myClip.start();
+      }
    }
 
    public void loop(int repetitions) {
@@ -95,5 +98,13 @@ public class Sound {
       if (! isRunning()) {
          close();
       }
+   }
+
+   public static void enable() {
+      myEnabled = true;
+   }
+
+   public static void disable() {
+      myEnabled = false;
    }
 }
