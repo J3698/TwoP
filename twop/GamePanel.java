@@ -128,10 +128,8 @@ public class GamePanel extends JPanel {
    public class UpdateListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent event) {
-         long now = System.currentTimeMillis();
          update();
          repaint();
-         System.out.println(System.currentTimeMillis() - now);
       }
    }
 
