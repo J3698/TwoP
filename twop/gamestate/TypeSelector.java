@@ -47,9 +47,11 @@ public class TypeSelector extends GameState {
    private class CampaignListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent event) {
+         /*
          getGamePanel().setGameMode("levelselector");
          getGamePanel().getLevelSelector().init();
          getGUIManager().resetInputs();
+          */
       }
    }
    public class TwoPlayerListener implements ActionListener {
