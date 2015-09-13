@@ -2,7 +2,6 @@ package twop.particlesys.particle;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Random;
 
 import twop.util.Vector2;
 
@@ -11,7 +10,6 @@ public class FireParticle extends Particle {
 
    public FireParticle(Vector2 position, Vector2 velocity) {
       super(position, velocity);
-      Random r = new Random();
       setColor(getRandomColor(100, 256, 0, 10, 0, 10));
    }
 

@@ -2,7 +2,6 @@ package twop.particlesys.particle;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Random;
 
 import twop.util.Vector2;
 
@@ -12,7 +11,6 @@ public class PoisonParticle extends Particle {
    public PoisonParticle(Vector2 position, Vector2 velocity) {
       super(position, velocity);
       setLife(150);
-      Random r = new Random();
    }
 
    @Override
