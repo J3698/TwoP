@@ -27,4 +27,12 @@ public class RainParticle extends Particle {
       }
    }
 
+   @Override
+   public boolean isDead() {
+      if (getParticlePosition().getY() > floor) {
+         return true;
+      }
+
+      return false;
+   }
 }
