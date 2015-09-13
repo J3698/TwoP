@@ -1,9 +1,9 @@
 package twop.bumper;
 
-import twop.Player;
-
-import java.util.ArrayList;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
+import twop.Player;
 
 public class BumperHandler {
    private int myGameWidth;
