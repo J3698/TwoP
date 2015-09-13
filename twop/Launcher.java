@@ -27,22 +27,20 @@ public class Launcher {
 
       try {
          // get latest version
-         latestVersionURL = new URL("https://github.com/J3698/TwoP/raw/master/release/current.version");
+         latestVersionURL = new URL("https://github.com/J3698/TwoP/raw/master/twop/current.version");
          fromWeb = new BufferedReader(
                new InputStreamReader(latestVersionURL.openStream()));
          latestVersion = Double.parseDouble(fromWeb.readLine());
       } catch (Exception e) {
-         // print errors and exit on error
+         // print errors
          e.printStackTrace();
-         System.exit(0);
       } finally {
          try {
             // close reader
             if (fromWeb != null) { fromWeb.close(); }
          } catch (Exception e) {
-            // print errors and exit on error
+            // print errors
             e.printStackTrace();
-            System.exit(0);
          }
       }
       // return latest version number
@@ -60,9 +58,8 @@ public class Launcher {
                new InputStreamReader(getClass().getClassLoader().getResourceAsStream("twop/current.version")));
          currentVersion = Double.parseDouble(fromHere.readLine());
       } catch (Exception e){
-         // print error and exit on error
+         // print error
          e.printStackTrace();
-         System.exit(0);
       } finally {
          try {
             // close reader if instantiated
@@ -70,9 +67,8 @@ public class Launcher {
                fromHere.close();
             }
          } catch(Exception e) {
-            // print error and exit on error
+            // print error
             e.printStackTrace();
-            System.exit(0);
          }
       }
 
