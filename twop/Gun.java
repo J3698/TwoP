@@ -29,6 +29,8 @@ public class Gun {
    }
 
    private void shoot() {
+      initializePoints();
+      rotatePoints(myAngle);
       double x = (myXPoints[0] + myXPoints[2]) / 2;
       double y = (myYPoints[0] + myYPoints[1]) / 2;
       double velocityX = (myXPoints[3] - myXPoints[0]) * mySpinDirection;
