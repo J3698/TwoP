@@ -11,7 +11,7 @@ import twop.util.Vector2;
 public class GameOverButton extends BasicButton {
    public GameOverButton(ActionListener listener, String text, Vector2 position, int gameWidth, int gameHeight) {
       super(listener, text, new Color(0, 0, 0, 0), new Color(150, 150, 150), new Font("Ariel", 1, 25),
-            position, new Vector2(110, 80), gameWidth, gameHeight);
+            position, new Vector2(110, 80));
    }
 
    @Override

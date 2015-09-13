@@ -9,7 +9,7 @@ import twop.util.Vector2;
 
 public class MenuButton extends BasicButton {
    public MenuButton(ActionListener listener, String text, Vector2 position, Vector2 size, int gameWidth, int gameHeight) {
-      super(listener, text, Color.black, Color.black, StringDraw.menuFont(), position, size, gameWidth, gameHeight);
+      super(listener, text, Color.black, Color.black, StringDraw.menuFont(), position, size);
       Random r = new Random();
       int base = 100;
       int rand = 255 - base;
