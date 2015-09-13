@@ -28,8 +28,8 @@ public class UpdateButton implements Button {
       int height = (int) mySize.getY();
       pen.setColor(new Color(200, 50, 50));
       pen.drawRect(x, y, width, height);
-      pen.fillPolygon(new int[] {10, 20, 30},
-            new int[] {300, 310, 120}, 3);
+      pen.fillPolygon(new int[] {x + width / 4, x + width / 2, x + width * 3 / 4},
+            new int[] {y + height * 2 / 5, y + height * 1 / 6, y + height * 2 / 5}, 3);
    }
 
    @Override

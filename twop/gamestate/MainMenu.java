@@ -29,7 +29,9 @@ public class MainMenu extends GameState {
       getGUIManager().addButton(new MenuButton(new InstructionsListener(), "HOW-TO", new Vector2(200, 130), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new OptionsListener(), "OPTIONS", new Vector2(200, 240), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new CreditsListener(), "CREDITS", new Vector2(200, 350), new Vector2(240, 100), myGameWidth, myGameHeight));
-      getGUIManager().addButton(new UpdateButton(new GameUpdateListener(), new Vector2(10, 20), new Vector2(30, 40)));
+      MenuButton updateButton = new MenuButton(new GameUpdateListener(), "UPDATE", new Vector2(0, 440), new Vector2(95, 40), myGameWidth, myGameHeight);
+      updateButton.setFont(StringDraw.instructionsButtonsFont());
+      getGUIManager().addButton(updateButton);
    }
 
    @Override
