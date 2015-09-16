@@ -8,25 +8,45 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.UnknownHostException;
+
+import javax.swing.JOptionPane;
 
 public class Launcher {
-   public Launcher() {}
+   private GamePanel myGamePanel;
+
+   public Launcher(GamePanel gamePanel) {
+      myGamePanel = gamePanel;
+   }
+
+   public void checkAndInstallUpdates() {
+      if (!isLatestVersion()) {
+         downloadLatestVersion();
+      }
+   }
 
    public boolean isLatestVersion() {
       // get arrays of decimal places for versions
-      String[] currentVers = getCurrentVersion().split(".");
-      String[] latestVers = getLatestVersion().split(".");
+      String[] currentVers = getCurrentVersion().split("\\.");
+      String[] latestVers =  getLatestVersion().split("\\.");
       // keep track of current decimal place
       int index = 0;
       int currentVersInt;
       int latestVersInt;
       // until we run out of indices
-      while (index != currentVers.length - 1 && index != latestVers.length) {
+      while (index != currentVers.length && index != latestVers.length) {
+         // avoid formatting errors
+         if (currentVers[index].equals("") || latestVers[index].equals("")) {
+            JOptionPane.showMessageDialog(myGamePanel, "Could not read version number.");
+            break;
+         }
+
          // get next nubmers to compare
          currentVersInt = Integer.parseInt(currentVers[index]);
          latestVersInt = Integer.parseInt(latestVers[index]);
          // compare numbers
          if (currentVersInt < latestVersInt) {
+            JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
             return true;
          } else if (currentVersInt > latestVersInt) {
             return false;
@@ -35,12 +55,14 @@ public class Launcher {
          index++;
       }
       // handle if indices ahve been exhausted
-      if (index == currentVers.length - 1 && index == latestVers.length) {
+      if (index == currentVers.length && index == latestVers.length) {
+         JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
          return true;
       }
-      else if (index == currentVers.length - 1) {
+      else if (index == currentVers.length) {
          return false;
-      } else if (index == latestVers.length - 1) {
+      } else if (index == latestVers.length) {
+         JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
          return true;
       }
       // because we need a return statement
@@ -59,6 +81,8 @@ public class Launcher {
          fromWeb = new BufferedReader(
                new InputStreamReader(latestVersionURL.openStream()));
          latestVersion = fromWeb.readLine();
+      } catch(UnknownHostException e) {
+         JOptionPane.showMessageDialog(myGamePanel, "Couldn't connect to server.");
       } catch (Exception e) {
          // print errors
          e.printStackTrace();
@@ -99,7 +123,6 @@ public class Launcher {
             e.printStackTrace();
          }
       }
-
       // return version number
       return currentVersion;
    }
@@ -155,6 +178,9 @@ public class Launcher {
             e.printStackTrace();
          }
       }
+
+      JOptionPane.showMessageDialog(myGamePanel,
+            "Check the folder containing this jar for the latest version of TwoP!");
 
       return true;
    }

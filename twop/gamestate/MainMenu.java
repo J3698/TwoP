@@ -7,8 +7,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JOptionPane;
-
 import twop.GamePanel;
 import twop.Launcher;
 import twop.gui.MenuButton;
@@ -30,7 +28,7 @@ public class MainMenu extends GameState {
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myLauncher = new Launcher();
+      myLauncher = new Launcher(getGamePanel());
       getGUIManager().addButton(new MenuButton(new PlayListener(), "PLAY", new Vector2(200, 20), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new InstructionsListener(), "HOW-TO", new Vector2(200, 130), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new OptionsListener(), "OPTIONS", new Vector2(200, 240), new Vector2(240, 100), myGameWidth, myGameHeight));
@@ -73,14 +71,7 @@ public class MainMenu extends GameState {
    private class GameUpdateListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
-         if (!myLauncher.isLatestVersion()) {
-            myLauncher.downloadLatestVersion();
-            JOptionPane.showMessageDialog(getGamePanel(),
-                  "Check the folder containing this jar for the latest version of TwoP!");
-         } else {
-            JOptionPane.showMessageDialog(getGamePanel(),
-                  "You are already using the latest version of TwoP.");
-         }
+         myLauncher.checkAndInstallUpdates();
       }
    }
 
