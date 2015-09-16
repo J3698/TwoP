@@ -13,24 +13,52 @@ public class Launcher {
    public Launcher() {}
 
    public boolean isLatestVersion() {
-      if (getCurrentVersion() < getLatestVersion()) {
-         return false;
+      // get arrays of decimal places for versions
+      String[] currentVers = getCurrentVersion().split(".");
+      String[] latestVers = getLatestVersion().split(".");
+      // keep track of current decimal place
+      int index = 0;
+      int currentVersInt;
+      int latestVersInt;
+      // until we run out of indices
+      while (index != currentVers.length - 1 && index != latestVers.length) {
+         // get next nubmers to compare
+         currentVersInt = Integer.parseInt(currentVers[index]);
+         latestVersInt = Integer.parseInt(latestVers[index]);
+         // compare numbers
+         if (currentVersInt < latestVersInt) {
+            return true;
+         } else if (currentVersInt > latestVersInt) {
+            return false;
+         }
+         // move to next index
+         index++;
       }
+      // handle if indices ahve been exhausted
+      if (index == currentVers.length - 1 && index == latestVers.length) {
+         return true;
+      }
+      else if (index == currentVers.length - 1) {
+         return false;
+      } else if (index == latestVers.length - 1) {
+         return true;
+      }
+      // because we need a return statement
       return true;
    }
 
-   public double getLatestVersion() {
+   public String getLatestVersion() {
       // declare URL, reader and version number
       URL latestVersionURL;
       BufferedReader fromWeb = null;
-      double latestVersion = 0.0;
+      String latestVersion = "";
 
       try {
          // get latest version
          latestVersionURL = new URL("https://github.com/J3698/TwoP/raw/master/twop/current.version");
          fromWeb = new BufferedReader(
                new InputStreamReader(latestVersionURL.openStream()));
-         latestVersion = Double.parseDouble(fromWeb.readLine());
+         latestVersion = fromWeb.readLine();
       } catch (Exception e) {
          // print errors
          e.printStackTrace();
@@ -47,16 +75,16 @@ public class Launcher {
       return latestVersion;
    }
 
-   public double getCurrentVersion() {
+   public String getCurrentVersion() {
       // declare reader and version number
       BufferedReader fromHere = null;
-      double currentVersion = 0.0;
+      String currentVersion = "";
 
       try {
          // instantiate reader and get version number
          fromHere = new BufferedReader(
                new InputStreamReader(getClass().getClassLoader().getResourceAsStream("twop/current.version")));
-         currentVersion = Double.parseDouble(fromHere.readLine());
+         currentVersion = fromHere.readLine();
       } catch (Exception e){
          // print error
          e.printStackTrace();
