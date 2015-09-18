@@ -25,7 +25,7 @@ import twop.util.StringDraw;
 
 public class GamePanel extends JPanel {
    private static final long serialVersionUID = 1069592807236812370L;
-   private static final float version = 1.4f;
+   private static final String myVersion = new Launcher(null).getCurrentVersion();
 
    private Camera myCamera;
 
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel {
       //Draw version information
       pen.setFont(StringDraw.versionFont());
       pen.setColor(new Color(200, 255, 200, 150));
-      pen.drawString("V. " + version, 5, 20);
+      pen.drawString("v" + myVersion, 5, 20);
    }
 
    public void draw(Graphics pen) {

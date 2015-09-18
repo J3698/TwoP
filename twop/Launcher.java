@@ -82,7 +82,7 @@ public class Launcher {
                new InputStreamReader(latestVersionURL.openStream()));
          latestVersion = fromWeb.readLine();
       } catch(UnknownHostException e) {
-         JOptionPane.showMessageDialog(myGamePanel, "Couldn't connect to server.");
+         System.out.println("Couldn't connect to server.");
       } catch (Exception e) {
          // print errors
          e.printStackTrace();
