@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 public class Launcher {
+   private static String currentVersion = "1.4.2";
+
    private GamePanel myGamePanel;
 
    public Launcher(GamePanel gamePanel) {
@@ -100,30 +102,6 @@ public class Launcher {
    }
 
    public String getCurrentVersion() {
-      // declare reader and version number
-      BufferedReader fromHere = null;
-      String currentVersion = "";
-
-      try {
-         // instantiate reader and get version number
-         fromHere = new BufferedReader(
-               new InputStreamReader(getClass().getClassLoader().getResourceAsStream("twop/current.version")));
-         currentVersion = fromHere.readLine();
-      } catch (Exception e){
-         // print error
-         e.printStackTrace();
-      } finally {
-         try {
-            // close reader if instantiated
-            if (fromHere != null) {
-               fromHere.close();
-            }
-         } catch(Exception e) {
-            // print error
-            e.printStackTrace();
-         }
-      }
-      // return version number
       return currentVersion;
    }
 
