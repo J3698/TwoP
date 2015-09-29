@@ -2,6 +2,8 @@ package twop.physics;
 
 import java.util.ArrayList;
 
+import twop.physics.Collider.CollideDirection;
+
 public class PhysicsManager {
    private ArrayList<PhysicsObject> myObjects;
    public PhysicsManager() {
@@ -14,10 +16,14 @@ public class PhysicsManager {
          object.keepInBounds();
          //compare animate objects to solid objects
          if (object.isAnimate()) {
-            //check solids against animate object
+            CollideDirection direction;
             for (PhysicsObject solid : myObjects) {
                if (solid.isSolid() && ! solid.isAnimate()) {
-                  if (solid.collides(object)) {
+                  // check collision
+                  direction = solid.getCollider().collides(object.getCollider());
+                  if (direction != CollideDirection.None) {
+                     object.boundRelativeTo(solid.getCollider(), direction);
+                  } else {
                   }
                }
             }

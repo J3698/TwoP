@@ -10,7 +10,7 @@ public class Platform extends Rect {
 
    public Platform(Vector2 position, double width, double height) {
       super(position, width, height);
-      myPhysics = new PhysicsRect();
+      myPhysics = new PhysicsRect(this);
       myPhysics.setAnimate(false);
       myPhysics.setSolid(true);
    }

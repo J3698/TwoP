@@ -2,28 +2,24 @@ package twop.physics;
 
 import java.awt.Rectangle;
 
+import twop.Rect;
+import twop.physics.Collider.CollideDirection;
+
 public class PhysicsRect implements PhysicsObject {
    private Rectangle myBounds;
-   private boolean myIsAnimate;
+   private Rect myRect;
+   private boolean myIsAnimate = false;
    private boolean myIsSolid;
+   private RectCollider myCollider;
 
-   public PhysicsRect() {
-   }
-
-   public boolean collides(PhysicsCircle circle) {
-      // TODO Auto-generated method stub
-      return false;
-   }
-
-   public boolean collides(PhysicsRect rect) {
-      // TODO Auto-generated method stub
-      return false;
+   public PhysicsRect(Rect rect) {
+      myRect = rect;
+      myCollider = new RectCollider(myRect);
    }
 
    @Override
    public void keepInBounds() {
-      // TODO Auto-generated method stub
-
+      //      System.out.println("Not implemented.");
    }
 
    @Override
@@ -33,32 +29,16 @@ public class PhysicsRect implements PhysicsObject {
 
    @Override
    public void setBounds(Rectangle bounds) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public int getWidth() {
-      // TODO Auto-generated method stub
-      return 0;
-   }
-
-   @Override
-   public int getHeight() {
-      // TODO Auto-generated method stub
-      return 0;
    }
 
    @Override
    public boolean isSolid() {
-      // TODO Auto-generated method stub
-      return false;
+      return myIsSolid;
    }
 
    @Override
    public boolean isAnimate() {
-      // TODO Auto-generated method stub
-      return false;
+      return myIsAnimate;
    }
 
    @Override
@@ -72,9 +52,28 @@ public class PhysicsRect implements PhysicsObject {
    }
 
    @Override
-   public boolean collides(PhysicsObject object) {
-      // TODO Auto-generated method stub
-      return false;
+   public Collider getCollider() {
+      return myCollider;
    }
 
+   public Rect getRect() {
+      return myRect;
+   }
+
+   @Override
+   public int getWidth() {
+      System.out.println("Not implemented.");
+      return 0;
+   }
+
+   @Override
+   public int getHeight() {
+      System.out.println("Not implemented.");
+      return 0;
+   }
+
+   @Override
+   public void boundRelativeTo(Collider collider, CollideDirection direction) {
+      System.out.println("Not implemented.");
+   }
 }

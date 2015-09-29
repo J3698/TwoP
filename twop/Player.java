@@ -108,7 +108,7 @@ public class Player extends Circle {
       double tempFeet = getCenter().getY() + getRadius();
       double tempFloor = myPhysics.getBounds().getY() + myPhysics.getBounds().getHeight();
       //if feet touching the floor
-      if (tempFeet - tempFloor >= 1) {
+      if (Math.abs(tempFeet - tempFloor) <= 1) {
          myJumps = 0;
       }
    }
@@ -142,6 +142,7 @@ public class Player extends Circle {
          myIsJumpReleased = false;
       }
    }
+
    public void releaseUp() {
       myIsJumpReleased = true;
    }

@@ -1,6 +1,8 @@
 package twop.physics;
 
 import twop.Player;
+import twop.physics.Collider.CollideDirection;
+import twop.physics.Collider.CollideType;
 
 public class PhysicsPlayer extends PhysicsCircle {
    private Player myPlayer;
@@ -32,4 +34,18 @@ public class PhysicsPlayer extends PhysicsCircle {
          myPlayer.getCenter().setX(myPlayer.getRadius() + getBounds().getX());
       }
    }
+
+   @Override
+   public void boundRelativeTo(Collider collider, CollideDirection direction) {
+      if (collider.getType() == CollideType.Rect) {
+         RectCollider colliderRect = (RectCollider) collider;
+         if (direction.equals(CollideDirection.Center)) {
+            myPlayer.getCenter().setX(collider.getRect().getPosition().getX() - myPlayer.getRadius());
+            myPlayer.getCenter().setY(collider.getRect().getPosition().getY() - myPlayer.getRadius());
+         }
+      }
+   }
 }
+
+
+

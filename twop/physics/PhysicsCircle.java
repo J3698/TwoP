@@ -3,23 +3,18 @@ package twop.physics;
 import java.awt.Rectangle;
 
 import twop.Circle;
+import twop.physics.Collider.CollideDirection;
 
 public class PhysicsCircle implements PhysicsObject {
    private Circle myCircle;
    private Rectangle myBounds;
+   private CircleCollider myCollider;
+   private boolean myIsSolid = false;
+   private boolean myIsAnimate = false;
 
    public PhysicsCircle(Circle circle) {
       myCircle = circle;
-   }
-
-   public boolean collides(PhysicsCircle circle) {
-      // TODO Auto-generated method stub
-      return false;
-   }
-
-   public boolean collides(PhysicsRect rect) {
-      // TODO Auto-generated method stub
-      return false;
+      myCollider = new CircleCollider(this);
    }
 
    @Override
@@ -47,6 +42,17 @@ public class PhysicsCircle implements PhysicsObject {
    }
 
    @Override
+   public void boundRelativeTo(Collider collider, CollideDirection direction) {
+      System.out.println("Unimplemented.");
+      /*
+      if (collider.getType() == CollideType.Rect) {
+           RectCollider colliderRect = (RectCollider) collider;
+      }
+       */
+
+   }
+
+   @Override
    public Rectangle getBounds() {
       return myBounds;
    }
@@ -69,20 +75,17 @@ public class PhysicsCircle implements PhysicsObject {
 
    @Override
    public boolean isSolid() {
-      // TODO Auto-generated method stub
-      return false;
+      return myIsSolid;
    }
 
    @Override
    public boolean isAnimate() {
-      // TODO Auto-generated method stub
-      return false;
+      return myIsAnimate;
    }
 
    @Override
    public void setAnimate(boolean isAnimate) {
-      // TODO Auto-generated method stub
-
+      myIsAnimate = isAnimate;
    }
 
    @Override
@@ -92,9 +95,11 @@ public class PhysicsCircle implements PhysicsObject {
    }
 
    @Override
-   public boolean collides(PhysicsObject object) {
-      // TODO Auto-generated method stub
-      return false;
+   public Collider getCollider() {
+      return myCollider;
    }
 
+   public Circle getCircle() {
+      return myCircle;
+   }
 }

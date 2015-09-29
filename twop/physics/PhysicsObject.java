@@ -2,9 +2,12 @@ package twop.physics;
 
 import java.awt.Rectangle;
 
+import twop.physics.Collider.CollideDirection;
+
 public interface PhysicsObject {
-   boolean collides(PhysicsObject object);
+   Collider getCollider();
    void keepInBounds();
+   void boundRelativeTo(Collider collider, CollideDirection direction);
    Rectangle getBounds();
    void setBounds(Rectangle bounds);
    int getWidth();
