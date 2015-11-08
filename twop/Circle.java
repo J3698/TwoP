@@ -1,9 +1,9 @@
 package twop;
 
-import twop.util.Vector2;
-
 import java.awt.Color;
 import java.awt.Graphics;
+
+import twop.util.Vector2;
 
 public class Circle {
    private Vector2 myCenter;
@@ -58,7 +58,7 @@ public class Circle {
       int diameter = (int) (myRadius * 2);
       pen.setColor(myColor);
       pen.fillOval(centerX, centerY,
-                 diameter, diameter);
+            diameter, diameter);
       pen.setColor(myOutline);
       pen.drawOval(centerX, centerY,
                  diameter, diameter);
