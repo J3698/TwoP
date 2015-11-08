@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import twop.GamePanel;
 import twop.Player;
@@ -22,7 +24,7 @@ public class LevelSelector extends GameState {
 
    private PhysicsManager myPhysicsManager;
    private Player myPlayer;
-   private Platform myPlatform;
+   private ArrayList<Platform> myPlatforms;
 
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "levelselector");
@@ -32,9 +34,17 @@ public class LevelSelector extends GameState {
       myMouseListener = new MouseListener();
       myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
-      myPlatform = new Platform(new Vector2(300, 900), 200, 30);
+
+      // need list of campaign objects to draw
+      myPlatforms = new ArrayList<Platform>();
+
+      Platform firstPlatform = new Platform(new Vector2(300, 900), 200, 30);
+
+      myPlatforms.add(firstPlatform);
+      //      myPlatform = new Platform(new Vector2(300, 900), 200, 30);
+
       myPhysicsManager.add(myPlayer.getPhysics());
-      myPhysicsManager.add(myPlatform.getPhysics());
+      myPhysicsManager.add(firstPlatform.getPhysics());
    }
 
    public void init() {
@@ -58,7 +68,10 @@ public class LevelSelector extends GameState {
       }
 
       myPlayer.draw(pen);
-      myPlatform.draw(pen);
+
+      for (Platform platform : myPlatforms) {
+         platform.draw(pen);
+      }
    }
 
    @Override
@@ -76,7 +89,16 @@ public class LevelSelector extends GameState {
       getGamePanel().getCamera().setPerspective(newPos1, newPos2);
    }
 
-
+   private class MouseListener extends MouseAdapter {
+      @Override
+      public void mousePressed(MouseEvent event) {
+         Vector2 platformPosition = new Vector2(event.getX() - getGamePanel().getCamera().getPos1().getX(),
+               event.getY() - getGamePanel().getCamera().getPos1().getY());
+         Platform newPlatform= new Platform(platformPosition, 200, 30);
+         myPlatforms.add(newPlatform);
+         myPhysicsManager.add(newPlatform.getPhysics());
+      }
+   }
 
 
 
@@ -111,13 +133,12 @@ public class LevelSelector extends GameState {
       @Override
       public void keyPressed(KeyEvent event) {
          myPlayer.getControls().keyDown(event);
+         if (event.getKeyCode() == KeyEvent.VK_R) {
+         }
       }
       @Override
       public void keyReleased(KeyEvent event) {
          myPlayer.getControls().keyUp(event);
       }
-   }
-
-   private class MouseListener extends MouseAdapter {
    }
 }
