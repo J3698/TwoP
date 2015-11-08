@@ -39,9 +39,13 @@ public class PhysicsPlayer extends PhysicsCircle {
    public void boundRelativeTo(Collider collider, CollideDirection direction) {
       if (collider.getType() == CollideType.Rect) {
          RectCollider colliderRect = (RectCollider) collider;
+         // code to change, only handles center collision, do away with directions altogether?
          if (direction.equals(CollideDirection.Center)) {
-            myPlayer.getCenter().setX(collider.getRect().getPosition().getX() - myPlayer.getRadius());
+            myPlayer.resetJumps();
             myPlayer.getCenter().setY(collider.getRect().getPosition().getY() - myPlayer.getRadius());
+            if (myPlayer.getVelocity().getY() < 0) {
+               myPlayer.getVelocity().setY(0);
+            }
          }
       }
    }
