@@ -134,7 +134,7 @@ public class Launcher {
       return latestVersion;
    }
 
-   public String getCurrentVersion() {
+   public static String getCurrentVersion() {
       return currentVersion.toString();
    }
 

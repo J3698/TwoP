@@ -25,7 +25,7 @@ import twop.util.StringDraw;
 
 public class GamePanel extends JPanel {
    private static final long serialVersionUID = 1069592807236812370L;
-   private static final String myVersion = new Launcher(null).getCurrentVersion();
+   private static final String myVersion = Launcher.getCurrentVersion();
 
    private Camera myCamera;
 
