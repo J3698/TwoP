@@ -199,6 +199,8 @@ public class Player extends Circle {
       getCenter().addVector(force);
    }
 
+   public void resetJumps() { myJumps = 0; }
+
    public void applyHealing(double healing) {
       if (myHealth + healing > myMaxHealth) {
          myHealth = myMaxHealth;
