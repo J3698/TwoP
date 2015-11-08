@@ -71,7 +71,6 @@ public class Player extends Circle {
    }
 
    public void updateVelocity() {
-
       if (myIsGoingLeft) {
          mySpeed -= myAcceleration;
          if (Math.abs(mySpeed) > myMaxSpeed) {

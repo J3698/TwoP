@@ -39,9 +39,6 @@ public class RectCollider implements Collider {
                }
             }
          }
-         //         else {
-         //            System.out.println("Collided!");
-         //         }
       } else {
          Vector2 firstCorner = new Vector2(myRect.getPosition().getX(), myRect.getPosition().getY());
          Vector2 secondCorner = new Vector2(myRect.getPosition().getX() + myRect.getWidth(), myRect.getPosition().getY());
