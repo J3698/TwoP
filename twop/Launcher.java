@@ -13,7 +13,12 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 public class Launcher {
-   private static String currentVersion = "1.4.2";
+   private static final String digits = "0123456789";
+
+   private static String currentVersion = "1.4.3";
+
+   private static String downloadURL =
+         "https://github.com/J3698/TwoP/blob/master/release/TwoP.jar?raw=true";
 
    private GamePanel myGamePanel;
 
@@ -23,23 +28,47 @@ public class Launcher {
 
    public void checkAndInstallUpdates() {
       if (!isLatestVersion()) {
-         downloadLatestVersion();
+         if (JOptionPane.showConfirmDialog(myGamePanel, "Download new TwoP version?") == 0) {
+            JOptionPane.showMessageDialog(myGamePanel, "Download will temporarily freeze TwoP.",
+                  "", JOptionPane.WARNING_MESSAGE);
+            downloadLatestVersion();
+         }
       }
    }
 
    public boolean isLatestVersion() {
       // get arrays of decimal places for versions
-      String[] currentVers = getCurrentVersion().split("\\.");
-      String[] latestVers =  getLatestVersion().split("\\.");
+      String rawCurrentVers = getCurrentVersion();
+      String rawLatestVers = getLatestVersion();
+
+      // quit if latest version returns non digits
+      for (int index = 0; index < rawLatestVers.length(); index++) {
+         boolean containsNonDigit = digits.indexOf(rawLatestVers.charAt(index)) == -1;
+         if (containsNonDigit && rawLatestVers.charAt(index) != '.') {
+            message("Latest version number failed to be read:" + rawLatestVers);
+            return true;
+         }
+      }
+      // prep version numbers
+      String[] currentVers = rawCurrentVers.split("\\.");
+      String[] latestVers = rawLatestVers.split("\\.");
       // keep track of current decimal place
       int index = 0;
       int currentVersInt;
       int latestVersInt;
-      // until we run out of indices
+      // compare until we run out of decimal places
       while (index != currentVers.length && index != latestVers.length) {
-         // avoid formatting errors
-         if (currentVers[index].equals("") || latestVers[index].equals("")) {
-            JOptionPane.showMessageDialog(myGamePanel, "Could not read version number.");
+         // inform of formatting errors
+         boolean latestNumFailed = latestVers[index].equals("");
+         boolean currentNumFailed = currentVers[index].equals("");
+         if (latestNumFailed && currentNumFailed) {
+            message("Version numbers failed to be read");
+            break;
+         } else if (latestNumFailed) {
+            message("Latest version number failed to be read:" + rawLatestVers);
+            break;
+         } else if (currentNumFailed) {
+            message("Current version number failed to be read:" + rawCurrentVers);
             break;
          }
 
@@ -47,28 +76,31 @@ public class Launcher {
          currentVersInt = Integer.parseInt(currentVers[index]);
          latestVersInt = Integer.parseInt(latestVers[index]);
          // compare numbers
-         if (currentVersInt < latestVersInt) {
-            JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
+         if (currentVersInt > latestVersInt) {
+            message("No new updates.");
             return true;
-         } else if (currentVersInt > latestVersInt) {
+         } else if (currentVersInt < latestVersInt) {
             return false;
          }
          // move to next index
          index++;
       }
-      // handle if indices ahve been exhausted
+      // handle if indices have been exhausted
       if (index == currentVers.length && index == latestVers.length) {
-         JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
+         message("No new updates.");
          return true;
-      }
-      else if (index == currentVers.length) {
+      } else if (index == currentVers.length) {
          return false;
       } else if (index == latestVers.length) {
-         JOptionPane.showMessageDialog(myGamePanel, "No new updates.");
+         message("No new updates.");
          return true;
       }
       // because we need a return statement
       return true;
+   }
+
+   public void message(String message) {
+      JOptionPane.showMessageDialog(myGamePanel, message);
    }
 
    public String getLatestVersion() {
@@ -79,15 +111,16 @@ public class Launcher {
 
       try {
          // get latest version
-         latestVersionURL = new URL("https://github.com/J3698/TwoP/raw/master/twop/current.version");
+         latestVersionURL = new URL("https://raw.githubusercontent.com/J3698/TwoP/master/current.version");
          fromWeb = new BufferedReader(
                new InputStreamReader(latestVersionURL.openStream()));
          latestVersion = fromWeb.readLine();
       } catch(UnknownHostException e) {
-         System.out.println("Couldn't connect to server.");
+         return "Couldn't connect to server.";
       } catch (Exception e) {
          // print errors
          e.printStackTrace();
+         return "Error.";
       } finally {
          try {
             // close reader
@@ -102,7 +135,7 @@ public class Launcher {
    }
 
    public String getCurrentVersion() {
-      return currentVersion;
+      return currentVersion.toString();
    }
 
    public boolean downloadLatestVersion() {
@@ -117,6 +150,7 @@ public class Launcher {
          file = new File(fileName);
       }
 
+      // declare variables for downloading file
       URL downloadSite;
       InputStream in = null;
       ByteArrayOutputStream out = null;
@@ -124,24 +158,24 @@ public class Launcher {
       byte[] buffer = new byte[1024 * 16];
       int n = 0;
 
+      // download file
       try {
-         downloadSite = new URL("https://github.com/J3698/TwoP/blob/master/release/TwoP.jar?raw=true");
-
+         downloadSite = new URL(downloadURL);
+         // establish input and ouput streams
          in = new BufferedInputStream(downloadSite.openStream());
          out = new ByteArrayOutputStream();
-
+         // read downlaoad
          while ((n = in.read(buffer)) != -1) {
             out.write(buffer, 0, n);
          }
-
+         // move downlaod to new file
          byte[] response = out.toByteArray();
-
          fileWriter = new FileOutputStream(fileName);
-
          fileWriter.write(response);
       } catch(Exception e) {
          e.printStackTrace();
       } finally {
+         // close input and output
          try {
             if (out != null) {
                out.close();
@@ -157,8 +191,8 @@ public class Launcher {
          }
       }
 
-      JOptionPane.showMessageDialog(myGamePanel,
-            "Check the folder containing this jar for the latest version of TwoP!");
+      message("Check the folder containing this jar for "
+            + "the latest version of TwoP!");
 
       return true;
    }
