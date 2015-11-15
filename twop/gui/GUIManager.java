@@ -10,10 +10,12 @@ import twop.sound.Sound;
 public class GUIManager {
    private GamePanel myGamePanel;
    private ArrayList<Button> myButtons;
+   private boolean myDisabled;
 
    public GUIManager(GamePanel gamePanel) {
       myGamePanel = gamePanel;
       myButtons = new ArrayList<Button>();
+      myDisabled = false;
    }
 
    public void draw(Graphics pen) {
@@ -27,13 +29,15 @@ public class GUIManager {
    }
 
    public void mousePressed(MouseEvent event) {
-      if (event.getButton() == MouseEvent.BUTTON1) {
-         double scaleFactorX = myGamePanel.getGameWidth() / (double) myGamePanel.getWidth();
-         double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
-         for (Button button: myButtons) {
-            if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
-               new Sound("buttonclick", true).play();
-               button.doAction();
+      if (!myDisabled) {
+         if (event.getButton() == MouseEvent.BUTTON1) {
+            double scaleFactorX = myGamePanel.getGameWidth() / (double) myGamePanel.getWidth();
+            double scaleFactorY = myGamePanel.getGameHeight() / (double) myGamePanel.getHeight();
+            for (Button button: myButtons) {
+               if (button.collidesPoint(event.getX() * scaleFactorX, event.getY() * scaleFactorY)) {
+                  new Sound("buttonclick", true).play();
+                  button.doAction();
+               }
             }
          }
       }
@@ -58,6 +62,14 @@ public class GUIManager {
       for (Button button: myButtons) {
          button.setMouseHovering(false);
       }
+   }
+
+   public void disable() {
+      myDisabled = true;
+   }
+
+   public void enable() {
+      myDisabled = false;
    }
 
    public void addButton(Button button) {
