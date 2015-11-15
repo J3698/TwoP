@@ -141,4 +141,13 @@ public class LevelSelector extends GameState {
          myPlayer.getControls().keyUp(event);
       }
    }
+
+   public class LeaveListener implements ActionListener {
+      @Override
+      public void actionPerformed(ActionEvent event) {
+         getGamePanel().setGameMode("mainmenu");
+         getGamePanel().getCamera().reset();
+         getGUIManager().resetInputs();
+      }
+   }
 }
