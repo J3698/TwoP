@@ -103,6 +103,7 @@ public class ParticleSystem {
    public Vector2 getSourcePosition() { return mySourcePosition; }
    public void setSourcePosition(Vector2 position) { mySourcePosition = position; }
    public void setSourceOffset(Vector2 offset) { myMaxSourceOffset = offset; }
+   @SuppressWarnings("unused")
    private Vector2 getSourceOffset() { return myMaxSourceOffset; }
    public void setEmissionRate(int emissionRate) { myEmissionRate = emissionRate; }
    public void setEmissionAngles(int lowerLimit, int upperLimit) {

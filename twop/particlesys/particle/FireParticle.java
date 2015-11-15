@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import twop.util.Vector2;
 
 public class FireParticle extends Particle {
+   @SuppressWarnings("unused")
    private int myDegreeOffset;
 
    public FireParticle(Vector2 position, Vector2 velocity) {

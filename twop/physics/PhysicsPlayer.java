@@ -35,6 +35,7 @@ public class PhysicsPlayer extends PhysicsCircle {
       }
    }
 
+   @SuppressWarnings("unused")
    @Override
    public void boundRelativeTo(Collider collider, CollideDirection direction) {
       if (collider.getType() == CollideType.Rect) {
