@@ -15,7 +15,6 @@ public class HealthPack extends Rect implements Item {
    private static double myHealing = 65;
    private boolean myIsDead = false;
 
-
    public HealthPack(Vector2 position) {
       super(position, 30, 30);
       setColor(Color.white);
