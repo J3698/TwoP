@@ -1,8 +1,12 @@
 package twop.gamestate;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 import twop.GamePanel;
 import twop.Player;
 import twop.campaign.Platform;
+import twop.gui.InstructionsButton;
 import twop.physics.PhysicsManager;
 import twop.util.Vector2;
 
@@ -26,6 +31,9 @@ public class LevelSelector extends GameState {
    private Player myPlayer;
    private ArrayList<Platform> myPlatforms;
 
+   private int tick = 1;
+   private int tickDir = 1;
+
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "levelselector");
       myGameWidth = gameWidth;
@@ -34,6 +42,8 @@ public class LevelSelector extends GameState {
       myMouseListener = new MouseListener();
       myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
+      this.getGUIManager().addButton(new InstructionsButton(
+            new LeaveListener(), "Leave", new Vector2(400, 400), myGameWidth, myGameHeight));
 
       // need list of campaign objects to draw
       myPlatforms = new ArrayList<Platform>();
@@ -58,13 +68,21 @@ public class LevelSelector extends GameState {
       pen.setColor(Color.black);
       pen.fillRect(0, 0, 1000, 1000);
 
-      pen.setColor(Color.red);
-      for (int x = 0; x < 10; x++) {
-         pen.fillRect(x * 100, 0, 50, 1000);
+
+      // experimentation
+      Graphics2D pen2D = (Graphics2D) pen;
+      pen2D.setPaint(new GradientPaint(tick / 5, 20, new Color(tick, tick, tick), 0, 20,
+            new Color(255 - tick, 255 - tick, 255 - tick), true));
+      if (tick >= 55) {
+         tickDir = -3;
+      } else if (tick <= 10) {
+         tickDir = 1;
       }
-      pen.setColor(Color.blue);
-      for (int y = 0; y < 100; y++) {
-         pen.fillRect(0, y * 100, 1000, 50);
+      tick += tickDir;
+      // end experimentation
+
+      for (int x = 0; x < 10; x++) {
+         pen.fillRect(x * 100, 0, 100, 1000);
       }
 
       myPlayer.draw(pen);
@@ -72,6 +90,8 @@ public class LevelSelector extends GameState {
       for (Platform platform : myPlatforms) {
          platform.draw(pen);
       }
+
+      getGUIManager().draw(pen);
    }
 
    @Override
@@ -92,27 +112,20 @@ public class LevelSelector extends GameState {
    private class MouseListener extends MouseAdapter {
       @Override
       public void mousePressed(MouseEvent event) {
+         getGUIManager().mousePressed(event);
+
          Vector2 platformPosition = new Vector2(event.getX() - getGamePanel().getCamera().getPos1().getX(),
                event.getY() - getGamePanel().getCamera().getPos1().getY());
          Platform newPlatform= new Platform(platformPosition, 200, 30);
          myPlatforms.add(newPlatform);
          myPhysicsManager.add(newPlatform.getPhysics());
       }
+
+      @Override
+      public void mouseMoved(MouseEvent event) {
+         getGUIManager().mouseMoved(event);
+      }
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
