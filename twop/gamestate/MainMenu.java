@@ -20,7 +20,7 @@ public class MainMenu extends GameState {
    private KeyAdapter myKeyListener;
    private MouseAdapter myMouseListener;
 
-   Launcher myLauncher;
+   MenuButton updateButton;
 
    public MainMenu(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "mainmenu");
@@ -28,14 +28,13 @@ public class MainMenu extends GameState {
       myGameHeight = gameHeight;
       myMouseListener = new MouseListener();
       myKeyListener = new KeyListener();
-      myLauncher = new Launcher(getGamePanel());
 
       getGUIManager().addButton(new MenuButton(new PlayListener(), "PLAY", new Vector2(200, 20), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new InstructionsListener(), "HOW-TO", new Vector2(200, 130), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new OptionsListener(), "OPTIONS", new Vector2(200, 240), new Vector2(240, 100), myGameWidth, myGameHeight));
       getGUIManager().addButton(new MenuButton(new CreditsListener(), "CREDITS", new Vector2(200, 350), new Vector2(240, 100), myGameWidth, myGameHeight));
 
-      MenuButton updateButton = new MenuButton(new GameUpdateListener(), "UPDATE", new Vector2(0, 440), new Vector2(95, 40), myGameWidth, myGameHeight);
+      updateButton = new MenuButton(new GameUpdateListener(), "UPDATE", new Vector2(0, 440), new Vector2(95, 40), myGameWidth, myGameHeight);
       updateButton.setFont(StringDraw.instructionsButtonsFont());
       getGUIManager().addButton(updateButton);
    }
@@ -73,7 +72,7 @@ public class MainMenu extends GameState {
    private class GameUpdateListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
-         myLauncher.checkAndInstallUpdates();
+         new Launcher(getGamePanel()).checkAndInstallUpdates();
       }
    }
 
