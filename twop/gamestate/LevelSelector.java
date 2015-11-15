@@ -1,9 +1,7 @@
 package twop.gamestate;
 
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +41,7 @@ public class LevelSelector extends GameState {
       myPhysicsManager = new PhysicsManager();
       myPlayer = new Player(new Vector2(400, 400), 19, new Rectangle(0, 0, 1000, 1000));
       this.getGUIManager().addButton(new InstructionsButton(
-            new LeaveListener(), "Leave", new Vector2(400, 400), myGameWidth, myGameHeight));
+            new LeaveListener(), "Leave", new Vector2(480, 450), myGameWidth, myGameHeight));
 
       // need list of campaign objects to draw
       myPlatforms = new ArrayList<Platform>();
@@ -65,25 +63,11 @@ public class LevelSelector extends GameState {
    @Override
    public void draw(Graphics pen) {
       fixCamera();
+
       pen.setColor(Color.black);
       pen.fillRect(0, 0, 1000, 1000);
 
-
-      // experimentation
-      Graphics2D pen2D = (Graphics2D) pen;
-      pen2D.setPaint(new GradientPaint(tick / 5, 20, new Color(tick, tick, tick), 0, 20,
-            new Color(255 - tick, 255 - tick, 255 - tick), true));
-      if (tick >= 55) {
-         tickDir = -3;
-      } else if (tick <= 10) {
-         tickDir = 1;
-      }
-      tick += tickDir;
-      // end experimentation
-
-      for (int x = 0; x < 10; x++) {
-         pen.fillRect(x * 100, 0, 100, 1000);
-      }
+      drawBackground(pen);
 
       myPlayer.draw(pen);
 
@@ -92,6 +76,38 @@ public class LevelSelector extends GameState {
       }
 
       getGUIManager().draw(pen);
+   }
+
+   public void drawBackground(Graphics pen) {
+      pen.setColor(Color.white);
+      pen.fillRect(-1, 01, 1002, 1002);
+
+      Vector2 centerOffset = new Vector2(500, 500);
+      centerOffset.subtractVector(myPlayer.getCenter());
+      centerOffset.divideX(3);
+      int xOffset = (int) centerOffset.getX();
+      int yOffset = (int) centerOffset.getY();
+
+      pen.setColor(Color.blue);
+      for (int x = 0; x < 100; x++){
+         for (int y = 0; y < 100; y++){
+            pen.drawRect(x * 70, y * 70, 40, 40);
+         }
+      }
+
+      pen.setColor(Color.black);
+      for (int x = 0; x < 100; x++){
+         for (int y = 0; y < 100; y++){
+            pen.drawRect(xOffset + x * 40, 2 * yOffset + y * 40, 30, 30);
+         }
+      }
+
+      pen.setColor(Color.gray);
+      for (int x = 0; x < 100; x++){
+         for (int y = 0; y < 100; y++){
+            pen.fillOval(2 * xOffset + x * 80, yOffset + y * 80, 60, 60);
+         }
+      }
    }
 
    @Override
