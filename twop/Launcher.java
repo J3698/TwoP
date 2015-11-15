@@ -11,6 +11,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 public class Launcher {
    private static final String digits = "0123456789";
@@ -27,6 +29,10 @@ public class Launcher {
    }
 
    public void checkAndInstallUpdates() {
+      UIManager.put("OptionPane.background", new ColorUIResource(0, 0, 0));
+      UIManager.put("Panel.background", new ColorUIResource(0, 0, 0));
+      UIManager.put("OptionPane.messageForeground", new ColorUIResource(250, 250, 250));
+
       if (!isLatestVersion()) {
          if (JOptionPane.showConfirmDialog(myGamePanel, "Download new TwoP version?") == 0) {
             JOptionPane.showMessageDialog(myGamePanel, "Download will temporarily freeze TwoP.",
@@ -140,13 +146,13 @@ public class Launcher {
 
    public boolean downloadLatestVersion() {
       // set variables for creating file name
-      String fileName = "TwoP" + ("" + getCurrentVersion()).replace(".", "_") + ".jar";
+      String fileName = "TwoP" + ("" + getLatestVersion()).replace(".", "_") + ".jar";
       File file = new File(fileName);
       int number = 0;
       // get available file name
       while (file.exists() && !file.isDirectory()) {
          number++;
-         fileName = "TwoP" + ("" + getCurrentVersion()).replace(".", "_") + "(" + number + ")" + ".jar";
+         fileName = "TwoP" + ("" + getLatestVersion()).replace(".", "_") + "(" + number + ")" + ".jar";
          file = new File(fileName);
       }
 
