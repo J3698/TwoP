@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import twop.Player;
 
 public class BumperHandler {
+   @SuppressWarnings("unused")
    private int myGameWidth;
+   @SuppressWarnings("unused")
    private int myGameHeight;
    private ArrayList<Bumper> bumpers;
 
