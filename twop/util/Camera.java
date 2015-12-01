@@ -1,16 +1,16 @@
 package twop.util;
 
-import twop.GamePanel;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+import twop.GamePanel;
+
 public class Camera {
    private GamePanel myGamePanel;
 
-   private BufferedImage myImage; 
+   private BufferedImage myImage;
    private Graphics myPen;
 
    private Vector2 myDefaultPos1;
@@ -30,11 +30,14 @@ public class Camera {
    public void update() {
    }
 
+   // put image size and perspective to default
    public void reset() {
       myPos1 = myDefaultPos1.copy();
       myPos2 = myDefaultPos2.copy();
+      setImageSize(myGamePanel.getGameWidth(), myGamePanel.getGameHeight());
    }
 
+   // erase image
    public void clearImage() {
       myPen.clearRect(0, 0, myImage.getWidth(), myImage.getHeight());
    }
@@ -80,9 +83,9 @@ public class Camera {
       double yRatio = myGamePanel.getGameHeight() / diff.getY();
 
       myPos1 = startPos.copy();
-      myPos1.multiply(-1);
-      myPos1.multiplyX(xRatio);
-      myPos1.multiplyY(yRatio);
+      myPos1.multiplyX(-xRatio);
+      myPos1.multiplyY(-yRatio);
+
       myPos2 = new Vector2(myImage.getWidth(), myImage.getHeight());
       myPos2.multiplyX(xRatio);
       myPos2.multiplyY(yRatio);
