@@ -37,38 +37,54 @@ public class Rain extends Weather {
    @Override
    public void update() {
       if (getTick() < 2 * myDarkness) {
+
       } else if (getTick() < getLife() - 2 * myDarkness) {
-         myRain.update();
-
-         Player firstPlayer = getGamePanel().getPlay().getFirstPlayer();
-         Player secondPlayer = getGamePanel().getPlay().getSecondPlayer();
-         if (firstPlayer.hasEffectKey("fire")) {
-            firstPlayer.getEffects().get("fire").setLife(0);
-         }
-         if (secondPlayer.hasEffectKey("fire")) {
-            secondPlayer.getEffects().get("fire").setLife(0);
-         }
-
-         if (new Random().nextInt(300) == 0 && myLightning == false) {
-            myLightning = true;
-            myLightningTick = getTick();
-            new Sound("thunder", true).play();
-         }
-         if (getTick() - myLightningTick == 20) {
-            myLightning = false;
-         }
-
-         if (! soundStarted) {
-            mySound.loop();
-            soundStarted = true;
-         }
+         midlifeUpdate();
       } else {
-         if (soundStarted) {
-            mySound.close();
-            soundStarted = false;
-         }
+         dyingUpdate();
       }
+
       tick();
+   }
+
+   private void midlifeUpdate() {
+      myRain.update();
+
+      Player firstPlayer = getGamePanel().getPlay().getFirstPlayer();
+      Player secondPlayer = getGamePanel().getPlay().getSecondPlayer();
+
+      if (firstPlayer.hasEffectKey("fire")) {
+         firstPlayer.getEffects().get("fire").setLife(0);
+      }
+      if (secondPlayer.hasEffectKey("fire")) {
+         secondPlayer.getEffects().get("fire").setLife(0);
+      }
+
+      if (new Random().nextInt(300) == 0 && myLightning == false) {
+         myLightning = true;
+         myLightningTick = getTick();
+         new Sound("thunder", true).play();
+      }
+
+      if (getTick() - myLightningTick == 20) {
+         myLightning = false;
+      }
+
+      if (! soundStarted) {
+         // start sound
+         mySound.loop();
+         soundStarted = true;
+         // init effects
+         getGamePanel().getPlay().getPlaneHandler().disableFire();
+      }
+   }
+
+   private void dyingUpdate() {
+      if (soundStarted) {
+         mySound.close();
+         mySound = null;
+         soundStarted = false;
+      }
    }
 
    @Override
@@ -100,6 +116,9 @@ public class Rain extends Weather {
 
    @Override
    public void close(){
-      mySound.close();
+      getGamePanel().getPlay().getPlaneHandler().enableFire();
+      if (mySound != null) {
+         mySound.close();
+      }
    }
 }
