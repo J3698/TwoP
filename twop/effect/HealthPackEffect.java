@@ -1,14 +1,14 @@
 package twop.effect;
 
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import twop.Player;
-import twop.util.Vector2;
 import twop.util.ColorCross;
+import twop.util.Vector2;
 
 public class HealthPackEffect extends Effect {
    private Vector2 myPosition;
@@ -19,33 +19,33 @@ public class HealthPackEffect extends Effect {
    private int myOpacityIncrement;
 
    public HealthPackEffect(Player player, Vector2 position) {
-		super(player, 15);
-		myPosition = position;
-		firstRadius = 20;
-		secondRadius = 10;
-		myColor = Color.white;
-		myOpacity = 150;
-		myOpacityIncrement = 10;
+      super(player, 15);
+      myPosition = position;
+      firstRadius = 20;
+      secondRadius = 10;
+      myColor = Color.white;
+      myOpacity = 150;
+      myOpacityIncrement = 15;
    }
 
-	@Override
-	public void update() {
-	   if (myOpacity - myOpacityIncrement >= 0) {
-	      myOpacity -= myOpacityIncrement;
-	   } else {
-	      myOpacity = 0;
-	   }
+   @Override
+   public void update() {
+      if (myOpacity - myOpacityIncrement >= 0) {
+         myOpacity -= myOpacityIncrement;
+      } else {
+         myOpacity = 0;
+      }
 
-	   firstRadius += 15;
-	   secondRadius += 15;
+      firstRadius += 25;
+      secondRadius += 25;
 
-	   loseLife(1);
-	}
+      loseLife(1);
+   }
 
-	@Override
-	public void draw(Graphics pen) {
+   @Override
+   public void draw(Graphics pen) {
       // Put into StringDraw, change StringDraw to DrawUtils?
-	   double centerX = myPosition.getX();
+      double centerX = myPosition.getX();
       double centerY = myPosition.getY();
       Area donut = new Area(new Ellipse2D.Double(centerX - firstRadius, centerY - firstRadius, 2 * firstRadius, 2 * firstRadius));
       Area hole = new Area(new Ellipse2D.Double(centerX - secondRadius, centerY - secondRadius, 2 * secondRadius, 2 * secondRadius));
@@ -53,6 +53,6 @@ public class HealthPackEffect extends Effect {
       Graphics2D pen2D = (Graphics2D) pen;
       pen2D.setColor(ColorCross.alpha(myColor, myOpacity));
       pen2D.fill(donut);
-	}
+   }
 
 }
