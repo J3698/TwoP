@@ -130,6 +130,7 @@ public class Gun {
    public void setSpinDirection(int spinDirection) { mySpinDirection = spinDirection; }
    public void flipSpinDirection() { mySpinDirection *= -1; }
    public void setShooting(boolean isShooting) { myIsShooting = isShooting; }
+   public boolean isShooting() { return myIsShooting; }
 
    public class Bullet extends Circle {
       private Vector2 myVelocity;

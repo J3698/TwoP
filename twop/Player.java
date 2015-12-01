@@ -9,6 +9,7 @@ import java.util.Random;
 
 import twop.effect.Effect;
 import twop.physics.PhysicsPlayer;
+import twop.sound.Sound;
 import twop.util.Controls;
 import twop.util.Vector2;
 
@@ -41,6 +42,8 @@ public class Player extends Circle {
    private int myJumpHeight = 7;
 
    private PhysicsPlayer myPhysics;
+
+   private Sound myShooting;
 
    public Player(Vector2 center, double radius, Rectangle bounds) {
       super(center, radius);
@@ -162,8 +165,22 @@ public class Player extends Circle {
       myIsGoingLeft = false;
    }
    public void releaseRight() { myIsGoingRight = false; }
-   public void firstAction() { myGun.setShooting(true); }
-   public void releaseFirstAction() { myGun.setShooting(false); }
+
+   public void firstAction() {
+      if (!myGun.isShooting()) {
+         myGun.setShooting(true);
+         myShooting = new Sound("gunfiremid", false);
+         myShooting.loop();
+         myShooting.play();
+      }
+   }
+   public void releaseFirstAction() {
+      myGun.setShooting(false);
+      myShooting.close();
+      myShooting = new Sound("gunfireend", true);
+      myShooting.play();
+   }
+
    public void secondAction() {
       if (myIsSpinToggleReleased) {
          myGun.flipIsSpinning();
