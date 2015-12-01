@@ -26,7 +26,7 @@ public class ParticleSystem {
    private Vector2 myMaxSourceOffset;;
    private Vector2 myInitialVelocity = new Vector2(0, 0);
    private String myParticleType;
-   private int myEmissionRate = 1;
+   private double myEmissionRate = 1;
    private double myLowerAngleLimit = -Math.PI;
    private double myUpperAngleLimit = Math.PI;
 
@@ -56,6 +56,7 @@ public class ParticleSystem {
 
       } else if (myParticleType.equals("poison")) {
          myMaxSourceOffset = new Vector2(30, 30);
+         myEmissionRate = 0.01;
 
       } else if (myParticleType.equals("rain")) {
          myMaxSourceOffset = new Vector2(640, 0);
@@ -82,6 +83,10 @@ public class ParticleSystem {
       for (int i = 0; i < myEmissionRate; i++) {
          createParticles();
       }
+      double chance = myEmissionRate - Math.floor(myEmissionRate);
+      if (new Random().nextDouble() < chance) {
+         createParticles();
+      }
    }
 
    public void draw(Graphics pen) {
@@ -105,12 +110,9 @@ public class ParticleSystem {
       double angle = myLowerAngleLimit + new Random().nextDouble()
             * (myUpperAngleLimit - myLowerAngleLimit);
       velocity.rotateRadians(angle);
-      System.out.println(angle);
 
       if (myParticleType.equalsIgnoreCase("poison")) {
-         if (new Random().nextDouble() < 0.01) {
-            myParticles.add(new PoisonParticle(position, velocity));
-         }
+         myParticles.add(new PoisonParticle(position, velocity));
       } else if (myParticleType.equalsIgnoreCase("fire")) {
          myParticles.add(new FireParticle(position, velocity));
       } else if (myParticleType.equalsIgnoreCase("rain")) {
@@ -126,7 +128,8 @@ public class ParticleSystem {
    @SuppressWarnings("unused")
    private Vector2 getSourceOffset() { return myMaxSourceOffset; }
 
-   public void setEmissionRate(int emissionRate) { myEmissionRate = emissionRate; }
+   public void setEmissionRate(double emissionRate) { myEmissionRate = emissionRate; }
+   public double getEmissionRate() { return myEmissionRate; }
    public void setEmissionAngles(double lowerLimit, double upperLimit) {
       myLowerAngleLimit = lowerLimit;
       myUpperAngleLimit = upperLimit;
