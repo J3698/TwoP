@@ -35,9 +35,8 @@ public class HealthPack extends Rect implements Item {
       Vector2 effectPosition = getPosition().copy();
       effectPosition.addVector(new Vector2(getWidth(), getHeight()));
       effectPosition.subtractVector(new Vector2(getWidth() / 2, getHeight() / 2));
-      player.addEffect("" + availableID, new HealthPackEffect(player, effectPosition));
+      player.addEffect("" + nextAvailableID(), new HealthPackEffect(player, effectPosition));
       new Sound("healthpackage", true).play();
-      availableID++;
    }
 
    @Override
@@ -57,5 +56,10 @@ public class HealthPack extends Rect implements Item {
    @Override
    public boolean isDead() {
       return myIsDead;
+   }
+
+   private static int nextAvailableID() {
+      availableID++;
+      return availableID - 1;
    }
 }
