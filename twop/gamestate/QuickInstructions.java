@@ -73,9 +73,9 @@ public class QuickInstructions extends GameState {
       StringDraw.drawStringCenter(pen, "down  -  toggle gun direction", myGameWidth * 3 / 4, 290 + 40);
       StringDraw.drawStringCenter(pen, "up, left, right  -  movement", myGameWidth * 3 / 4, 320 + 40);
 
-      pen.setColor(new Color(50, 50, 50, 100));
+      pen.setColor(new Color(70, 70, 70));
       pen.setFont(myKeyFont);
-      StringDraw.drawStringCenter(pen, "[Press your keys...]", myGameWidth / 2, 400);
+      StringDraw.drawStringCenter(pen, "[Press your keys...]", myGameWidth / 2, 455);
 
       for (InstructRect rect: myInstructRects)
          rect.draw(pen);
