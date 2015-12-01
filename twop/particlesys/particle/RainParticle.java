@@ -14,13 +14,13 @@ public class RainParticle extends Particle {
 
    @Override
    public void update() {
-      getParticlePosition().addVector(getParticleVelocity());
+      getPosition().addVector(getVelocity());
    }
 
    @Override
    public void draw(Graphics pen) {
-      int x = (int) getParticlePosition().getX();
-      int y = (int) getParticlePosition().getY();
+      int x = (int) getPosition().getX();
+      int y = (int) getPosition().getY();
       for (int i = 0; i < 5; i++) {
          pen.setColor(new Color(0, 0, 255, 50 * (i + 1)));
          pen.drawLine(x, y + 2 * i, x, y + 2 * i + 2);
@@ -29,7 +29,7 @@ public class RainParticle extends Particle {
 
    @Override
    public boolean isDead() {
-      if (getParticlePosition().getY() > floor) {
+      if (getPosition().getY() > floor) {
          return true;
       }
 

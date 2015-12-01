@@ -16,7 +16,7 @@ public class FireParticle extends Particle {
 
    @Override
    public void update() {
-      getParticlePosition().addVector(getParticleVelocity());
+      getPosition().addVector(getVelocity());
       loseLife(15);
    }
    @Override
@@ -26,8 +26,8 @@ public class FireParticle extends Particle {
       int blue = getColor().getBlue();
       Color color = new Color(red, green, blue, getLife());
       pen.setColor(color);
-      int x0 = (int) getParticlePosition().getX();
-      int y0 = (int) getParticlePosition().getY();
+      int x0 = (int) getPosition().getX();
+      int y0 = (int) getPosition().getY();
       pen.fillOval(x0 - 3, y0 - 3, 6, 6);
    }
 }

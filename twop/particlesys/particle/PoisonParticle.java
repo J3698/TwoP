@@ -23,8 +23,8 @@ public class PoisonParticle extends Particle {
    public void draw(Graphics pen) {
       pen.setColor(new Color(0, 100, 0, getLife()));
       int r = (int) myRadius;
-      int x0 = (int) (getParticlePosition().getX() - r);
-      int y0 = (int) (getParticlePosition().getY() - r);
+      int x0 = (int) (getPosition().getX() - r);
+      int y0 = (int) (getPosition().getY() - r);
       pen.fillOval(x0, y0, 2 * r, 2 * r);
       pen.setColor(Color.green);
       pen.drawOval(x0, y0, 2 * r, 2 * r);
