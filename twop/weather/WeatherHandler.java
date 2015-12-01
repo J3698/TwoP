@@ -17,13 +17,12 @@ public class WeatherHandler {
       if (myCurrentWeather != null) {
          myCurrentWeather.update();
          if (myCurrentWeather.isOver()) {
+            myCurrentWeather.close();
             myCurrentWeather = null;
-            myGamePanel.getPlay().getPlaneHandler().enableFire();
          }
       } else {
          if (new Random().nextDouble() < 0.002) {
-            myCurrentWeather = new Rain(1200, myGamePanel);
-            myGamePanel.getPlay().getPlaneHandler().disableFire();
+            myCurrentWeather = chooseWeather();
          }
       }
    }
@@ -33,8 +32,21 @@ public class WeatherHandler {
       }
    }
 
+   public Weather chooseWeather() {
+      String[] choices = { "Rain", "VolcanicEruption", "VolcanicEruption", "VolcanicEruption" };
+      int choice = new Random().nextInt(choices.length);
+      if (choice == 0) {
+         return new Rain(100, myGamePanel);
+      } else if (choice == 1) {
+         return new VolcanicEruption(2000, myGamePanel);
+      }
+      return null;
+   }
+
    public void reset() {
-      myCurrentWeather.close();
-      myCurrentWeather = null;
+      if (myCurrentWeather != null) {
+         myCurrentWeather.close();
+         myCurrentWeather = null;
+      }
    }
 }
