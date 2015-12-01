@@ -1,10 +1,10 @@
 package twop.item;
 
+import java.awt.Graphics;
+
+import twop.Circle;
 import twop.Player;
 import twop.util.Vector2;
-import twop.Circle;
-
-import java.awt.Graphics;
 
 public interface Item {
    void draw(Graphics pen);
@@ -13,6 +13,4 @@ public interface Item {
    Vector2 getPosition();
    void setPosition(Vector2 position);
    boolean isDead();
-   double getWidth();
-   double getHeight();
 }
