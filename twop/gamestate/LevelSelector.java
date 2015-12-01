@@ -29,9 +29,6 @@ public class LevelSelector extends GameState {
    private Player myPlayer;
    private ArrayList<Platform> myPlatforms;
 
-   private int tick = 1;
-   private int tickDir = 1;
-
    public LevelSelector(GamePanel gamePanel, int gameWidth, int gameHeight) {
       super(gamePanel, "levelselector");
       myGameWidth = gameWidth;
